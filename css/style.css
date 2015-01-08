@@ -22,6 +22,30 @@ body, input, select, textarea, button, .ui-btn {
     text-align: center;
 }
 
+div[data-role="page"]{
+    background: url(../img/backgrounds/bg.jpg) repeat;
+}
+
+.ui-block-a a.ui-btn, .ui-block-b a.ui-btn, .ui-block-c a.ui-btn, .ui-block-d a.ui-btn{
+    background: url(../img/backgrounds/btn_bg.png) repeat;
+    border: 0!important;
+}
+
+div[data-role="footer"]{
+    border: 0!important;
+    padding: 0!important;
+}
+
+.ui-bar-inherit, .ui-btn{
+    background-color: transparent!important;
+    border: 0!important;
+}
+
+div[data-role="header"]{
+    background: url(../img/backgrounds/header_bg.png) repeat;
+    border: 0!important;
+}
+
 #home .homeimg {
     border-radius: 50%;
     width: 100%;
@@ -36,22 +60,83 @@ body, input, select, textarea, button, .ui-btn {
     width: 100%!important;
 }
 
+#home .banner > a{
+    border: 0;
+}
+
 #home .quick_menu{
-    width: 33%!important;
+    width: 50%!important;
+}
+
+#home .quick_menu > a{
+    border: 0;
+}
+
+#catalog .main-menu{
+    margin: 10px;
+    padding: 10px;
 }
 
 #catalog .main-menu > img{
-    float: left;
-    margin-left: 20px;
+    margin: 0;
+    padding: 0;
+    width: 60px;
+    height: 60px;
 }
 
 #catalog .main-menu > span{
-    float: right;
-    margin-right: 20px;
+    margin-left: 10px;
+    margin-top: 15px;
+    font-size: 20px!important;
 }
 
 #catalog .main-menu > span, #catalog .main-menu > img{
-    clear: both;
+    float: left;
+    clear: right;
+}
+
+.catalog_footer ul li, .order_footer ul li, .about_footer ul li{
+    width: 24.7%!important;
+    float: left;
+    clear: right;
+    margin: 0 1px 0 0;
+}
+
+.myorders > table{
+    width: 100%;
+    text-align: center;
+    color: #fff!important;
+}
+
+.ui-btn, .ui-input-text{
+    background-color: bisque!important;
+    color: #000!important;
+    border: 0!important;
+}
+
+.ui-content{
+    color: #fff!important;
+}
+
+.ui-listview > li{
+    margin: 2px!important;
+}
+
+.starters > img {
+    width: 80px;
+    height: 80px;
+    float: left;
+    margin-right: 10px;
+}
+
+.starters .starters-info{
+    float: left;
+    font-size: 12px!important;
+    text-align: left;
+}
+
+.starters-info > h3{
+    margin: 5px 0 5px 0;
 }
 
 @media screen and (min-width: 800px) {

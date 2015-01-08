@@ -23,44 +23,374 @@
                 <div class="align-center">
                     <img src="img/logo.jpg" alt="sho sho" class="homeimg"/>
                 </div>
-                <div class="ui-block-a align-center banner"><a role="button" href="#catalog" class="ui-btn ui-btn-corner-all" data-transition="flip">Today's Best Offer!!</a></div>
+                <div class="ui-block-a align-center banner"><a href="#" class="ui-btn ui-btn-corner-all" data-transition="flip">Today's Best Offer!!</a></div>
+                <fieldset>
+                    <div class="ui-block-b quick_menu"><a href="#home" class="ui-btn ui-btn-corner-all ui-btn-active"><i class="fa fa-home"></i><br/>Home</a></div>
+                    <div class="ui-block-b quick_menu"><a href="#catalog" class="ui-btn ui-btn-corner-all"><i class="fa fa-cutlery"></i><br/>Menu</a></div>
+                </fieldset>
+                <fieldset>
+                    <div class="ui-block-b quick_menu"><a href="#orders" class="ui-btn ui-btn-corner-all"><i class="fa fa-paper-plane"></i><br/>Orders</a></div>
+                    <div class="ui-block-b quick_menu"><a href="#more" class="ui-btn ui-btn-corner-all"><i class="fa fa-bars"></i><br/>More</a></div>
+                </fieldset>
             </div>
-            <fieldset class="ui-grid-a">
-                <div class="ui-block-b quick_menu"><a role="button" href="#" class="ui-btn ui-btn-b ui-btn-corner-all"><i class="fa fa-cutlery"></i><br/>Menu</a></div>
-                <div class="ui-block-b quick_menu"><a role="button" href="#" class="ui-btn ui-btn-corner-all"><i class="fa fa-paper-plane"></i><br/>News</a></div>
-                <div class="ui-block-b quick_menu"><a role="button" href="#" class="ui-btn ui-btn-corner-all"><i class="fa fa-folder"></i><br/>Gallery</a></div>
-            </fieldset>
-            <fieldset class="ui-grid-a">
-                <div class="ui-block-b quick_menu"><a role="button" href="#" class="ui-btn ui-btn-b ui-btn-corner-all"><i class="fa fa-square"></i><br/>Contact</a></div>
-                <div class="ui-block-b quick_menu"><a role="button" href="#" class="ui-btn ui-btn-corner-all"><i class="fa fa-info"></i><br/>About</a></div>
-                <div class="ui-block-b quick_menu"><a role="button" href="#" class="ui-btn ui-btn-corner-all"><i class="fa fa-location-arrow"></i><br/>Location</a></div>
-            </fieldset>
         </div> <!-- home -->
 
         <div data-role="page" id="catalog" data-title="Sho Sho Restaurant">
-            <div data-role="header" data-position="fixed">
+            <div data-role="header" data-position="fixed" data-tap-toggle="false">
                 <h1 class="ui-title" role="heading">Catalog</h1>
             </div>
             <div role="main" class="ui-content">
-                <a role="button" href="#chinese" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/chinese.jpg" alt="Chinese Food" /> <span>Chinese</span></a>
-                <a role="button" href="#tandoori" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/tandoori.jpg" alt="Tandoori Food" /> <span>Tandoori</span></a>
-                <a role="button" href="#nindian" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/nindian.jpg" alt="North Indian Food" /> <span>North Indian</span></a>
-                <a role="button" href="#sindian" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/sindian.jpg" alt="South Indian Food" /> <span>South Indian</span></a>
-                <a role="button" href="#chettinad" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/chettinad.jpg" alt="Chettinad Food" /> <span>Chettinad Meals</span></a>
-                <a role="button" href="#briyani" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/biryani.jpg" alt="Biryani" /> <span>Biryani</span></a>
+                <a href="#chinese" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/chinese.jpg" alt="Chinese Food" /> <span>Chinese</span></a>
+                <a href="#tandoori" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/tandoori.jpg" alt="Tandoori Food" /> <span>Tandoori</span></a>
+                <a href="#nindian" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/nindian.jpg" alt="North Indian Food" /> <span>North Indian</span></a>
+                <a href="#sindian" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/sindian.jpg" alt="South Indian Food" /> <span>South Indian</span></a>
+                <a href="#chettinad" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/chettinad.jpg" alt="Chettinad Food" /> <span>Chettinad Meals</span></a>
+                <a href="#briyani" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/biryani.jpg" alt="Biryani" /> <span>Biryani</span></a>
+            </div>
+            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+                <div data-role="navbar" class="catalog_footer">
+                    <ul>
+                        <li><a href="#home" class="ui-btn ui-btn-corner-all"><i class="fa fa-home"></i><br/>Home</a></li>
+                        <li><a href="#catalog" class="ui-btn ui-btn-corner-all ui-btn-active"><i class="fa fa-cutlery"></i><br/>Menu</a></li>
+                        <li><a href="#orders" class="ui-btn ui-btn-corner-all"><i class="fa fa-paper-plane"></i><br/>Orders</a></li>
+                        <li><a href="#more" class="ui-btn ui-btn-corner-all"><i class="fa fa-bars"></i><br/>More</a></li>
+                    </ul>
+                </div>
             </div>
         </div> <!-- catalog -->
 
         <div data-role="page" id="chinese" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
-                <h1 class="ui-title" role="heading">Catalog</h1>
+                <h1 class="ui-title" role="heading">Chinese Starters</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+                <div class="ui-btn-right ui-btn ui-shadow ui-corner-all" data-iconpos="notext"> <span>Totalamt</span> <span>TotalQty</span></div>
             </div>
             <div role="main" class="ui-content">
-                <div class="ui-block-b quick_menu">
-                    <h1><img src="img/leaf.jpg" alt="sub menu list" /></h1>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
                 </div>
-                <p><span>Name<br/>Description<br/></span><a href="#">Add cart</a> <span>Quantity</span> <span>Rs.400</span></p>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
             </div>
         </div> <!-- chinese -->
+
+        <div data-role="page" id="tandoori" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed">
+                <h1 class="ui-title" role="heading">Tandoori Starters</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+                <div class="ui-btn-right ui-btn ui-shadow ui-corner-all" data-iconpos="notext"> <span>Totalamt</span> <span>TotalQty</span></div>
+            </div>
+            <div role="main" class="ui-content">
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- tandoori -->
+
+        <div data-role="page" id="nindian" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed">
+                <h1 class="ui-title" role="heading">North Indian Starters</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+                <div class="ui-btn-right ui-btn ui-shadow ui-corner-all" data-iconpos="notext"> <span>Totalamt</span> <span>TotalQty</span></div>
+            </div>
+            <div role="main" class="ui-content">
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- north indian -->
+
+        <div data-role="page" id="sindian" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed">
+                <h1 class="ui-title" role="heading">South Indian Starters</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+                <div class="ui-btn-right ui-btn ui-shadow ui-corner-all" data-iconpos="notext"> <span>Totalamt</span> <span>TotalQty</span></div>
+            </div>
+            <div role="main" class="ui-content">
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- south indian -->
+
+        <div data-role="page" id="chettinad" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed">
+                <h1 class="ui-title" role="heading">Chettinad Starters</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+                <div class="ui-btn-right ui-btn ui-shadow ui-corner-all" data-iconpos="notext"> <span>Totalamt</span> <span>TotalQty</span></div>
+            </div>
+            <div role="main" class="ui-content">
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- chettinad -->
+
+        <div data-role="page" id="briyani" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed">
+                <h1 class="ui-title" role="heading">Briyani Starters</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+                <div class="ui-btn-right ui-btn ui-shadow ui-corner-all" data-iconpos="notext"> <span>Totalamt</span> <span>TotalQty</span></div>
+            </div>
+            <div role="main" class="ui-content">
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+                <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
+                    <div class="starters-info">
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- briyani -->
+
+        <div data-role="page" id="orders" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed">
+                <h1 class="ui-title" role="heading">My Orders</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+            </div>
+            <div role="main" class="ui-content">
+                <div class="myorders">
+                    <table data-role="table" data-mode="none">
+                        <thead>
+                            <tr><th>Sl. No</th><th>Date</th><th>Amount</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Date</td><td>Amount</td><td>Status</td></tr>
+                            <tr><td>2</td><td>Date</td><td>Amount</td><td>Status</td></tr>
+                            <tr><td>3</td><td>Date</td><td>Amount</td><td>Status</td></tr>
+                            <tr><td>4</td><td>Date</td><td>Amount</td><td>Status</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+                <div data-role="navbar" class="order_footer">
+                    <ul>
+                        <li><a href="#home" class="ui-btn ui-btn-corner-all"><i class="fa fa-home"></i><br/>Home</a></li>
+                        <li><a href="#catalog" class="ui-btn ui-btn-corner-all"><i class="fa fa-cutlery"></i><br/>Menu</a></li>
+                        <li><a href="#orders" class="ui-btn ui-btn-corner-all ui-btn-active"><i class="fa fa-paper-plane"></i><br/>Orders</a></li>
+                        <li><a href="#more" class="ui-btn ui-btn-corner-all"><i class="fa fa-bars"></i><br/>More</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div> <!-- orders -->
+
+        <div data-role="page" id="more" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed">
+                <h1 class="ui-title" role="heading">More Options</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+            </div>
+            <div role="main" class="ui-content">
+                <ul data-role="listview" data-inset="true" data-theme='b'>
+                    <li><a href="#me">Me</a></li>
+                    <li><a href="#policy">Policy</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#faq">FAQ's</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </div>
+            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+                <div data-role="navbar" class="order_footer">
+                    <ul>
+                        <li><a href="#home" class="ui-btn ui-btn-corner-all"><i class="fa fa-home"></i><br/>Home</a></li>
+                        <li><a href="#catalog" class="ui-btn ui-btn-corner-all"><i class="fa fa-cutlery"></i><br/>Menu</a></li>
+                        <li><a href="#orders" class="ui-btn ui-btn-corner-all"><i class="fa fa-paper-plane"></i><br/>Orders</a></li>
+                        <li><a href="#more" class="ui-btn ui-btn-corner-all  ui-btn-active"><i class="fa fa-bars"></i><br/>More</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div> <!-- more -->
+
+        <div data-role="page" id="me" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed">
+                <h1 class="ui-title" role="heading">Me</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+            </div>
+            <div role="main" class="ui-content">
+                <input type="text" name="name" id="name" value="My Name Will be here" readonly="true" />
+                <input type="text" name="mobile" id="mbile" value="My Mobile number Will be here" readonly="true" />
+            </div>
+        </div> <!-- me -->
+
+        <div data-role="page" id="policy" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed">
+                <h1 class="ui-title" role="heading">Policy</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+            </div>
+            <div role="main" class="ui-content">
+                <p>Your policy and privacy will come here.</p>
+            </div>
+        </div> <!-- policy -->
+
+        <div data-role="page" id="contact" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed">
+                <h1 class="ui-title" role="heading">Contact</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+            </div>
+            <div role="main" class="ui-content">
+                <img src="img/map.jpg" alt="sho sho map" width="400" height="500" />
+                <p>Sho Sho Restaurant<br/>No. 2<br/>Dargah Road,<br/>Pallavaram Chennai,<br/> Tamil Nadu 600043.</p>
+            </div>
+        </div> <!-- contact -->
+
+        <div data-role="page" id="faq" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed">
+                <h1 class="ui-title" role="heading">Frequently Asked Questions</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+            </div>
+            <div role="main" class="ui-content">
+                <div data-role="collapsibleset" data-theme="a" data-content-theme="b">
+                    <div data-role="collapsible"><h2>Question 1</h2>
+                        <h3>Answer 1</h3>
+                    </div>
+                </div>
+                <div data-role="collapsibleset" data-theme="a" data-content-theme="b">
+                    <div data-role="collapsible"><h2>Question 2</h2>
+                        <h3>Answer 2</h3>
+                    </div>
+                </div>
+                <div data-role="collapsibleset" data-theme="a" data-content-theme="b">
+                    <div data-role="collapsible"><h2>Question 3</h2>
+                        <h3>Answer 3</h3>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- faq -->
+
+        <div data-role="page" id="about" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed">
+                <h1 class="ui-title" role="heading">About App</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+            </div>
+            <div role="main" class="ui-content">
+                <p>We have taken this app to get update and keep in touch with Sho Sho Restaurant.</p>
+            </div>
+        </div> <!-- about -->
     </body>
 </html>
