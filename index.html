@@ -11,6 +11,7 @@
 
         <script type="text/javascript" charset="utf-8" src="js/libs/jquery-2.0.3.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/config.js"></script>
+        <script type="text/javascript" src="js/libs/jquery.loadTemplate-1.4.4.min.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/libs/jquery.mobile.router.min.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/libs/jquery.mobile-1.4.3.min.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/libs/jquery-dateFormat.min.js"></script>
@@ -35,17 +36,36 @@
             </div>
         </div> <!-- home -->
 
+        <!-- <div data-role="page" id="catalog" data-title="Sho Sho Restaurant">
+             <div data-role="header" data-position="fixed" data-tap-toggle="false">
+                 <h1 class="ui-title" role="heading">Catalog</h1>
+             </div>
+             <div role="main" class="ui-content">
+                 <a href="#chinese" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/chinese.jpg" alt="Chinese Food" /> <span>Chinese</span></a>
+                 <a href="#tandoori" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/tandoori.jpg" alt="Tandoori Food" /> <span>Tandoori</span></a>
+                 <a href="#nindian" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/nindian.jpg" alt="North Indian Food" /> <span>North Indian</span></a>
+                 <a href="#sindian" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/sindian.jpg" alt="South Indian Food" /> <span>South Indian</span></a>
+                 <a href="#chettinad" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/chettinad.jpg" alt="Chettinad Food" /> <span>Chettinad Meals</span></a>
+                 <a href="#briyani" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/biryani.jpg" alt="Biryani" /> <span>Biryani</span></a>
+             </div>
+             <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+                 <div data-role="navbar" class="catalog_footer">
+                     <ul>
+                         <li><a href="#home" class="ui-btn ui-btn-corner-all"><i class="fa fa-home"></i><br/>Home</a></li>
+                         <li><a href="#catalog" class="ui-btn ui-btn-corner-all ui-btn-active"><i class="fa fa-cutlery"></i><br/>Menu</a></li>
+                         <li><a href="#orders" class="ui-btn ui-btn-corner-all"><i class="fa fa-paper-plane"></i><br/>Orders</a></li>
+                         <li><a href="#more" class="ui-btn ui-btn-corner-all"><i class="fa fa-bars"></i><br/>More</a></li>
+                     </ul>
+                 </div>
+             </div>
+         </div> <!-- catalog -->
+
         <div data-role="page" id="catalog" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed" data-tap-toggle="false">
                 <h1 class="ui-title" role="heading">Catalog</h1>
             </div>
             <div role="main" class="ui-content">
-                <a href="#chinese" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/chinese.jpg" alt="Chinese Food" /> <span>Chinese</span></a>
-                <a href="#tandoori" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/tandoori.jpg" alt="Tandoori Food" /> <span>Tandoori</span></a>
-                <a href="#nindian" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/nindian.jpg" alt="North Indian Food" /> <span>North Indian</span></a>
-                <a href="#sindian" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/sindian.jpg" alt="South Indian Food" /> <span>South Indian</span></a>
-                <a href="#chettinad" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/chettinad.jpg" alt="Chettinad Food" /> <span>Chettinad Meals</span></a>
-                <a href="#briyani" class="ui-btn ui-btn-b ui-btn-corner-all main-menu"><img src="img/catalog/biryani.jpg" alt="Biryani" /> <span>Biryani</span></a>
+                <div id="menu"></div>
             </div>
             <div data-role="footer" data-position="fixed" data-tap-toggle="false">
                 <div data-role="navbar" class="catalog_footer">
@@ -57,13 +77,75 @@
                     </ul>
                 </div>
             </div>
-        </div> <!-- catalog -->
+        </div> 
+        <script type="text/html" id="menu_list_tpl">
+            <a class="ui-btn ui-btn-b ui-btn-corner-all main-menu" data-template-bind='[
+               {"attribute": "href", "value": "id", "formatter": "startersHref"}]'>
+                <img data-src="image" />
+                <span data-content="name"></span>
+            </a>
+        </script>
+
+        <div data-role="page" id="catalogitems" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed" data-tap-toggle="false">
+                <h1 class="ui-title" role="heading">Catalog Items</h1>
+            </div>
+            <div role="main" class="ui-content">
+                <div id="starters"></div>
+            </div>
+            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+                <div data-role="navbar" class="catalog_footer">
+                    <ul>
+                        <li><a href="#home" class="ui-btn ui-btn-corner-all"><i class="fa fa-home"></i><br/>Home</a></li>
+                        <li><a href="#catalog" class="ui-btn ui-btn-corner-all ui-btn-active"><i class="fa fa-cutlery"></i><br/>Menu</a></li>
+                        <li><a href="#orders" class="ui-btn ui-btn-corner-all"><i class="fa fa-paper-plane"></i><br/>Orders</a></li>
+                        <li><a href="#more" class="ui-btn ui-btn-corner-all"><i class="fa fa-bars"></i><br/>More</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div> 
+        <script type="text/html" id="starters_list_tpl">
+            <div class="ui-btn ui-btn-b ui-btn-corner-all starters"> <img data-src="image" />
+                <div class="starters-info">
+                    <h3 data-content="name"></h3><h3 data-content="description"></h3>
+                    <div class="price-info"><span data-content="price"></span> <input min="1" max="10" value="1" data-clear-btn="false" data-role="none" name="number-1" id="number-1" type="number"> <a class="add" href="#">Add</a></div>
+                </div>
+            </div>
+        </script>
+
+        <div data-role="page" id="cart" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed" data-tap-toggle="false">
+                <h1 class="ui-title" role="heading">My Cart</h1>
+            </div>
+            <div role="main" class="ui-content">
+                <table data-role="table" data-mode="none">
+                    <thead>
+                        <tr><th>Sl. No</th><th>Item</th><th>Quantity</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Idly</td><td>10</td></tr>
+                        <tr><td>2</td><td>Briyani</td><td>3</td></tr>
+                        <tr><td>3</td><td>Pizza</td><td>4</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+                <div data-role="navbar" class="catalog_footer">
+                    <ul>
+                        <li><a href="#home" class="ui-btn ui-btn-corner-all"><i class="fa fa-home"></i><br/>Home</a></li>
+                        <li><a href="#catalog" class="ui-btn ui-btn-corner-all ui-btn-active"><i class="fa fa-cutlery"></i><br/>Menu</a></li>
+                        <li><a href="#orders" class="ui-btn ui-btn-corner-all"><i class="fa fa-paper-plane"></i><br/>Orders</a></li>
+                        <li><a href="#more" class="ui-btn ui-btn-corner-all"><i class="fa fa-bars"></i><br/>More</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div> <!-- cart -->
 
         <div data-role="page" id="chinese" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
                 <h1 class="ui-title" role="heading">Chinese Starters</h1>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
-                <div class="ui-btn-right ui-btn ui-shadow ui-corner-all" data-iconpos="notext"> <span>Totalamt</span> <span>TotalQty</span></div>
+                <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#" data-iconpos="notext">3</a>
             </div>
             <div role="main" class="ui-content">
                 <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
@@ -78,7 +160,7 @@
                 </div>
                 <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
                     <div class="starters-info">
-                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <span>Quantity</span> <a href="#">Add</a></h3>
+                        <h3>Item Name</h3><h3>Item Description</h3><h3><span>PRICE</span> <input min="1" max="10" value="1" data-clear-btn="false" data-role="none" name="number-1" id="number-1" type="number"> <span>Quantity</span> <a href="#">Add</a></h3>
                     </div>
                 </div>
                 <div class="ui-btn ui-btn-b ui-btn-corner-all starters"><img src="img/leaf.jpg" alt="Chinese Starters" /> 
@@ -281,10 +363,10 @@
                             <tr><th>Sl. No</th><th>Date</th><th>Amount</th><th>Status</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td>1</td><td>Date</td><td>Amount</td><td>Status</td></tr>
-                            <tr><td>2</td><td>Date</td><td>Amount</td><td>Status</td></tr>
-                            <tr><td>3</td><td>Date</td><td>Amount</td><td>Status</td></tr>
-                            <tr><td>4</td><td>Date</td><td>Amount</td><td>Status</td></tr>
+                            <tr><td>1</td><td>08/01/2015</td><td>650</td><td>Process</td></tr>
+                            <tr><td>2</td><td>05/01/2015</td><td>950</td><td>Delivered</td></tr>
+                            <tr><td>3</td><td>02/01/2015</td><td>1025</td><td>Canceled</td></tr>
+                            <tr><td>4</td><td>30/12/2014</td><td>460.00</td><td>Delivered</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -333,8 +415,9 @@
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
-                <input type="text" name="name" id="name" value="My Name Will be here" readonly="true" />
-                <input type="text" name="mobile" id="mbile" value="My Mobile number Will be here" readonly="true" />
+                <input type="text" name="name" id="uname" placeholder="Your Name" />
+                <input type="text" name="mobile" id="umobile" placeholder="Your Mobile Number" />
+                <button type="submit" onclick="setUserSession();">Submit</button>
             </div>
         </div> <!-- me -->
 
@@ -354,8 +437,10 @@
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
-                <img src="img/map.jpg" alt="sho sho map" width="400" height="500" />
-                <p>Sho Sho Restaurant<br/>No. 2<br/>Dargah Road,<br/>Pallavaram Chennai,<br/> Tamil Nadu 600043.</p>
+                <div class="align-center">
+                    <img src="img/map.jpg" alt="sho sho map" class="mapimg" />
+                    <p>Sho Sho Restaurant<br/>No. 2<br/>Dargah Road,<br/>Pallavaram Chennai,<br/> Tamil Nadu 600043.</p>
+                </div>
             </div>
         </div> <!-- contact -->
 

@@ -1,11 +1,14 @@
 /**
  * Global config file to load server / application settings and constants 
  */
-config = function() {
+config = function () {
     'use strict';
     return {
-        language: "periyava_language",
-        showlog: 3 // 0: "Disabled", 1: "Error", 2: "Warning", 3: "Info"
+        showlog: 3, // 0: "Disabled", 1: "Error", 2: "Warning", 3: "Info"
+        api_url: "http://jayam.co.uk/shosho_admin/ajax.php?",
+        user_name: "sho_sho_user_name",
+        user_mobile: "sho_sho_user_mobile"
+
     };
 }();
 

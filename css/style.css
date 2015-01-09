@@ -10,6 +10,25 @@
 
 }
 
+div[data-role="page"]{
+    background: url(../img/backgrounds/bg.jpg) repeat;
+}
+
+div[data-role="footer"]{
+    border: 0!important;
+    padding: 0!important;
+}
+
+div[data-role="header"]{
+    background: url(../img/backgrounds/header_bg.png) repeat;
+    border: 0!important;
+}
+
+.ui-block-a a.ui-btn, .ui-block-b a.ui-btn, .ui-block-c a.ui-btn, .ui-block-d a.ui-btn{
+    background: url(../img/backgrounds/btn_bg.png) repeat;
+    border: 0!important;
+}
+
 body, input, select, textarea, button, .ui-btn {
     font-family: futurastd_book;
 }
@@ -22,27 +41,8 @@ body, input, select, textarea, button, .ui-btn {
     text-align: center;
 }
 
-div[data-role="page"]{
-    background: url(../img/backgrounds/bg.jpg) repeat;
-}
-
-.ui-block-a a.ui-btn, .ui-block-b a.ui-btn, .ui-block-c a.ui-btn, .ui-block-d a.ui-btn{
-    background: url(../img/backgrounds/btn_bg.png) repeat;
-    border: 0!important;
-}
-
-div[data-role="footer"]{
-    border: 0!important;
-    padding: 0!important;
-}
-
 .ui-bar-inherit, .ui-btn{
     background-color: transparent!important;
-    border: 0!important;
-}
-
-div[data-role="header"]{
-    background: url(../img/backgrounds/header_bg.png) repeat;
     border: 0!important;
 }
 
@@ -56,20 +56,17 @@ div[data-role="header"]{
     border: 2px solid #9E9E9E;
 }
 
+#contact .mapimg{
+    width: 100%;
+    max-width: 300px;
+}
+
 #home .banner{
     width: 100%!important;
 }
 
-#home .banner > a{
-    border: 0;
-}
-
 #home .quick_menu{
     width: 50%!important;
-}
-
-#home .quick_menu > a{
-    border: 0;
 }
 
 #catalog .main-menu{
@@ -100,6 +97,27 @@ div[data-role="header"]{
     float: left;
     clear: right;
     margin: 0 1px 0 0;
+}
+
+#starters a.add{
+    display: block;
+    width: 30px;
+    height: 20px;
+    float: left;
+    background: #252525;
+    border: 1px solid #000;
+}
+
+.user_details{
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 30px;
+    margin-top: 20px;
+}
+
+#starters .price-info > input, #starters a.add{
+    margin-left: 10px;
 }
 
 .myorders > table{
