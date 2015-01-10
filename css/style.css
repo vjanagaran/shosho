@@ -120,6 +120,10 @@ body, input, select, textarea, button, .ui-btn {
     margin-left: 10px;
 }
 
+.price-info > input{
+    width: 20px;
+}
+
 .myorders > table{
     width: 100%;
     text-align: center;

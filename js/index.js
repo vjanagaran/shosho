@@ -7,7 +7,7 @@ var router = new $.mobile.Router([{
         {
             homePage: function (type, match, ui) {
                 log("Home Page", 3)
-                showHome();
+                initialRegistration();
             },
             catalogPage: function (type, match, ui) {
                 log("Catalog Page", 3)
@@ -55,11 +55,11 @@ function log(msg, level) {
 
 /********  General Functions **/
 
-function showHome() {
+function initialRegistration() {
     var name = getVal(config.user_name);
     var mobile = getVal(config.user_mobile);
     if (name == "" && mobile == "") {
-        $(":mobile-pagecontainer").pagecontainer("change", "#me");
+        $(":mobile-pagecontainer").pagecontainer("change", "#registration");
     }
 }
 
@@ -74,6 +74,10 @@ function loadCatalog() {
             $.each(data, function (k, v) {
                 $("#menu").loadTemplate($('#menu_list_tpl'), v, {append: true});
             });
+        },
+        error: function (request, status, error) {
+            $("#menu").empty();
+            $("#menu").append('Error in loading data');
         }
     });
 }
@@ -90,6 +94,10 @@ function loadCatalogItems(cat) {
                 $.each(data, function (k, v) {
                     $("#starters").loadTemplate($('#starters_list_tpl'), v, {append: true});
                 });
+            },
+            error: function (request, status, error) {
+                $("#starters").empty();
+                $("#starters").append('Error in loading data');
             }
         });
     }
@@ -100,9 +108,10 @@ function setUserSession() {
     var mobile = $('#umobile').val();
     setVal(config.user_name, name);
     setVal(config.user_mobile, mobile);
+    $(":mobile-pagecontainer").pagecontainer("change", "#home");
 }
 
 function showMe() {
-    $('#uname').val(getVal(config.user_name));
-    $('#umobile').val(getVal(config.user_mobile));
+    $('#name').val(getVal(config.user_name));
+    $('#mobile').val(getVal(config.user_mobile));
 }
