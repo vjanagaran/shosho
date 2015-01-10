@@ -1,8 +1,8 @@
 var router = new $.mobile.Router([{
-        "#home": {handler: "homePage", events: "bs"},
-        "#catalog": {handler: "catalogPage", events: "bs"},
-        "#catalogitems(?:[?/](.*))?": {handler: "catalogitemsPage", events: "bs"},
-        "#me": {handler: "mePage", events: "bs"}
+        "#home": {handler: "homePage", events: "i"},
+        "#catalog": {handler: "catalogPage", events: "i"},
+        "#catalogitems(?:[?/](.*))?": {handler: "catalogitemsPage", events: "i"},
+        "#me": {handler: "mePage", events: "i"}
     }],
         {
             homePage: function (type, match, ui) {
