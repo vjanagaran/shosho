@@ -28,8 +28,6 @@
                 <fieldset class="ui-grid-a">
                     <div class="ui-block-a"><a href="#home" class="ui-btn ui-btn-corner-all ui-btn-active"><i class="fa fa-home"></i><br/>Home</a></div>
                     <div class="ui-block-b"><a href="#catalog" class="ui-btn ui-btn-corner-all"><i class="fa fa-cutlery"></i><br/>Menu</a></div>
-                </fieldset>
-                <fieldset class="ui-grid-a">
                     <div class="ui-block-a"><a href="#orders" class="ui-btn ui-btn-corner-all"><i class="fa fa-paper-plane"></i><br/>Orders</a></div>
                     <div class="ui-block-b"><a href="#more" class="ui-btn ui-btn-corner-all"><i class="fa fa-bars"></i><br/>More</a></div>
                 </fieldset>
@@ -50,6 +48,7 @@
         <div data-role="page" id="offers" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed" data-tap-toggle="false">
                 <h1 class="ui-title" role="heading">Today's Offers</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
                 <div> Today's offers will come here. </div>
@@ -76,7 +75,7 @@
         </div> 
         <script type="text/html" id="menu_list_tpl">
             <a class="ui-btn ui-btn-b ui-btn-corner-all main-menu" data-template-bind='[
-               {"attribute": "href", "value": "cat_id", "formatter": "startersHref"}]'>
+               {"attribute": "href", "value": "id", "formatter": "startersHref"}]'>
                 <img data-src="image" />
                 <span data-content="name"></span>
             </a>
@@ -93,7 +92,7 @@
             </div>
         </div> 
         <script type="text/html" id="starters_list_tpl">
-            <div class="ui-btn ui-btn-b ui-btn-corner-all starters"> <img data-src="image" />
+            <div class="starters-menu"> <img data-src="image" class="starters-img"/>
                 <div class="starters-info">
                     <h3 data-content="name"></h3><h3 data-content="description"></h3>
                     <div class="price-info"><span data-content="rate"></span> <input min="1" max="10" value="1" data-clear-btn="false" data-role="none" name="number-1" id="number-1" type="number"> <a class="add" href="#">Add</a></div>
@@ -109,16 +108,21 @@
             <div role="main" class="ui-content">
                 <table data-role="table" data-mode="none">
                     <thead>
-                        <tr><th>Sl. No</th><th>Item</th><th>Qty</th><th>Rate</th><th>Amt</th></tr>
+                        <tr><th class="align-left">Your Order</th><th class="align-right">Qty</th><th class="align-right">Amount</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td>1</td><td>Idly</td><td>10</td><td>12</td><td>120.00</td></tr>
-                        <tr><td>2</td><td>Briyani</td><td>3</td><td>200</td><td>600.00</td></tr>
-                        <tr><td>3</td><td>Pizza</td><td>4</td><td>180</td><td>720.00</td></tr>
-                        <tr><td colspan="5"><textarea placeholder="Enter your hint about the order"></textarea></td></tr>
-                        <tr><td colspan="5"><button type="submit" onclick="">Confirm Orders</button></td></tr>
+                        <tr><td class="align-left">Idly</td><td class="align-right">12</td><td class="align-right">Rs. 120.00</td></tr>
+                        <tr><td class="align-left">Briyani</td><td class="align-right">3</td><td class="align-right">Rs. 600.00</td></tr>
+                        <tr><td class="align-left">Pizza</td><td class="align-right">4</td><td class="align-right">Rs. 720.00</td></tr>
+                        <tr><td colspan="3">&nbsp;</td></tr>
+                        <tr><td class="align-left">Total</td><td class="align-right" colspan="2">Rs. 1440</td></tr>
+                        <tr><td colspan="2" class="align-left">TAX 2%</td><td class="align-right">Rs. 288</td></tr>
+                        <tr><td colspan="2" class="align-left">Grand Total</td><td class="align-right">Rs. 1728</td></tr>
+                        <tr><td colspan="3"><a href="#orderdecs" data-rel="popup" data-transition="slideup" class="ui-btn ui-shadow ui-btn-b ui-corner-all">Order description (optional)</a></td></tr>
+                        <tr><td colspan="3"><button type="submit" onclick="">Confirm Order</button></td></tr>
                     </tbody>
                 </table>
+                <textarea data-role="popup" name="orderdecs" id="orderdecs" placeholder="About your order...."></textarea>
             </div>
         </div> <!-- cart -->
 

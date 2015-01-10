@@ -14,14 +14,9 @@ div[data-role="page"]{
     background: url(../img/backgrounds/bg.jpg) repeat;
 }
 
-div[data-role="footer"]{
-    border: 0!important;
-    padding: 0!important;
-}
-
 div[data-role="header"]{
     background: url(../img/backgrounds/header_bg.png) repeat;
-    border: 0!important;
+    border: 0;
 }
 
 .ui-block-a a.ui-btn, .ui-block-b a.ui-btn, .ui-block-c a.ui-btn, .ui-block-d a.ui-btn{
@@ -39,6 +34,19 @@ body, input, select, textarea, button, .ui-btn {
 
 .align-center{
     text-align: center;
+}
+
+.align-right{
+    text-align: right!important;
+}
+
+.align-left{
+    text-align: left!important;
+}
+
+.banner{
+    width: 100%;
+    background-color: transparent;
 }
 
 .ui-bar-inherit, .ui-btn{
@@ -59,10 +67,6 @@ body, input, select, textarea, button, .ui-btn {
 #contact .mapimg{
     width: 100%;
     max-width: 300px;
-}
-
-#home .banner{
-    width: 100%!important;
 }
 
 #catalog .main-menu{
@@ -95,29 +99,38 @@ body, input, select, textarea, button, .ui-btn {
     margin: 0 1px 0 0;
 }
 
-#starters a.add{
-    display: block;
-    width: 30px;
-    height: 20px;
+#orderdecs-popup{
+    width: 98%!important;
+    top: 304px!important;
+}
+
+.starters-menu{
+    background-color: bisque;
+    margin: 10px;
+    margin-right: 10px;
+    color: #000000;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.starters-menu .starters-img{
+    width: 10%;
+    height: 80px;
     float: left;
-    background: #252525;
-    border: 1px solid #000;
+    margin-right: 10px;
+}
+.starters-menu > .starters-info{
+    font-size: 10px!important;
+    width: 70%;
+    margin: 0;
+    padding: 0;
 }
 
-.user_details{
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    left: 30px;
-    margin-top: 20px;
-}
-
-#starters .price-info > input, #starters a.add{
-    margin-left: 10px;
-}
-
-.price-info > input{
-    width: 20px;
+.starters-info h3{
+    margin: 0;
+    padding: 0;
+    margin-bottom: 5px;
 }
 
 .myorders > table{
@@ -128,8 +141,11 @@ body, input, select, textarea, button, .ui-btn {
 
 .ui-btn, .ui-input-text{
     background-color: bisque!important;
-    color: #ffffff!important;
     border: 0!important;
+}
+
+.ui-footer .ui-btn{
+    color: #fff;
 }
 
 .ui-content{
@@ -138,23 +154,6 @@ body, input, select, textarea, button, .ui-btn {
 
 .ui-listview > li{
     margin: 2px!important;
-}
-
-.starters > img {
-    width: 80px;
-    height: 80px;
-    float: left;
-    margin-right: 10px;
-}
-
-.starters .starters-info{
-    float: left;
-    font-size: 12px!important;
-    text-align: left;
-}
-
-.starters-info > h3{
-    margin: 5px 0 5px 0;
 }
 
 @media screen and (min-width: 800px) {
