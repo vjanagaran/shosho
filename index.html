@@ -25,7 +25,7 @@
                     <img src="img/logo.jpg" alt="sho sho" class="homeimg"/>
                 </div>
                 <div class="ui-grid-solo">
-                    <div class="ui-block-a"><input value="More" type="button"></div>
+                    <div class="ui-block-a"><a href="#offers" class="ui-btn ui-btn-corner-all" data-transition="flip">Today's Best Offer!!</a></div>
                 </div>
                 <fieldset class="ui-grid-a">
                     <div class="ui-block-a"><a href="#home" class="ui-btn ui-btn-corner-all ui-btn-active"><i class="fa fa-home"></i><br/>Home</a></div>
@@ -36,13 +36,14 @@
             </div>
         </div> <!-- home -->
 
-        <div data-role="page" id="registration" data-title="Sho Sho Restaurant">
+        <div data-role="page" id="me" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
-                <h1 class="ui-title" role="heading">Initial Registration</h1>
+                <h1 class="ui-title" role="heading">User Profile</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
-                <input type="text" name="name" id="uname" placeholder="Your Name" />
-                <input type="text" name="mobile" id="umobile" placeholder="Your Mobile Number" />
+                <input type="text" name="name" value="Barath Kumar" id="uname" placeholder="Your Name" />
+                <input type="text" name="mobile" id="umobile" value="+91 9884248927" placeholder="Your Mobile Number" />
                 <button type="submit" onclick="setUserSession();">Submit</button>
             </div>
         </div> <!-- initial registration -->
@@ -96,8 +97,8 @@
         <script type="text/html" id="starters_list_tpl">
             <div class="starters-menu"> <img data-src="image" class="starters-img"/>
                 <div class="starters-info">
-                    <h3 data-content="name"></h3><h3 data-content="description"></h3>
-                    <div class="price-info"><span data-content="rate"></span> <input min="1" max="10" value="1" data-clear-btn="false" data-role="none" name="number-1" id="number-1" type="number"> <a class="add" href="#">Add</a></div>
+                    <h3 data-content="name"></h3><h3 class="starters-decs" data-content="description"></h3>
+                    <div class="price-info"><span>Rs. </span><span data-content="rate"></span> <div class="qty"><input min="1" max="10" value="1" data-clear-btn="false" data-role="none" name="number-1" id="number-1" type="number"> <a href="#">Add</a></div></div>
                 </div>
             </div>
         </script> <!-- catalog items-->
@@ -137,13 +138,13 @@
                 <div class="myorders">
                     <table data-role="table" data-mode="none">
                         <thead>
-                            <tr><th>Sl. No</th><th>Date</th><th>Amount</th><th>Status</th></tr>
+                            <tr><th>No</th><th>Date</th><th class="align-right">Amount</th><th class="align-center">Status</th></tr>
                         </thead>
                         <tbody>
-                            <tr><td>1</td><td>08/01/2015</td><td>650.00</td><td>Process</td></tr>
-                            <tr><td>2</td><td>05/01/2015</td><td>950.00</td><td>Delivered</td></tr>
-                            <tr><td>3</td><td>02/01/2015</td><td>1025.00</td><td>Canceled</td></tr>
-                            <tr><td>4</td><td>30/12/2014</td><td>460.00</td><td>Delivered</td></tr>
+                            <tr><td>1</td><td>08/01/2015</td><td class="align-right">Rs. 650.00</td><td>In process</td></tr>
+                            <tr><td>2</td><td>05/01/2015</td><td class="align-right">Rs. 950.00</td><td>Delivered</td></tr>
+                            <tr><td>3</td><td>02/01/2015</td><td class="align-right">Rs. 1025.00</td><td>Canceled</td></tr>
+                            <tr><td>4</td><td>30/12/2014</td><td class="align-right">Rs. 460.00</td><td>Delivered</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -186,7 +187,7 @@
             </div>
         </div> <!-- more -->
 
-        <div data-role="page" id="me" data-title="Sho Sho Restaurant">
+        <div data-role="page" id="registration" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
                 <h1 class="ui-title" role="heading">Me</h1>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>

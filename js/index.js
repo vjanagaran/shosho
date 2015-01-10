@@ -1,8 +1,8 @@
 var router = new $.mobile.Router([{
-        "#home": {handler: "homePage", events: "i"},
-        "#catalog": {handler: "catalogPage", events: "i"},
-        "#catalogitems(?:[?/](.*))?": {handler: "catalogitemsPage", events: "i"},
-        "#me": {handler: "mePage", events: "i"}
+        "#home": {handler: "homePage", events: "bs"},
+        "#catalog": {handler: "catalogPage", events: "bs"},
+        "#catalogitems(?:[?/](.*))?": {handler: "catalogitemsPage", events: "bs"},
+        "#me": {handler: "mePage", events: "bs"}
     }],
         {
             homePage: function (type, match, ui) {
@@ -64,17 +64,15 @@ function initialRegistration() {
 }
 
 function loadCatalog() {
-    var url = "";
     $.ajax({
         type: "GET",
-        url: config.api_url + "module=cat&action=list",
         dataType: 'json',
+        url: config.api_url + "module=cat&action=list",
         cache: false,
         success: function (data) {
             $("#menu").empty();
-            url = data.url;
             $.each(data.data, function (k, v) {
-                $("#menu").loadTemplate($('#menu_list_tpl'),v , {append: true});
+                $("#menu").loadTemplate($('#menu_list_tpl'), v, {append: true});
             });
         },
         error: function (request, status, error) {
@@ -98,7 +96,6 @@ function loadCatalogItems(cat) {
                 });
             },
             error: function (request, status, error) {
-                $("#starters").empty();
                 $("#starters").append('Error in loading data');
             }
         });

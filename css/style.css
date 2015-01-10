@@ -66,7 +66,6 @@ body, input, select, textarea, button, .ui-btn {
 
 #contact .mapimg{
     width: 100%;
-    max-width: 300px;
 }
 
 #catalog .main-menu{
@@ -109,19 +108,23 @@ body, input, select, textarea, button, .ui-btn {
     margin: 10px;
     margin-right: 10px;
     color: #000000;
+    clear: both;
+    overflow: hidden;
     padding: 10px;
     border-radius: 10px;
     cursor: pointer;
 }
 
 .starters-menu .starters-img{
-    width: 10%;
     float: left;
+    width: 80px;
+    height: 80px;
     margin-right: 10px;
 }
-.starters-menu > .starters-info{
-    font-size: 10px!important;
-    width: 70%;
+
+.starters-menu .starters-info{
+    float: left;
+    width: calc(100% - 100px);
     margin: 0;
     padding: 0;
 }
@@ -131,6 +134,27 @@ body, input, select, textarea, button, .ui-btn {
     padding: 0;
     margin-bottom: 5px;
 }
+
+.price-info > span{
+    float: left;
+}
+
+.qty > input{
+    width: 50px;
+}
+
+.starters-decs{
+    font-size: 12px!important;
+    color: #555555;
+}
+
+.qty > a, .qty > input{
+    margin-right: 10px;
+}
+
+.price-info .qty{
+    float: right;
+} 
 
 .myorders > table{
     width: 100%;
