@@ -25,7 +25,7 @@ div[data-role="header"]{
 }
 
 .ui-block-a a.ui-btn, .ui-block-b a.ui-btn, .ui-block-c a.ui-btn, .ui-block-d a.ui-btn{
-    background: url(../img/backgrounds/btn_bg.png) repeat;
+    background: url("../img/backgrounds/btn_bg.png") no-repeat scroll 50% 50% / 110% 105% rgba(0, 0, 0, 0);
     border: 0!important;
 }
 
@@ -63,10 +63,6 @@ body, input, select, textarea, button, .ui-btn {
 
 #home .banner{
     width: 100%!important;
-}
-
-#home .quick_menu{
-    width: 50%!important;
 }
 
 #catalog .main-menu{

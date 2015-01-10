@@ -64,6 +64,7 @@ function initialRegistration() {
 }
 
 function loadCatalog() {
+    var url = "";
     $.ajax({
         type: "POST",
         url: config.api_url + "module=cat&action=list",
@@ -71,8 +72,9 @@ function loadCatalog() {
         cache: false,
         success: function (data) {
             $("#menu").empty();
-            $.each(data, function (k, v) {
-                $("#menu").loadTemplate($('#menu_list_tpl'), v, {append: true});
+            url = data.url;
+            $.each(data.data, function (k, v) {
+                $("#menu").loadTemplate($('#menu_list_tpl'), {name: v.name, cat_id: v.cat_id, image: url + "/" + v.image}, {append: true});
             });
         },
         error: function (request, status, error) {
@@ -86,12 +88,12 @@ function loadCatalogItems(cat) {
     if (cat !== "") {
         $.ajax({
             type: "POST",
-            url: config.api_url + "module=cat&action=view&id=" + cat,
+            url: config.api_url + "module=menu&action=view&id=" + cat,
             dataType: 'json',
             cache: false,
             success: function (data) {
                 $("#starters").empty();
-                $.each(data, function (k, v) {
+                $.each(data.data, function (k, v) {
                     $("#starters").loadTemplate($('#starters_list_tpl'), v, {append: true});
                 });
             },

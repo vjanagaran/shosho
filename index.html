@@ -24,14 +24,14 @@
                 <div class="align-center">
                     <img src="img/logo.jpg" alt="sho sho" class="homeimg"/>
                 </div>
-                <div class="ui-block-a align-center banner"><a href="#" class="ui-btn ui-btn-corner-all" data-transition="flip">Today's Best Offer!!</a></div>
-                <fieldset>
-                    <div class="ui-block-b quick_menu"><a href="#home" class="ui-btn ui-btn-corner-all ui-btn-active"><i class="fa fa-home"></i><br/>Home</a></div>
-                    <div class="ui-block-b quick_menu"><a href="#catalog" class="ui-btn ui-btn-corner-all"><i class="fa fa-cutlery"></i><br/>Menu</a></div>
+                <div class="ui-block-a align-center banner"><a href="#offers" class="ui-btn ui-btn-corner-all" data-transition="flip">Today's Best Offer!!</a></div>
+                <fieldset class="ui-grid-a">
+                    <div class="ui-block-a"><a href="#home" class="ui-btn ui-btn-corner-all ui-btn-active"><i class="fa fa-home"></i><br/>Home</a></div>
+                    <div class="ui-block-b"><a href="#catalog" class="ui-btn ui-btn-corner-all"><i class="fa fa-cutlery"></i><br/>Menu</a></div>
                 </fieldset>
-                <fieldset>
-                    <div class="ui-block-b quick_menu"><a href="#orders" class="ui-btn ui-btn-corner-all"><i class="fa fa-paper-plane"></i><br/>Orders</a></div>
-                    <div class="ui-block-b quick_menu"><a href="#more" class="ui-btn ui-btn-corner-all"><i class="fa fa-bars"></i><br/>More</a></div>
+                <fieldset class="ui-grid-a">
+                    <div class="ui-block-a"><a href="#orders" class="ui-btn ui-btn-corner-all"><i class="fa fa-paper-plane"></i><br/>Orders</a></div>
+                    <div class="ui-block-b"><a href="#more" class="ui-btn ui-btn-corner-all"><i class="fa fa-bars"></i><br/>More</a></div>
                 </fieldset>
             </div>
         </div> <!-- home -->
@@ -46,6 +46,15 @@
                 <button type="submit" onclick="setUserSession();">Submit</button>
             </div>
         </div> <!-- initial registration -->
+
+        <div data-role="page" id="offers" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed" data-tap-toggle="false">
+                <h1 class="ui-title" role="heading">Today's Offers</h1>
+            </div>
+            <div role="main" class="ui-content">
+                <div> Today's offers will come here. </div>
+            </div>
+        </div> 
 
         <div data-role="page" id="catalog" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed" data-tap-toggle="false">
@@ -75,9 +84,9 @@
 
         <div data-role="page" id="catalogitems" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed" data-tap-toggle="false">
-                <h1 class="ui-title" role="heading">Catalog Items</h1>
+                <h1 class="ui-title" role="heading">Menu Items</h1>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
-                <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#cart" data-iconpos="notext">Cart <span>3</span></a>
+                <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#cart" data-iconpos="notext"><i class="fa fa-envelope"></i> <span>3</span></a>
             </div>
             <div role="main" class="ui-content">
                 <div id="starters"></div>
@@ -87,7 +96,7 @@
             <div class="ui-btn ui-btn-b ui-btn-corner-all starters"> <img data-src="image" />
                 <div class="starters-info">
                     <h3 data-content="name"></h3><h3 data-content="description"></h3>
-                    <div class="price-info"><span data-content="price"></span> <input min="1" max="10" value="1" data-clear-btn="false" data-role="none" name="number-1" id="number-1" type="number"> <a class="add" href="#">Add</a></div>
+                    <div class="price-info"><span data-content="rate"></span> <input min="1" max="10" value="1" data-clear-btn="false" data-role="none" name="number-1" id="number-1" type="number"> <a class="add" href="#">Add</a></div>
                 </div>
             </div>
         </script> <!-- catalog items-->
@@ -100,14 +109,14 @@
             <div role="main" class="ui-content">
                 <table data-role="table" data-mode="none">
                     <thead>
-                        <tr><th>Sl. No</th><th>Item</th><th>Quantity</th></tr>
+                        <tr><th>Sl. No</th><th>Item</th><th>Qty</th><th>Rate</th><th>Amt</th></tr>
                     </thead>
                     <tbody>
-                        <tr><td>1</td><td>Idly</td><td>10</td></tr>
-                        <tr><td>2</td><td>Briyani</td><td>3</td></tr>
-                        <tr><td>3</td><td>Pizza</td><td>4</td></tr>
-                        <tr><td colspan="3"><textarea placeholder="Enter your hint about the order"></textarea></td></tr>
-                        <tr><td colspan="3"><button type="submit" onclick="">Confirm Orders</button></td></tr>
+                        <tr><td>1</td><td>Idly</td><td>10</td><td>12</td><td>120.00</td></tr>
+                        <tr><td>2</td><td>Briyani</td><td>3</td><td>200</td><td>600.00</td></tr>
+                        <tr><td>3</td><td>Pizza</td><td>4</td><td>180</td><td>720.00</td></tr>
+                        <tr><td colspan="5"><textarea placeholder="Enter your hint about the order"></textarea></td></tr>
+                        <tr><td colspan="5"><button type="submit" onclick="">Confirm Orders</button></td></tr>
                     </tbody>
                 </table>
             </div>
