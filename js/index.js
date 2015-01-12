@@ -210,12 +210,13 @@ function showMyCart() {
 }
 
 function removeFromCart(id) {
+
     $.each(cart.items, function (index, row) {
         if (row.id == id) {
             cart.items.splice(index, 1);
             return false;
         }
-        calcCart();
-        $("#menu_item_" + id).removeClass("selected");
     });
+    calcCart();
+    $("#menu_item_" + id).removeClass("selected");
 }

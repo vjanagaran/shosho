@@ -130,10 +130,6 @@ body, input, select, textarea, button, .ui-btn {
     width: 50px;
 }
 
-.hidden{
-    visibility: hidden;
-}
-
 .selected{
     background-color: #8AC500;
     margin: 10px;
