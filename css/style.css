@@ -10,12 +10,16 @@
 
 }
 
+body{
+    background: url(../img/backgrounds/bg.jpg)!important;
+}
+
 div[data-role="page"]{
-    background: url(../img/backgrounds/bg.jpg) repeat;
+    background: transparent;
 }
 
 div[data-role="header"]{
-    background: url(../img/backgrounds/header_bg.png) repeat;
+    background: url(../img/backgrounds/header_bg.png);
     border: 0;
 }
 
@@ -44,11 +48,6 @@ body, input, select, textarea, button, .ui-btn {
     text-align: left!important;
 }
 
-.banner{
-    width: 100%;
-    background-color: transparent;
-}
-
 .ui-bar-inherit, .ui-btn{
     background-color: transparent!important;
     border: 0!important;
@@ -68,42 +67,27 @@ body, input, select, textarea, button, .ui-btn {
     width: 100%;
 }
 
-#catalog .main-menu{
+#catalog .category{
     margin: 10px;
     padding: 10px;
 }
 
-#catalog .main-menu > img{
+#catalog .category > img{
     margin: 0;
     padding: 0;
     width: 60px;
     height: 60px;
+    float: left;
 }
 
-#catalog .main-menu > span{
+#catalog .category > span{
     margin-left: 10px;
     margin-top: 15px;
     font-size: 20px!important;
-}
-
-#catalog .main-menu > span, #catalog .main-menu > img{
     float: left;
-    clear: right;
 }
 
-.catalog_footer ul li, .order_footer ul li, .about_footer ul li{
-    width: 24.7%!important;
-    float: left;
-    clear: right;
-    margin: 0 1px 0 0;
-}
-
-#orderdecs-popup{
-    width: 98%!important;
-    top: 304px!important;
-}
-
-.starters-menu{
+.menu-items{
     background-color: bisque;
     margin: 10px;
     margin-right: 10px;
@@ -112,71 +96,91 @@ body, input, select, textarea, button, .ui-btn {
     overflow: hidden;
     padding: 10px;
     border-radius: 10px;
+}
+
+.menu-items a{
     cursor: pointer;
 }
 
-.starters-menu .starters-img{
+#my_cart_items table{
+    width: 100%;
+}
+
+.menu-items > img{
     float: left;
     width: 80px;
     height: 80px;
     margin-right: 10px;
 }
 
-.starters-menu .starters-info{
+.menu-items .item-info{
     float: left;
     width: calc(100% - 100px);
     margin: 0;
     padding: 0;
 }
 
-.starters-info h3{
+.item-info h3{
     margin: 0;
     padding: 0;
     margin-bottom: 5px;
 }
 
-.price-info > span{
-    float: left;
-}
-
-.qty > input{
+.item-qty > input{
     width: 50px;
 }
 
-.starters-decs{
+.hidden{
+    visibility: hidden;
+}
+
+.selected{
+    background-color: #8AC500;
+    margin: 10px;
+    margin-right: 10px;
+    color: #000000;
+    clear: both;
+    overflow: hidden;
+    padding: 10px;
+    z-index: 10000;
+    border-radius: 10px;
+}
+
+.item-decs{
     font-size: 12px!important;
     color: #555555;
 }
 
-.qty > a, .qty > input{
+.item-qty{
     margin-right: 10px;
-}
-
-.price-info .qty{
     float: right;
-} 
-
-.myorders > table{
-    width: 100%;
-    text-align: center;
-    color: #fff!important;
+    clear: left;
 }
 
-.ui-btn, .ui-input-text{
+.remove-item {
+    display: none;
+}
+
+.selected .remove-item {
+    display: inline-block;
+}
+
+.ui-content .ui-btn, .ui-content .ui-input-text, .ui-header .ui-btn{
     background-color: bisque!important;
     border: 0!important;
 }
 
-.ui-footer .ui-btn{
+.ui-footer .ui-btn, .ui-content{
     color: #fff;
-}
-
-.ui-content{
-    color: #fff!important;
 }
 
 .ui-listview > li{
     margin: 2px!important;
+}
+
+.ui-page {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
 }
 
 @media screen and (min-width: 800px) {
@@ -193,6 +197,4 @@ body, input, select, textarea, button, .ui-btn {
     .image:hover {
         overflow-y: auto;
     }
-
-
 }
