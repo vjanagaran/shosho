@@ -98,10 +98,6 @@ body, input, select, textarea, button, .ui-btn {
     border-radius: 10px;
 }
 
-.menu-items a{
-    cursor: pointer;
-}
-
 #my_cart_items table{
     width: 100%;
 }
@@ -138,7 +134,6 @@ body, input, select, textarea, button, .ui-btn {
     clear: both;
     overflow: hidden;
     padding: 10px;
-    z-index: 10000;
     border-radius: 10px;
 }
 
@@ -159,6 +154,19 @@ body, input, select, textarea, button, .ui-btn {
 
 .selected .remove-item {
     display: inline-block;
+    background-color: tomato;
+    font-size: 12px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.add-btn{
+    background-color: #950415;
+    padding: 5px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 10px;
+    cursor: pointer;
 }
 
 .ui-content .ui-btn, .ui-content .ui-input-text, .ui-header .ui-btn{
