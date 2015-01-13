@@ -28,6 +28,10 @@ div[data-role="header"]{
     border: 0!important;
 }
 
+div[data-role="footer"] .ui-grid-solo .ui-btn{
+    display: block;
+}
+
 body, input, select, textarea, button, .ui-btn {
     font-family: futurastd_book;
 }

@@ -95,38 +95,101 @@
             <div role="main" class="ui-content">
                 <div id="menus"></div>
             </div>
-        </div> 
-        <script type="text/html" id="menus_list_tpl">
-            <div data-template-bind='[
-                 {"attribute": "class", "value": "id", "formatter": "menuItemClass"},
-                 {"attribute": "id", "value": "id", "formatter": "menuItemId"}]'> <img data-src="image" />
-                <a class="remove-item" data-template-bind='[{"attribute": "onclick", "value": "id", "formatter": "itemRemoveclick"}]'>X</a>
-                <div class="item-info">
-                    <h3 data-content="name" data-template-bind='[{"attribute": "id", "value": "id", "formatter": "itemNameId"}]'></h3><h3 class="item-decs" data-content="description"></h3>
-                    <div>
-                        <span>Rs. </span>
-                        <span data-content="rate" data-template-bind='[{"attribute": "id", "value": "id", "formatter": "itemPriceId"}]'></span>
-                        <div class="item-qty">
-                            <input min="1" max="99" data-clear-btn="false" data-role="none" name="qty" type="number" data-template-bind='[{"attribute": "id", "value": "id", "formatter": "itemQtyId"},
-                                   {"attribute": "value", "value": "id", "formatter": "itemQtyVal"}]'>
-                            <a class="add-btn" data-template-bind='[{"attribute": "onclick", "value": "id", "formatter": "itemOnclick"}]'>Add</a>
-                        </div>
-                        <input type="hidden" data-value="tax" data-template-bind='[{"attribute": "id", "value": "id", "formatter": "itemTaxId"}]' />
-                    </div>
+
+            <div data-role="popup" id="popupDialog" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="max-width:400px;">
+                <div data-role="header" data-theme="a">
+                    <h1>Confirm Item</h1>
+                </div>
+                <div role="main" class="ui-content">
+                    <p id="confirm_text"></p>
+                    <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" onclick="addConfirmed();" data-transition="flow">Confirm</a>
+                    <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Cancel</a>
                 </div>
             </div>
-        </script> <!-- catalog items-->
+
+            <script type="text/html" id="menus_list_tpl">
+                <div data-template-bind='[
+                     {"attribute": "class", "value": "id", "formatter": "menuItemClass"},
+                     {"attribute": "id", "value": "id", "formatter": "menuItemId"}]'> <img data-src="image" />
+                    <a class="remove-item" data-template-bind='[{"attribute": "onclick", "value": "id", "formatter": "itemRemoveclick"}]'>X</a>
+                    <div class="item-info">
+                        <h3 data-content="name" data-template-bind='[{"attribute": "id", "value": "id", "formatter": "itemNameId"}]'></h3><h3 class="item-decs" data-content="description"></h3>
+                        <div>
+                            <span>Rs. </span>
+                            <span data-content="rate" data-template-bind='[{"attribute": "id", "value": "id", "formatter": "itemPriceId"}]'></span>
+                            <div class="item-qty">
+                                <input min="1" max="99" data-clear-btn="false" data-role="none" name="qty" type="number" data-template-bind='[{"attribute": "id", "value": "id", "formatter": "itemQtyId"},
+                                       {"attribute": "value", "value": "id", "formatter": "itemQtyVal"}]'>
+                                <a class="add-btn" data-template-bind='[{"attribute": "onclick", "value": "id", "formatter": "itemOnclick"}]'>Add</a>
+                            </div>
+                            <input type="hidden" data-value="tax" data-template-bind='[{"attribute": "id", "value": "id", "formatter": "itemTaxId"}]' />
+                        </div>
+                    </div>
+                </div>
+            </script> <!-- catalog items-->
+
+        </div> 
+
 
         <div data-role="page" id="cart" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed" data-tap-toggle="false">
                 <h1 class="ui-title" role="heading">My Cart</h1>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+                <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#"><span>Total</span> <span id="cart_items_total"> 0</span></a>
             </div>
             <div role="main" class="ui-content">
                 <div id="my_cart_items"></div>
-                <div id="success_msg"></div>
+            </div>
+            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+                <div class="ui-grid-solo">
+                    <div class="ui-block-a">
+                        <a href="#" onclick="processStep1();" class="ui-btn ui-btn-corner-all" data-transition="flip">Step 2: Delivery Type</a>
+                    </div>
+                </div>
             </div>
         </div> <!-- cart -->
+
+        <div data-role="page" id="delivery" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed" data-tap-toggle="false">
+                <h1 class="ui-title" role="heading">Delivery Mode</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+                <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#"><span>Total</span> <span id="delivery_items_total"> 0</span></a>
+            </div>
+            <div role="main" class="ui-content">
+                <ul data-role="listview">
+                    <li><label><input data-role="none" type="radio" name="delivery" id="home_delivery" value="home">Home Delivery</label></li>
+                    <li><label><input data-role="none" type="radio" name="delivery" id="takeaway" value="takeaway">Take Away</label></li>
+                </ul>
+            </div>
+            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+                <div class="ui-grid-solo">
+                    <div class="ui-block-a">
+                        <a href="#" onclick="processStep2();" class="ui-btn ui-btn-corner-all" data-transition="flip">Step 3: Payment Mode</a>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- delivery -->
+
+        <div data-role="page" id="payment" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed" data-tap-toggle="false">
+                <h1 class="ui-title" role="heading">Delivery Mode</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+                <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#"><span>Total</span> <span id="payment_items_total"> 0</span></a>
+            </div>
+            <div role="main" class="ui-content">
+                <ul data-role="listview">
+                    <li><label><input data-role="none" type="radio" name="cash_pay" id="cash_pay" value="Cash">Cash Payment</label></li>
+                </ul>
+                <div id="success_msg"></div>
+            </div>
+            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+                <div class="ui-grid-solo">
+                    <div class="ui-block-a">
+                        <a href="#" class="ui-btn ui-btn-corner-all" onclick="processOrder();" data-transition="flip">Confirm Order</a>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- payment mode -->
 
         <div data-role="page" id="orders" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
@@ -145,7 +208,6 @@
                         <tr><td>4</td><td>30/12/2014</td><td class="align-right">Rs. 460.00</td><td>Delivered</td></tr>
                     </tbody>
                 </table>
-
                 <div id="ordered_items"></div>
             </div>
             <div data-role="footer" data-position="fixed" data-tap-toggle="false">
