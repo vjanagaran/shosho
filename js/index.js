@@ -415,18 +415,21 @@ function processStep1() {
 
 function processStep2() {
     if (getVal(config.user_id != null)) {
+        var che = $("input[name='delivery']:checked");
+        var obj = che.val();
+        cart.delivery = obj;
         $(":mobile-pagecontainer").pagecontainer("change", "#me");
     } else {
         $(":mobile-pagecontainer").pagecontainer("change", "#registration");
     }
 }
 
-function processStep3() {
+/*function processStep3() {
     var che = $("input[name='delivery']:checked");
     var obj = che.val();
     cart.delivery = obj;
     $(":mobile-pagecontainer").pagecontainer("change", "#payment");
-}
+}*/
 
 function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
