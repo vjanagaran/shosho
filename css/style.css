@@ -11,7 +11,6 @@
 }
 
 body{
-    background: url(../img/backgrounds/bg.jpg)!important;
 }
 
 div[data-role="page"]{
@@ -19,12 +18,10 @@ div[data-role="page"]{
 }
 
 div[data-role="header"]{
-    background: url(../img/backgrounds/header_bg.png);
     border: 0;
 }
 
 .ui-block-a a.ui-btn, .ui-block-b a.ui-btn, .ui-block-c a.ui-btn, .ui-block-d a.ui-btn{
-    background: url("../img/backgrounds/btn_bg.png") no-repeat scroll 50% 50% / 110% 105% rgba(0, 0, 0, 0);
     border: 0!important;
 }
 
@@ -52,10 +49,6 @@ body, input, select, textarea, button, .ui-btn {
     text-align: left!important;
 }
 
-.ui-bar-inherit, .ui-btn{
-    background-color: transparent!important;
-    border: 0!important;
-}
 
 #home .homeimg, #intro .homeimg {
     width: 100%;
@@ -92,15 +85,12 @@ body, input, select, textarea, button, .ui-btn {
 }
 
 .menu-items{
-    background-color: bisque;
-    margin: 10px;
-    margin-right: 10px;
     color: #000000;
     clear: both;
     overflow: hidden;
     padding: 10px;
-    border-radius: 10px;
     position: relative;
+    border-bottom: 1px solid #AAAAAA;
 }
 
 #my_cart_items > table, #ordered_items > table{
@@ -142,13 +132,6 @@ body, input, select, textarea, button, .ui-btn {
 
 .selected{
     background-color: #8AC500;
-    margin: 10px;
-    margin-right: 10px;
-    color: #000000;
-    clear: both;
-    overflow: hidden;
-    padding: 10px;
-    border-radius: 10px;
 }
 
 .item-decs{
@@ -181,22 +164,12 @@ body, input, select, textarea, button, .ui-btn {
 }
 
 .add-btn{
-    background-color: #950415;
     padding: 5px;
     text-decoration: none;
     border-radius: 5px;
-    font-size: 10px;
     cursor: pointer;
 }
 
-.ui-content .ui-btn, .ui-content .ui-input-text, .ui-header .ui-btn{
-    background-color: bisque!important;
-    border: 0!important;
-}
-
-.ui-footer .ui-btn, .ui-content{
-    color: #fff;
-}
 
 .ui-listview > li{
     margin: 2px!important;
