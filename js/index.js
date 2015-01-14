@@ -235,7 +235,7 @@ function showMe() {
     address = address + "<p><strong>" + getVal(config.user_address) + "</strong></p>";
     address = address + "<p><strong>" + getVal(config.user_area) + "</strong></p>";
     address = address + "<p><strong>" + getVal(config.user_pincode) + "</strong></p>";
-    
+
 }
 
 var cart = {items: [], decs: "", delivery: ""};
@@ -414,7 +414,6 @@ function processStep1() {
 }
 
 function processStep2() {
-    alert(getVal(config.user_id));
     if (getVal(config.user_id != null)) {
         $(":mobile-pagecontainer").pagecontainer("change", "#me");
     } else {
