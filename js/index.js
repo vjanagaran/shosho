@@ -448,28 +448,30 @@ function processOrder() {
 
 function showOrders() {
     var id = getVal(config.user_id);
-    $("#ordered_items").empty();
-    $("#ordered_items").append(loading);
-    var out = "";
-    out = out + '<table data-role="table" data-mode="none"><thead><tr><th class="align-left">Order Id</th><th class="align-left">Date</th><th class="align-right">Amount</th><th class="align-center">Status</th></tr></thead><tbody>';
-    $.ajax({
-        type: "GET",
-        url: config.api_url + "module=order&action=list&id=" + id,
-        dataType: 'json',
-        cache: false,
-        success: function (data) {
-            $("#ordered_items").empty();
-            $.each(data.data, function (index, row) {
-                out = out + '<tr><td class="align-left">' + row.id + '</td><td class="align-left">' + $.format.date(row.date, "dd-MMM-yyyy H:m") + '</td><td class="align-right">' + parseFloat(row.amount).toFixed(2) + '</td><td class="align-center">' + row.status + '</td></tr>';
-            });
-            out = out + '</tbody></table>';
-            $(out).appendTo("#ordered_items").enhanceWithin();
-        },
-        error: function (request, status, error) {
-            $("#ordered_items").empty();
-            $("#ordered_items").append("Loading failed please retry......");
-        }
-    });
+    if (id != null) {
+        $("#ordered_items").empty();
+        $("#ordered_items").append(loading);
+        var out = "";
+        out = out + '<table data-role="table" data-mode="none"><thead><tr><th class="align-left">Order Id</th><th class="align-left">Date</th><th class="align-right">Amount</th><th class="align-center">Status</th></tr></thead><tbody>';
+        $.ajax({
+            type: "GET",
+            url: config.api_url + "module=order&action=list&id=" + id,
+            dataType: 'json',
+            cache: false,
+            success: function (data) {
+                $("#ordered_items").empty();
+                $.each(data.data, function (index, row) {
+                    out = out + '<tr><td class="align-left">' + row.id + '</td><td class="align-left">' + $.format.date(row.date, "dd-MMM-yyyy H:m") + '</td><td class="align-right">' + parseFloat(row.amount).toFixed(2) + '</td><td class="align-center">' + row.status + '</td></tr>';
+                });
+                out = out + '</tbody></table>';
+                $(out).appendTo("#ordered_items").enhanceWithin();
+            },
+            error: function (request, status, error) {
+                $("#ordered_items").empty();
+                $("#ordered_items").append("Loading failed please retry......");
+            }
+        });
+    }
 }
 
 function updateCart(id) {
