@@ -5,7 +5,10 @@ var router = new $.mobile.Router([{
         "#cart": {handler: "cartPage", events: "bs"},
         "#delivery": {handler: "deliveryPage", events: "bs"},
         "#payment": {handler: "paymentPage", events: "bs"},
-        "#me": {handler: "mePage", events: "bs"}
+        "#me": {handler: "mePage", events: "bs"},
+        "#orders": {handler: "ordersPage", events: "bs"},
+        "#more": {handler: "morePage", events: "bs"},
+        "#details": {handler: "detailsPage", events: "bs"}
     }],
         {
             homePage: function (type, match, ui) {
@@ -20,15 +23,21 @@ var router = new $.mobile.Router([{
                 log("Catalog Items page", 3);
                 var params = router.getParams(match[1]);
                 loadCatalogItems(params.cat);
+                calcCart();
             },
             cartPage: function (type, match, ui) {
                 log("Cart Items page", 3);
                 showMyCart();
                 $("#cart_items_total").html(grand_total);
+                calcCart();
             },
             paymentPage: function (type, match, ui) {
                 log("Payment Items page", 3);
                 $("#payment_items_total").html(grand_total);
+            },
+            morePage: function (type, match, ui) {
+                log("More page", 3);
+                calcCart();
             },
             deliveryPage: function (type, match, ui) {
                 log("Delivery Items page", 3);
@@ -36,11 +45,18 @@ var router = new $.mobile.Router([{
             },
             ordersPage: function (type, match, ui) {
                 log("Orders page", 3);
-                //showOrders();
+                showOrders();
+                calcCart();
             },
             mePage: function (type, match, ui) {
                 log("Me Page", 3);
                 showMe();
+                calcCart();
+            },
+            detailsPage: function (type, match, ui) {
+                log("Details Page", 3);
+                $("#deltails_items_total").html(grand_total);
+                showDetails();
             }
         }, {
     ajaxApp: true,
@@ -82,6 +98,13 @@ $.addTemplateFormatter({
     itemPriceId: function (value, options) {
         return "item_price_" + value;
     },
+    itemPriceSpl: function (value, options) {
+        if (value == 1) {
+            return "rateSpl";
+        } else {
+            return "rateNormal";
+        }
+    },
     itemNameId: function (value, options) {
         return "item_name_" + value;
     },
@@ -122,7 +145,11 @@ function initialRegistration() {
     }
 }
 
+var loading = '<div class="align-center"><br/><br/><img src="img/loading.gif" width="60" /></div>';
+
 function loadCatalog() {
+    $("#categories").empty();
+    $("#categories").append(loading);
     $.ajax({
         type: "GET",
         dataType: 'json',
@@ -142,6 +169,8 @@ function loadCatalog() {
 }
 
 function loadCatalogItems(cat) {
+    $("#menus").empty();
+    $("#menus").append(loading);
     if (cat !== "") {
         $.ajax({
             type: "GET",
@@ -155,13 +184,14 @@ function loadCatalogItems(cat) {
                 });
             },
             error: function (request, status, error) {
+                $("#menus").empty();
                 $("#menus").append('Error in loading data');
             }
         });
     }
 }
 
-function setUserSession() {
+function createUser() {
     if (validateRegistration()) {
         var name = $('#name').val();
         var mobile = $('#mobile').val();
@@ -171,9 +201,20 @@ function setUserSession() {
         var pincode = $('#pincode').val();
         var city = $('#city').val();
         var password = $('#password').val();
+        var details = {
+            name: name,
+            mobile: mobile,
+            email: email,
+            address: address,
+            area: area,
+            pincode: pincode,
+            city: city,
+            password: password
+        };
         $.ajax({
             type: "POST",
-            url: config.api_url + "module=user&action=create&name=" + name + "&mobile=" + mobile, //id shoul be pass here........
+            url: config.api_url + "module=user&action=create",
+            data: details,
             cache: false,
             success: function (html) {
                 setVal(config.user_name, name);
@@ -185,8 +226,7 @@ function setUserSession() {
                 setVal(config.user_city, city);
                 setVal(config.user_password, password);
                 setVal(config.user_id, html.id);
-                $("#err_msg").empty();
-                $("#err_msg").append(html.message);
+                $(":mobile-pagecontainer").pagecontainer("change", "#payment");
             },
             error: function (request, status, error) {
                 $("#err_msg").empty();
@@ -199,19 +239,25 @@ function setUserSession() {
 function updateUserSession() {
     if (validateUpdation()) {
         var id = getVal(config.user_id);
-        var name = $('#name').val();
-        var email = $('#email').val();
-        var address = $('#address').val();
-        var area = $('#area').val();
-        var pincode = $('#pincode').val();
-        var city = $('#city').val();
+        var name = $('#uname').val();
+        var address = $('#uaddress').val();
+        var area = $('#uarea').val();
+        var pincode = $('#upincode').val();
+        var city = $('#ucity').val();
+        var details = {
+            name: name,
+            address: address,
+            area: area,
+            pincode: pincode,
+            city: city,
+        };
         $.ajax({
             type: "POST",
-            url: config.api_url + "module=user&action=create&name=" + id, //id shoul be pass here........
+            url: config.api_url + "module=user&action=update&id=" + id,
+            data: details,
             cache: false,
             success: function (html) {
                 setVal(config.user_name, name);
-                setVal(config.user_email, email);
                 setVal(config.user_address, address);
                 setVal(config.user_area, area);
                 setVal(config.user_pincode, pincode);
@@ -234,8 +280,21 @@ function showMe() {
     $('#myemail').val(getVal(config.user_email));
     address = address + "<p><strong>" + getVal(config.user_address) + "</strong></p>";
     address = address + "<p><strong>" + getVal(config.user_area) + "</strong></p>";
+    address = address + "<p><strong>" + getVal(config.user_city) + "</strong></p>";
     address = address + "<p><strong>" + getVal(config.user_pincode) + "</strong></p>";
+    $('#myaddress').html(address);
+}
 
+function showDetails() {
+    var detail = "";
+    $('#dmobile').val(getVal(config.user_mobile));
+    detail = detail + "<p><strong>" + getVal(config.user_name) + "</strong></p>";
+    detail = detail + "<p><strong>" + getVal(config.user_email) + "</strong></p>";
+    detail = detail + "<p><strong>" + getVal(config.user_address) + "</strong></p>";
+    detail = detail + "<p><strong>" + getVal(config.user_area) + "</strong></p>";
+    detail = detail + "<p><strong>" + getVal(config.user_city) + "</strong></p>";
+    detail = detail + "<p><strong>" + getVal(config.user_pincode) + "</strong></p>";
+    $('#mydetails').html(detail);
 }
 
 var cart = {items: [], decs: "", delivery: ""};
@@ -246,11 +305,8 @@ function addToCart(id) {
     var qty = $("#item_qty_" + id).val();
     var name = $("#item_name_" + id).html();
     confirm_id = id;
-
     $("#confirm_text").html("You're adding <b>" + name + "</b> into cart <b>" + qty + " nos.</b>");
-
     $("#popupDialog").popup("open");
-
 }
 
 function addConfirmed() {
@@ -265,7 +321,7 @@ function addConfirmed() {
         name: name,
         qty: qty,
         rate: rate,
-        tax: tax
+        tax: tax,
     };
     $("#menu_item_" + id).addClass("selected");
     $.each(cart.items, function (index, row) {
@@ -284,6 +340,10 @@ function calcCart() {
         cart_qty = cart_qty + parseInt(row.qty);
     });
     $("#cart_items").html(cart_qty);
+    $("#catalog_cart").html(cart_qty);
+    $("#order_cart").html(cart_qty);
+    $("#more_cart").html(cart_qty);
+    $("#me_cart").html(cart_qty);
 }
 
 function showMyCart() {
@@ -295,9 +355,10 @@ function showMyCart() {
     var cart_tax = {};
     var g_total = 0;
     if (cart.items.length > 0) {
+        $("#cart div[data-role=footer]").removeClass("remove-item");
         out = out + '<table data-role="table" data-mode="none"><thead><tr><th class="align-left">Your Order</th><th class="align-right">Qty</th><th class="align-right">Amount</th></tr></thead><tbody>';
         $.each(cart.items, function (index, row) {
-            out = out + '<tr><td class = "align-left">' + row.name + '</td><td class="align-right"><input type="number" id="cart_item_' + row.id + '" value="' + row.qty + '"/></td><td class="align-right">Rs. ' + (parseInt(row.rate) * parseInt(row.qty)).toFixed(2) + '</td><td ><a onclick="updateCart(' + row.id + ')">Update</a> <a href="#" onclick="removeItem(' + row.id + ');">x</a></td></tr>';
+            out = out + '<tr><td class = "align-left">' + row.name + '</td><td class="align-right"><input type="number" min="1" max="99" id="cart_item_' + row.id + '" value="' + row.qty + '"/></td><td class="align-right">' + (parseInt(row.rate) * parseInt(row.qty)).toFixed(2) + '</td><td ><a onclick="updateCart(' + row.id + ')">Update</a> <a href="#" onclick="removeItem(' + row.id + ');">x</a></td></tr>';
             total = total + parseFloat(row.rate) * parseInt(row.qty);
             if (isNaN(cart_tax[row.tax])) {
                 cart_tax[row.tax] = 0;
@@ -305,18 +366,19 @@ function showMyCart() {
             cart_tax[row.tax] = parseFloat(cart_tax[row.tax]) + (parseFloat(row.rate) * parseInt(row.qty) * parseFloat(row.tax) / 100);
         });
         g_total = total;
-
         $.each(cart_tax, function (index, val) {
-            tax_row = tax_row + '<tr><td colspan="2" class="align-left">TAX ' + index + '%</td><td class="align-right">Rs. ' + val.toFixed(2) + '</td></tr>';
+            tax_row = tax_row + '<tr><td colspan="2" class="align-left">TAX ' + index + '%</td><td class="align-right">' + val.toFixed(2) + '</td></tr>';
             g_total = g_total + val;
         });
         out = out + '<tr><td colspan="3">&nbsp;</td></tr>';
-        out = out + '<tr><td class="align-left">Total</td><td class="align-right" colspan="2">Rs.' + total.toFixed(2) + '</td></tr>';
+        out = out + '<tr><td class="align-left">Total</td><td class="align-right" colspan="2">' + total.toFixed(2) + '</td></tr>';
         out = out + tax_row;
-        out = out + '<tr><td colspan="2" class="align-left">Grand Total</td><td class="align-right">Rs.' + g_total.toFixed(2) + '</td></tr>';
+        out = out + '<tr><td colspan="2" class="align-left">Grand Total</td><td class="align-right">' + g_total.toFixed(2) + '</td></tr>';
         out = out + '<tr><td colspan="3"><textarea name="orderdecs" id="orderdecs" placeholder="Order description (optional)...."></textarea></td></tr></tbody></table>';
     } else {
         out = "<p>No items found in your cart</p>";
+        $("#cart div[data-role=footer]").addClass("remove-item");
+        //fixedtoolbar({ visibleOnPageShow: false });
     }
     grand_total = g_total.toFixed(2);
     $(out).appendTo("#my_cart_items").enhanceWithin();
@@ -346,11 +408,10 @@ function removeItem(id) {
 }
 
 function processOrder() {
-    var name = getVal(config.user_name);
-    var mobile = getVal(config.user_mobile);
+    var id = getVal(config.user_id);
     var delivery = cart.delivery;
     var decs = cart.decs;
-    if (name != "" && mobile != "") {
+    if (id != "") {
         var data = {items: []};
         var items = [];
         $.each(cart.items, function (index, row) {
@@ -362,18 +423,22 @@ function processOrder() {
         });
         data = {
             items: items,
-            user: mobile,
+            user: id,
             notes: decs,
-            delivery: delivery
+            delivery: delivery,
+            total: grand_total
         };
         $.ajax({
             type: "POST",
-            url: config.api_url + "module=order&action=create", //id shoul be pass here........
+            url: config.api_url + "module=order&action=create",
             data: data,
             cache: false,
             success: function (html) {
                 $("#success_msg").empty();
                 $("#success_msg").append(html.message);
+                cart.items = [];
+                grand_total = 0;
+                $("#payment_items_total").html(grand_total);
             },
             error: function (request, status, error) {
                 $("#success_msg").empty();
@@ -386,17 +451,18 @@ function processOrder() {
 }
 
 function showOrders() {
+    var id = getVal(config.user_id);
     $("#ordered_items").empty();
     var out = "";
-    out = out + '<table data-role="table" data-mode="none"><thead><tr><th class="align-left">No</th><th class="align-left">Date</th><th class="align-right">Amount</th><th class="align-center">Status</th></tr></thead><tbody>';
+    out = out + '<table data-role="table" data-mode="none"><thead><tr><th class="align-left">Order Id</th><th class="align-left">Date</th><th class="align-right">Amount</th><th class="align-center">Status</th></tr></thead><tbody>';
     $.ajax({
         type: "GET",
-        url: config.api_url + "module=order&action=create&id=2&notes=", //user id should be here......
+        url: config.api_url + "module=order&action=list&id=" + id,
         dataType: 'json',
         cache: false,
         success: function (data) {
             $.each(data.data, function (index, row) {
-                out = out + '<tr><td class="align-left">' + (index + 1) + '</td><td class="align-left">' + row.date + '</td><td class="align-right">' + row.amt + '</td><td class="align-center">' + row.status + '</td></tr>';
+                out = out + '<tr><td class="align-left">' + row.id + '</td><td class="align-left">' + $.format.date(row.date, "dd-MMM-yyyy H:m") + '</td><td class="align-right">' + parseFloat(row.amount).toFixed(2) + '</td><td class="align-center">' + row.status + '</td></tr>';
             });
             out = out + '</tbody></table>';
             $(out).appendTo("#ordered_items").enhanceWithin();
@@ -407,6 +473,19 @@ function showOrders() {
     });
 }
 
+function updateCart(id) {
+    var new_qty = $("#cart_item_" + id).val();
+    $.each(cart.items, function (index, row) {
+        if (row.id == id) {
+            row.qty = new_qty;
+            return false;
+        }
+    });
+    showMyCart();
+    calcCart();
+    $("#cart_items_total").html(grand_total);
+}
+
 function processStep1() {
     var decs = $("#orderdecs").val();
     cart.decs = decs;
@@ -414,22 +493,15 @@ function processStep1() {
 }
 
 function processStep2() {
-    if (getVal(config.user_id != null)) {
+    if (getVal(config.user_id) != null) {
         var che = $("input[name='delivery']:checked");
         var obj = che.val();
         cart.delivery = obj;
-        $(":mobile-pagecontainer").pagecontainer("change", "#me");
+        $(":mobile-pagecontainer").pagecontainer("change", "#details");
     } else {
         $(":mobile-pagecontainer").pagecontainer("change", "#registration");
     }
 }
-
-/*function processStep3() {
-    var che = $("input[name='delivery']:checked");
-    var obj = che.val();
-    cart.delivery = obj;
-    $(":mobile-pagecontainer").pagecontainer("change", "#payment");
-}*/
 
 function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -463,10 +535,6 @@ function validateRegistration() {
 function validateUpdation() {
     if ($.trim($("#uname").val()).length < 3) {
         alert("Name must be 3 char");
-        return false;
-    }
-    if (!validateEmail(jQuery("#uemail").val())) {
-        alert("Please enter valid email");
         return false;
     }
     return true;

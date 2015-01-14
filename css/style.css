@@ -57,14 +57,17 @@ body, input, select, textarea, button, .ui-btn {
     border: 0!important;
 }
 
-#home .homeimg {
-    border-radius: 50%;
+#home .homeimg, #intro .homeimg {
     width: 100%;
     max-width: 300px;
     margin: 20px auto;
     background: #ffffff;
     padding: 2px;
     border: 2px solid #9E9E9E;
+}
+
+#home .homeimg {
+    border-radius: 50%;
 }
 
 #contact .mapimg{
@@ -103,7 +106,7 @@ body, input, select, textarea, button, .ui-btn {
     position: relative;
 }
 
-#my_cart_items table{
+#my_cart_items > table, #ordered_items > table{
     width: 100%;
 }
 
@@ -129,6 +132,15 @@ body, input, select, textarea, button, .ui-btn {
 
 .item-qty > input{
     width: 50px;
+}
+
+.rateNormal {
+    display: none;
+}
+
+.rateSpl{
+    text-decoration: line-through;
+    color: #999999;
 }
 
 .selected{
