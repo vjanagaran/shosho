@@ -49,6 +49,9 @@ body, input, select, textarea, button, .ui-btn {
     text-align: left!important;
 }
 
+#intro{
+    background: url("../img/intro.jpg") no-repeat scroll 0 0 / 100% 100% rgba(0, 0, 0, 0);
+}
 
 #home .homeimg, #intro .homeimg {
     width: 100%;
