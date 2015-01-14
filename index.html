@@ -25,7 +25,7 @@
                     <img src="img/logo.jpg" alt="sho sho" class="homeimg"/>
                 </div>
                 <div class="ui-grid-solo">
-                    <div class="ui-block-a"><a href="#offers" class="ui-btn ui-btn-corner-all" data-transition="flip">Today's Best Offer!!</a></div>
+                    <div class="ui-block-a"><a href="#catalogitems?cat=12" class="ui-btn ui-btn-corner-all" data-transition="flip">Today's Best Offer!!</a></div>
                 </div>
                 <fieldset class="ui-grid-a">
                     <div class="ui-block-a"><a href="#catalog" class="ui-btn ui-btn-corner-all"><i class="fa fa-cutlery"></i><br/>Menu</a></div>
@@ -110,7 +110,7 @@
             <script type="text/html" id="menus_list_tpl">
                 <div data-template-bind='[
                      {"attribute": "class", "value": "id", "formatter": "menuItemClass"},
-                     {"attribute": "id", "value": "id", "formatter": "menuItemId"}]'> <img data-src="image" />
+                     {"attribute": "id", "value": "id", "formatter": "menuItemId"}]'> 
                     <a class="remove-item" data-template-bind='[{"attribute": "onclick", "value": "id", "formatter": "itemRemoveclick"}]'>X</a>
                     <div class="item-info">
                         <h3 data-content="name" data-template-bind='[{"attribute": "id", "value": "id", "formatter": "itemNameId"}]'></h3><h3 class="item-decs" data-content="description"></h3>
