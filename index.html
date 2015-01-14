@@ -42,10 +42,11 @@
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
-                <input type="text" name="name" value="Barath Kumar" id="uname" placeholder="Your Name" />
-                <input type="text" name="mobile" id="umobile" value="+91 9884248927" placeholder="Your Mobile Number" />
-                <button class="ui-btn ui-corner-all ui-btn-b" type="submit" onclick="setUserSession();">Submit</button>
-                <div id="err_msg"></div>
+                <div id="myaddress"></div>
+                <input readonly="true" type="text" name="myname" value="" id="myname" placeholder="Your Name" />
+                <input readonly="true" type="text" name="mymobile" id="mymobile" value="" placeholder="Your Mobile Number" />
+                <input readonly="true" type="text" name="myemail" id="myemail" value="" placeholder="Your E-mail" />
+                <a class="ui-btn ui-corner-all ui-btn-b" href="#update">Update Details</a>
             </div>
         </div> <!-- me -->
 
@@ -127,9 +128,7 @@
                     </div>
                 </div>
             </script> <!-- catalog items-->
-
         </div> 
-
 
         <div data-role="page" id="cart" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed" data-tap-toggle="false">
@@ -157,8 +156,8 @@
             </div>
             <div role="main" class="ui-content">
                 <ul data-role="listview">
-                    <li><label><input data-role="none" type="radio" name="delivery" id="home_delivery" value="home">Home Delivery</label></li>
-                    <li><label><input data-role="none" type="radio" name="delivery" id="takeaway" value="takeaway">Take Away</label></li>
+                    <li><label><input data-role="none" type="radio" name="delivery" id="home_delivery" value="1">Home Delivery</label></li>
+                    <li><label><input data-role="none" type="radio" name="delivery" id="takeaway" value="0">Take Away</label></li>
                 </ul>
             </div>
             <div data-role="footer" data-position="fixed" data-tap-toggle="false">
@@ -249,14 +248,41 @@
 
         <div data-role="page" id="registration" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
-                <h1 class="ui-title" role="heading">Me</h1>
+                <h1 class="ui-title" role="heading">Registration</h1>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
-                <input type="text" name="name" id="name" placeholder="Your Name" readonly="true"/>
-                <input type="text" name="mobile" id="mobile" placeholder="Your Mobile Number" readonly="true" />
+                <input type="text" name="name" value="" id="name" placeholder="Your Name" />
+                <input type="text" name="mobile" id="mobile" value="" placeholder="Your Mobile Number" />
+                <input type="text" name="email" id="email" value="" placeholder="Your E-mail" />
+                <input type="text" name="address" id="address" placeholder="Your Door no." />
+                <input type="text" name="area" id="area" placeholder="Your area" />
+                <input type="text" name="city" id="city" placeholder="Your city" />
+                <input type="text" name="pincode" id="pincode" placeholder="Your area pincode" />
+                <input type="password" name="password" id="password" placeholder="Your password" />
+                <input type="password" name="conpass" id="conpass" placeholder="Re-type password" />
+                <button class="ui-btn ui-corner-all ui-btn-b" type="submit" onclick="setUserSession();">Submit</button>
+                <div id="err_msg"></div>
             </div>
         </div> <!-- initial registration -->
+
+        <div data-role="page" id="update" data-title="Sho Sho Restaurant">
+            <div data-role="header" data-position="fixed">
+                <h1 class="ui-title" role="heading">Update Registration</h1>
+                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+            </div>
+            <div role="main" class="ui-content">
+                <input type="text" name="uname" value="" id="uname" placeholder="Your Name" />
+                <input type="text" name="umobile" id="umobile" value="" placeholder="Your Mobile Number" />
+                <input type="text" name="uemail" id="uemail" value="" placeholder="Your E-mail" />
+                <input type="text" name="uaddress" id="uaddress" placeholder="Your Door no." />
+                <input type="text" name="uarea" id="uarea" placeholder="Your area" />
+                <input type="text" name="ucity" id="ucity" placeholder="Your city" />
+                <input type="text" name="upincode" id="upincode" placeholder="Your area pincode" />
+                <button class="ui-btn ui-corner-all ui-btn-b" type="submit" onclick="setUserSession();">Submit</button>
+                <div id="sucs_msg"></div>
+            </div>
+        </div> <!-- registration update-->
 
         <div data-role="page" id="policy" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">

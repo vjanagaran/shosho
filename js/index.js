@@ -117,8 +117,8 @@ function log(msg, level) {
 function initialRegistration() {
     var name = getVal(config.user_name);
     var mobile = getVal(config.user_mobile);
-    if (name == "" && mobile == "") {
-        $(":mobile-pagecontainer").pagecontainer("change", "#me");
+    if (name == null && mobile == null) {
+        $(":mobile-pagecontainer").pagecontainer("change", "#registration");
     }
 }
 
@@ -162,9 +162,15 @@ function loadCatalogItems(cat) {
 }
 
 function setUserSession() {
-    var name = $('#uname').val();
-    var mobile = $('#umobile').val();
-    if (name != "" && mobile != "") {
+    if (validateRegistration()) {
+        var name = $('#name').val();
+        var mobile = $('#mobile').val();
+        var email = $('#email').val();
+        var address = $('#address').val();
+        var area = $('#area').val();
+        var pincode = $('#pincode').val();
+        var city = $('#city').val();
+        var password = $('#password').val();
         $.ajax({
             type: "POST",
             url: config.api_url + "module=user&action=create&name=" + name + "&mobile=" + mobile, //id shoul be pass here........
@@ -172,6 +178,13 @@ function setUserSession() {
             success: function (html) {
                 setVal(config.user_name, name);
                 setVal(config.user_mobile, mobile);
+                setVal(config.user_email, email);
+                setVal(config.user_address, address);
+                setVal(config.user_area, area);
+                setVal(config.user_pincode, pincode);
+                setVal(config.user_city, city);
+                setVal(config.user_password, password);
+                setVal(config.user_id, html.id);
                 $("#err_msg").empty();
                 $("#err_msg").append(html.message);
             },
@@ -183,9 +196,46 @@ function setUserSession() {
     }
 }
 
+function updateUserSession() {
+    if (validateUpdation()) {
+        var id = getVal(config.user_id);
+        var name = $('#name').val();
+        var email = $('#email').val();
+        var address = $('#address').val();
+        var area = $('#area').val();
+        var pincode = $('#pincode').val();
+        var city = $('#city').val();
+        $.ajax({
+            type: "POST",
+            url: config.api_url + "module=user&action=create&name=" + id, //id shoul be pass here........
+            cache: false,
+            success: function (html) {
+                setVal(config.user_name, name);
+                setVal(config.user_email, email);
+                setVal(config.user_address, address);
+                setVal(config.user_area, area);
+                setVal(config.user_pincode, pincode);
+                setVal(config.user_city, city);
+                $("#sucs_msg").empty();
+                $("#sucs_msg").append(html.message);
+            },
+            error: function (request, status, error) {
+                $("#sucs_msg").empty();
+                $("#sucs_msg").append("Process fail please try again......");
+            }
+        });
+    }
+}
+
 function showMe() {
-    $('#name').val(getVal(config.user_name));
-    $('#mobile').val(getVal(config.user_mobile));
+    var address = "";
+    $('#myname').val(getVal(config.user_name));
+    $('#mymobile').val(getVal(config.user_mobile));
+    $('#myemail').val(getVal(config.user_email));
+    address = address + "<p><strong>" + getVal(config.user_address) + "</strong></p>";
+    address = address + "<p><strong>" + getVal(config.user_area) + "</strong></p>";
+    address = address + "<p><strong>" + getVal(config.user_pincode) + "</strong></p>";
+    
 }
 
 var cart = {items: [], decs: "", delivery: ""};
@@ -257,11 +307,9 @@ function showMyCart() {
         g_total = total;
 
         $.each(cart_tax, function (index, val) {
-
             tax_row = tax_row + '<tr><td colspan="2" class="align-left">TAX ' + index + '%</td><td class="align-right">Rs. ' + val.toFixed(2) + '</td></tr>';
             g_total = g_total + val;
         });
-
         out = out + '<tr><td colspan="3">&nbsp;</td></tr>';
         out = out + '<tr><td class="align-left">Total</td><td class="align-right" colspan="2">Rs.' + total.toFixed(2) + '</td></tr>';
         out = out + tax_row;
@@ -366,8 +414,58 @@ function processStep1() {
 }
 
 function processStep2() {
+    alert(getVal(config.user_id));
+    if (getVal(config.user_id != null)) {
+        $(":mobile-pagecontainer").pagecontainer("change", "#me");
+    } else {
+        $(":mobile-pagecontainer").pagecontainer("change", "#registration");
+    }
+}
+
+function processStep3() {
     var che = $("input[name='delivery']:checked");
     var obj = che.val();
     cart.delivery = obj;
     $(":mobile-pagecontainer").pagecontainer("change", "#payment");
+}
+
+function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
+function validateRegistration() {
+    if ($.trim($("#name").val()).length < 3) {
+        alert("Name must be 3 char");
+        return false;
+    }
+    if (!validateEmail(jQuery("#email").val())) {
+        alert("Please enter valid email");
+        return false;
+    }
+    if ($.trim($("#password").val()).length < 6) {
+        alert("Password must be 6 char");
+        return false;
+    }
+    if ($.trim($("#password").val()) !== $.trim($("#conpass").val())) {
+        alert("Re-entered password missmatched!");
+        return false;
+    }
+    if ($.trim($("#mobile").val()).length < 10) {
+        alert("Enter your 10 digit mobile number");
+        return false;
+    }
+    return true;
+}
+
+function validateUpdation() {
+    if ($.trim($("#uname").val()).length < 3) {
+        alert("Name must be 3 char");
+        return false;
+    }
+    if (!validateEmail(jQuery("#uemail").val())) {
+        alert("Please enter valid email");
+        return false;
+    }
+    return true;
 }
