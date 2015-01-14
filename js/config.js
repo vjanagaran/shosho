@@ -7,7 +7,15 @@ config = function () {
         showlog: 3, // 0: "Disabled", 1: "Error", 2: "Warning", 3: "Info"
         api_url: "http://jayam.co.uk/shosho/api.php?",
         user_name: "sho_sho_user_name",
-        user_mobile: "sho_sho_user_mobile"
+        user_mobile: "sho_sho_user_mobile",
+        user_email: "sho_sho_user_email",
+        user_password: "sho_sho_user_password",
+        user_address: "sho_sho_user_address",
+        user_area: "sho_sho_user_area",
+        user_pincode: "sho_sho_user_pincode",
+        user_city: "sho_sho_user_city",
+        user_image: "sho_sho_user_image",
+        user_id: "sho_sho_userid"
 
     };
 }();
