@@ -139,11 +139,15 @@ function log(msg, level) {
 /********  General Functions **/
 
 function initialRegistration() {
-    var name = getVal(config.user_name);
-    var mobile = getVal(config.user_mobile);
-    if (name == null && mobile == null) {
-        $(":mobile-pagecontainer").pagecontainer("change", "#registration");
-    }
+    removeVal(config.user_name);
+    removeVal(config.user_mobile);
+    removeVal(config.user_address);
+    removeVal(config.user_email);
+    removeVal(config.user_city);
+    removeVal(config.user_password);
+    removeVal(config.user_id);
+    removeVal(config.user_area);
+    removeVal(config.user_pincode);
 }
 
 var loading = '<div class="align-center"><br/><br/><img src="img/loading.gif" width="60" /></div>';
@@ -172,6 +176,8 @@ function loadCatalog() {
 function loadCatalogItems(cat) {
     $("#menus").empty();
     $("#menus").append(loading);
+    var heading = "";
+    var cat_name = "";
     if (cat !== "") {
         $.ajax({
             type: "GET",
@@ -180,9 +186,13 @@ function loadCatalogItems(cat) {
             cache: false,
             success: function (data) {
                 $("#menus").empty();
+                $("#cat_name").empty();
                 $.each(data.data, function (k, v) {
                     $("#menus").loadTemplate($('#menus_list_tpl'), v, {append: true});
+                    cat_name = v.cat_name;
                 });
+                heading = heading + '<h1 class="ui-title" role="heading">' + cat_name + '</h1>';
+                $("#cat_name").append(heading);
             },
             error: function (request, status, error) {
                 $("#menus").empty();
