@@ -12,7 +12,7 @@ var router = new $.mobile.Router([{
     }],
         {
             homePage: function (type, match, ui) {
-                log("Home Page", 3)
+                log("Home Page", 3);
             },
             catalogPage: function (type, match, ui) {
                 log("Catalog Page", 3)
@@ -471,7 +471,7 @@ function showOrders() {
                 $("#ordered_items").append("Loading failed please retry......");
             }
         });
-    }else{
+    } else {
         $("#ordered_items").empty();
         $("#ordered_items").html("<p>Your information is not found so no items found...</p>");
     }
@@ -514,7 +514,7 @@ function validateEmail(email) {
 
 function validateRegistration() {
     if ($.trim($("#name").val()).length < 3) {
-        alert("Name must be 3 char");
+        alert("Name should be 3 char");
         return false;
     }
     if (!validateEmail(jQuery("#email").val())) {
