@@ -11,7 +11,6 @@
 }
 
 body{
-    background: url(../img/backgrounds/bg.jpg)!important;
 }
 
 div[data-role="page"]{
@@ -19,12 +18,10 @@ div[data-role="page"]{
 }
 
 div[data-role="header"]{
-    background: url(../img/backgrounds/header_bg.png);
     border: 0;
 }
 
 .ui-block-a a.ui-btn, .ui-block-b a.ui-btn, .ui-block-c a.ui-btn, .ui-block-d a.ui-btn{
-    background: url("../img/backgrounds/btn_bg.png") no-repeat scroll 50% 50% / 110% 105% rgba(0, 0, 0, 0);
     border: 0!important;
 }
 
@@ -52,10 +49,6 @@ body, input, select, textarea, button, .ui-btn {
     text-align: left!important;
 }
 
-.ui-bar-inherit, .ui-btn{
-    background-color: transparent!important;
-    border: 0!important;
-}
 
 #home .homeimg, #intro .homeimg {
     width: 100%;
@@ -192,10 +185,6 @@ body, input, select, textarea, button, .ui-btn {
     cursor: pointer;
 }
 
-.ui-content .ui-btn, .ui-content .ui-input-text, .ui-header .ui-btn{
-    background-color: bisque!important;
-    border: 0!important;
-}
 
 .ui-footer .ui-btn, .ui-content{
     color: #fff;
