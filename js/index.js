@@ -29,6 +29,7 @@ var router = new $.mobile.Router([{
                 log("Cart Items page", 3);
                 showMyCart();
                 $("#cart_items_total").html(grand_total);
+                $("#success_msg").empty();
                 calcCart();
             },
             paymentPage: function (type, match, ui) {
@@ -433,10 +434,9 @@ function processOrder() {
             data: data,
             cache: false,
             success: function (html) {
-                $("#success_msg").empty();
-                $("#success_msg").append(html.message);
                 cart.items = [];
                 grand_total = 0;
+                alert(html.message);
                 $(":mobile-pagecontainer").pagecontainer("change", "#orders");
             },
             error: function (request, status, error) {
@@ -452,6 +452,7 @@ function processOrder() {
 function showOrders() {
     var id = getVal(config.user_id);
     $("#ordered_items").empty();
+    $("#ordered_items").append(loading);
     var out = "";
     out = out + '<table data-role="table" data-mode="none"><thead><tr><th class="align-left">Order Id</th><th class="align-left">Date</th><th class="align-right">Amount</th><th class="align-center">Status</th></tr></thead><tbody>';
     $.ajax({
@@ -460,6 +461,7 @@ function showOrders() {
         dataType: 'json',
         cache: false,
         success: function (data) {
+            $("#ordered_items").empty();
             $.each(data.data, function (index, row) {
                 out = out + '<tr><td class="align-left">' + row.id + '</td><td class="align-left">' + $.format.date(row.date, "dd-MMM-yyyy H:m") + '</td><td class="align-right">' + parseFloat(row.amount).toFixed(2) + '</td><td class="align-center">' + row.status + '</td></tr>';
             });
@@ -467,6 +469,7 @@ function showOrders() {
             $(out).appendTo("#ordered_items").enhanceWithin();
         },
         error: function (request, status, error) {
+            $("#ordered_items").empty();
             $("#ordered_items").append("Loading failed please retry......");
         }
     });
