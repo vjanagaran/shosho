@@ -55,11 +55,15 @@
                 <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#cart" data-iconpos="notext"><i class="fa fa-briefcase"></i> <span id="me_cart"> 0</span></a>
             </div>
             <div role="main" class="ui-content">
-                <div id="myaddress"></div>
-                <input readonly="true" type="text" name="myname" value="" id="myname" placeholder="Your Name" />
+                <input type="text" name="myname" value="" id="myname" placeholder="Your Name" />
                 <input readonly="true" type="text" name="mymobile" id="mymobile" value="" placeholder="Your Mobile Number" />
                 <input readonly="true" type="text" name="myemail" id="myemail" value="" placeholder="Your E-mail" />
-                <a class="ui-btn ui-corner-all ui-btn-b" href="#update">Update Details</a>
+                <input type="text" name="uaddress" id="myaddress" value="" placeholder="Your Door no." />
+                <input type="text" name="uarea" id="myarea" value="" placeholder="Your area" />
+                <input type="text" name="ucity" id="mycity" value="" placeholder="Your city" />
+                <input type="text" name="upincode" id="mypincode" value="" placeholder="Your area pincode" />
+                <button class="ui-btn ui-corner-all ui-btn-b" type="submit" onclick="updateUserSession();">Update Details</button>
+                <div id="sucs_msg"></div>
             </div>
             <div data-role="footer" data-position="fixed" data-tap-toggle="false">
                 <div data-role="navbar">
@@ -194,7 +198,6 @@
             </div>
             <div role="main" class="ui-content">
                 <div id="mydetails"></div>
-                +91 <input readonly="true" type="text" name="dmobile" value="" id="dmobile" placeholder="Your Name" />
             </div>
             <div data-role="footer" data-position="fixed" data-tap-toggle="false">
                 <div class="ui-grid-solo">
@@ -290,22 +293,6 @@
                 <div id="err_msg"></div>
             </div>
         </div> <!-- initial registration -->
-
-        <div data-role="page" id="update" data-title="Sho Sho Restaurant">
-            <div data-role="header" data-position="fixed">
-                <h1 class="ui-title" role="heading">Update Registration</h1>
-                <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
-            </div>
-            <div role="main" class="ui-content">
-                <input type="text" name="uname" value="" id="uname" placeholder="Your Name" />
-                <input type="text" name="uaddress" id="uaddress" value="" placeholder="Your Door no." />
-                <input type="text" name="uarea" id="uarea" value="" placeholder="Your area" />
-                <input type="text" name="ucity" id="ucity" value="" placeholder="Your city" />
-                <input type="text" name="upincode" id="upincode" value="" placeholder="Your area pincode" />
-                <button class="ui-btn ui-corner-all ui-btn-b" type="submit" onclick="updateUserSession();">Submit</button>
-                <div id="sucs_msg"></div>
-            </div>
-        </div> <!-- registration update-->
 
         <div data-role="page" id="policy" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">

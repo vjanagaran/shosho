@@ -239,11 +239,11 @@ function createUser() {
 function updateUserSession() {
     if (validateUpdation()) {
         var id = getVal(config.user_id);
-        var name = $('#uname').val();
-        var address = $('#uaddress').val();
-        var area = $('#uarea').val();
-        var pincode = $('#upincode').val();
-        var city = $('#ucity').val();
+        var name = $('#myname').val();
+        var address = $('#myaddress').val();
+        var area = $('#myarea').val();
+        var pincode = $('#mypincode').val();
+        var city = $('#mycity').val();
         var details = {
             name: name,
             address: address,
@@ -274,15 +274,13 @@ function updateUserSession() {
 }
 
 function showMe() {
-    var address = "";
     $('#myname').val(getVal(config.user_name));
     $('#mymobile').val(getVal(config.user_mobile));
     $('#myemail').val(getVal(config.user_email));
-    address = address + "<p><strong>" + getVal(config.user_address) + "</strong></p>";
-    address = address + "<p><strong>" + getVal(config.user_area) + "</strong></p>";
-    address = address + "<p><strong>" + getVal(config.user_city) + "</strong></p>";
-    address = address + "<p><strong>" + getVal(config.user_pincode) + "</strong></p>";
-    $('#myaddress').html(address);
+    $('#myaddress').val(getVal(config.user_address));
+    $('#myarea').val(getVal(config.user_area));
+    $('#mycity').val(getVal(config.user_city));
+    $('#mypincode').val(getVal(config.user_pincode));
 }
 
 function showDetails() {
@@ -294,6 +292,7 @@ function showDetails() {
     detail = detail + "<p><strong>" + getVal(config.user_area) + "</strong></p>";
     detail = detail + "<p><strong>" + getVal(config.user_city) + "</strong></p>";
     detail = detail + "<p><strong>" + getVal(config.user_pincode) + "</strong></p>";
+    detail = detail + "<p><strong>+91" + getVal(config.user_mobile) + "</strong></p>";
     $('#mydetails').html(detail);
 }
 
@@ -411,7 +410,7 @@ function processOrder() {
     var id = getVal(config.user_id);
     var delivery = cart.delivery;
     var decs = cart.decs;
-    if (id != "") {
+    if (id != null) {
         var data = {items: []};
         var items = [];
         $.each(cart.items, function (index, row) {
@@ -438,7 +437,7 @@ function processOrder() {
                 $("#success_msg").append(html.message);
                 cart.items = [];
                 grand_total = 0;
-                $("#payment_items_total").html(grand_total);
+                $(":mobile-pagecontainer").pagecontainer("change", "#orders");
             },
             error: function (request, status, error) {
                 $("#success_msg").empty();
@@ -446,7 +445,7 @@ function processOrder() {
             }
         });
     } else {
-        $(":mobile-pagecontainer").pagecontainer("change", "#me");
+        $(":mobile-pagecontainer").pagecontainer("change", "#registration");
     }
 }
 
