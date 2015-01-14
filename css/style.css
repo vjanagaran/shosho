@@ -88,15 +88,12 @@ body, input, select, textarea, button, .ui-btn {
 }
 
 .menu-items{
-    background-color: bisque;
-    margin: 10px;
-    margin-right: 10px;
     color: #000000;
     clear: both;
     overflow: hidden;
     padding: 10px;
-    border-radius: 10px;
     position: relative;
+    border-bottom: 1px solid #AAAAAA;
 }
 
 #my_cart_items > table, #ordered_items > table{
@@ -138,13 +135,6 @@ body, input, select, textarea, button, .ui-btn {
 
 .selected{
     background-color: #8AC500;
-    margin: 10px;
-    margin-right: 10px;
-    color: #000000;
-    clear: both;
-    overflow: hidden;
-    padding: 10px;
-    border-radius: 10px;
 }
 
 .item-decs{
@@ -177,18 +167,12 @@ body, input, select, textarea, button, .ui-btn {
 }
 
 .add-btn{
-    background-color: #950415;
     padding: 5px;
     text-decoration: none;
     border-radius: 5px;
-    font-size: 10px;
     cursor: pointer;
 }
 
-
-.ui-footer .ui-btn, .ui-content{
-    color: #fff;
-}
 
 .ui-listview > li{
     margin: 2px!important;
