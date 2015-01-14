@@ -471,6 +471,9 @@ function showOrders() {
                 $("#ordered_items").append("Loading failed please retry......");
             }
         });
+    }else{
+        $("#ordered_items").empty();
+        $("#ordered_items").html("<p>Your information is not found so no items found...</p>");
     }
 }
 
