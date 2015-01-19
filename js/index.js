@@ -209,7 +209,8 @@ function createCode() {
         var details = {
             name: name,
             mobile: mobile,
-            email: email
+            email: email,
+            device_token: getVal(config.device_token)
         };
         $.ajax({
             type: "POST",
