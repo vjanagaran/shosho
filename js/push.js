@@ -8,6 +8,7 @@ push.initPushwoosh = function () {
 
     if (device.platform == "Android") {
         registerPushwooshAndroid();
+        alert("Init push on android");
     }
     if (device.platform == "iPhone" || device.platform == "iOS") {
         registerPushwooshIOS();
