@@ -39,9 +39,11 @@ function registerPushwooshAndroid() {
 }
 
 function onPushwooshAndroidInitialized(pushToken) {
+    alert(pushToken);
     push.pushNotification.getPushToken(
             function (token) {
                 setVal(config.device_token, token);
+                alert(token);
                 console.warn('push token: ' + token);
             });
 }
