@@ -15,8 +15,8 @@ config = function () {
         user_pincode: "sho_sho_user_pincode",
         user_city: "sho_sho_user_city",
         user_image: "sho_sho_user_image",
-        user_id: "sho_sho_userid"
-
+        user_id: "sho_sho_userid",
+        device_token: "sho_sho_device_token"
     };
 }();
 
