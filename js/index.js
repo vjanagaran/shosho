@@ -1,3 +1,20 @@
+"use strict";
+var is_mobile = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;
+
+if (is_mobile) {
+    document.addEventListener("deviceready", onDeviceReady, false);
+    document.addEventListener("touchstart", function () {
+    }, false);
+} else {
+    onDeviceReady();
+}
+
+function onDeviceReady() {
+    if(is_mobile) {
+        push.initPushwoosh();
+    }
+}
+
 var router = new $.mobile.Router([{
         "#home": {handler: "homePage", events: "bs"},
         "#catalog": {handler: "catalogPage", events: "bs"},
