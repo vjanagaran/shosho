@@ -8,12 +8,12 @@ var router = new $.mobile.Router([{
         "#me": {handler: "mePage", events: "bs"},
         "#orders": {handler: "ordersPage", events: "bs"},
         "#more": {handler: "morePage", events: "bs"},
+        "#verify": {handler: "verifyPage", events: "bs"},
         "#details": {handler: "detailsPage", events: "bs"}
     }],
         {
             homePage: function (type, match, ui) {
                 log("Home Page", 3);
-                removeVal(config.user_id);
             },
             catalogPage: function (type, match, ui) {
                 log("Catalog Page", 3)
@@ -43,6 +43,7 @@ var router = new $.mobile.Router([{
             deliveryPage: function (type, match, ui) {
                 log("Delivery Items page", 3);
                 $("#delivery_items_total").html(grand_total);
+                setDetails();
             },
             ordersPage: function (type, match, ui) {
                 log("Orders page", 3);
@@ -54,10 +55,14 @@ var router = new $.mobile.Router([{
                 showMe();
                 calcCart();
             },
+            verifyPage: function (type, match, ui) {
+                log("Verification Page", 3);
+                clearInterval();
+                startTimer();
+            },
             detailsPage: function (type, match, ui) {
                 log("Details Page", 3);
                 $("#deltails_items_total").html(grand_total);
-                showDetails();
             }
         }, {
     ajaxApp: true,
@@ -117,6 +122,12 @@ $.addTemplateFormatter({
     },
     itemTaxId: function (value, options) {
         return "item_tax_" + value;
+    },
+    qtyIncreaseOnclick: function (value, options) {
+        return "increaseQty(" + value + ")";
+    },
+    qtyDecreaseOnclick: function (value, options) {
+        return "decreaseQty(" + value + ")";
     }
 });
 
@@ -190,25 +201,15 @@ function loadCatalogItems(cat) {
     }
 }
 
-function createUser() {
+function createCode() {
     if (validateRegistration()) {
         var name = $('#name').val();
         var mobile = $('#mobile').val();
         var email = $('#email').val();
-        var address = $('#address').val();
-        var area = $('#area').val();
-        var pincode = $('#pincode').val();
-        var city = $('#city').val();
-        var password = $('#password').val();
         var details = {
             name: name,
             mobile: mobile,
-            email: email,
-            address: address,
-            area: area,
-            pincode: pincode,
-            city: city,
-            password: password
+            email: email
         };
         $.ajax({
             type: "POST",
@@ -216,16 +217,18 @@ function createUser() {
             data: details,
             cache: false,
             success: function (html) {
-                setVal(config.user_name, name);
-                setVal(config.user_mobile, mobile);
-                setVal(config.user_email, email);
-                setVal(config.user_address, address);
-                setVal(config.user_area, area);
-                setVal(config.user_pincode, pincode);
-                setVal(config.user_city, city);
-                setVal(config.user_password, password);
-                setVal(config.user_id, html.id);
-                $(":mobile-pagecontainer").pagecontainer("change", "#payment");
+                if (html.error == false) {
+                    setVal(config.user_name, name);
+                    setVal(config.user_mobile, mobile);
+                    setVal(config.user_email, email);
+                    setVal(config.user_id, html.id);
+                    $("#reg_err_text").html("<b>" + html.message + "</b>");
+                    $("#reg_err").popup("open");
+                    $(":mobile-pagecontainer").pagecontainer("change", "#verify");
+                } else {
+                    $("#reg_err_text").html("<b>" + html.message + "</b>");
+                    $("#reg_err").popup("open");
+                }
             },
             error: function (request, status, error) {
                 $("#err_msg").empty();
@@ -235,64 +238,43 @@ function createUser() {
     }
 }
 
-function updateUserSession() {
-    if (validateUpdation()) {
-        var id = getVal(config.user_id);
-        var name = $('#myname').val();
-        var address = $('#myaddress').val();
-        var area = $('#myarea').val();
-        var pincode = $('#mypincode').val();
-        var city = $('#mycity').val();
+function verifyCode() {
+    var code = $("#code").val();
+    if (code != "") {
         var details = {
-            name: name,
-            address: address,
-            area: area,
-            pincode: pincode,
-            city: city,
-        };
+            user: getVal(config.user_id),
+            code: code
+        }
         $.ajax({
             type: "POST",
-            url: config.api_url + "module=user&action=update&id=" + id,
+            url: config.api_url + "module=user&action=verify",
             data: details,
             cache: false,
             success: function (html) {
-                setVal(config.user_name, name);
-                setVal(config.user_address, address);
-                setVal(config.user_area, area);
-                setVal(config.user_pincode, pincode);
-                setVal(config.user_city, city);
-                $("#sucs_msg").empty();
-                $("#sucs_msg").append(html.message);
+                if (html.error == false) {
+                    $(":mobile-pagecontainer").pagecontainer("change", "#details");
+                } else {
+                    $("#verify_err_text").html("<b>" + html.message + "</b>");
+                    $("#verify_err").popup("open");
+                }
             },
             error: function (request, status, error) {
-                $("#sucs_msg").empty();
-                $("#sucs_msg").append("Process fail please try again......");
+                $("#err_msg").empty();
+                $("#err_msg").append("Process fail please try again......");
             }
         });
     }
 }
 
 function showMe() {
-    $('#myname').val(getVal(config.user_name));
-    $('#mymobile').val(getVal(config.user_mobile));
-    $('#myemail').val(getVal(config.user_email));
-    $('#myaddress').val(getVal(config.user_address));
-    $('#myarea').val(getVal(config.user_area));
-    $('#mycity').val(getVal(config.user_city));
-    $('#mypincode').val(getVal(config.user_pincode));
-}
-
-function showDetails() {
-    var detail = "";
-    $('#dmobile').val(getVal(config.user_mobile));
-    detail = detail + "<p><strong>" + getVal(config.user_name) + "</strong></p>";
-    detail = detail + "<p><strong>" + getVal(config.user_email) + "</strong></p>";
-    detail = detail + "<p><strong>" + getVal(config.user_address) + "</strong></p>";
-    detail = detail + "<p><strong>" + getVal(config.user_area) + "</strong></p>";
-    detail = detail + "<p><strong>" + getVal(config.user_city) + "</strong></p>";
-    detail = detail + "<p><strong>" + getVal(config.user_pincode) + "</strong></p>";
-    detail = detail + "<p><strong>+91" + getVal(config.user_mobile) + "</strong></p>";
-    $('#mydetails').html(detail);
+    $("#my_details").empty();
+    var name = getVal(config.user_name);
+    var mobile = getVal(config.user_mobile);
+    var email = getVal(config.user_email);
+    var details = "<p><b>Name:</b> " + name + "</p>";
+    details = details + "<p><b>Mobile No:</b> " + mobile + "</p>";
+    details = details + "<p><b>Email:</b> " + email + "</p>";
+    $("#my_details").append(details);
 }
 
 var cart = {items: [], decs: "", delivery: ""};
@@ -354,9 +336,9 @@ function showMyCart() {
     var g_total = 0;
     if (cart.items.length > 0) {
         $("#cart div[data-role=footer]").removeClass("remove-item");
-        out = out + '<table data-role="table" data-mode="none"><thead><tr><th class="align-left">Your Order</th><th class="align-right">Qty</th><th class="align-right">Amount</th></tr></thead><tbody>';
+        out = out + '<table data-role="table" data-mode="none"><thead><tr><th class="align-left">Your Order</th><th class="align-right">Qty</th><th class="align-right">Amount</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead><tbody>';
         $.each(cart.items, function (index, row) {
-            out = out + '<tr><td class = "align-left">' + row.name + '</td><td class="align-right"><input type="number" min="1" max="99" id="cart_item_' + row.id + '" value="' + row.qty + '"/></td><td class="align-right">' + (parseInt(row.rate) * parseInt(row.qty)).toFixed(2) + '</td><td ><a onclick="updateCart(' + row.id + ')">Update</a> <a href="#" onclick="removeItem(' + row.id + ');">x</a></td></tr>';
+            out = out + '<tr><td class = "align-left">' + row.name + '</td><td class="align-right"><div class="select-qty"><a onclick="decreaseCartQty(' + row.id + ')">-</a> <input data-role="none" name="qty" type="text" readonly="true" id="cart_item_' + row.id + '" value="' + row.qty + '"> <a onclick="increaseCartQty(' + row.id + ')">+</a></div></td><td class="align-right">' + (parseInt(row.rate) * parseInt(row.qty)).toFixed(2) + '</td><td ><a onclick="updateCart(' + row.id + ')">Update</a> <a href="#" onclick="removeItem(' + row.id + ');">x</a></td></tr>';
             total = total + parseFloat(row.rate) * parseInt(row.qty);
             if (isNaN(cart_tax[row.tax])) {
                 cart_tax[row.tax] = 0;
@@ -365,18 +347,17 @@ function showMyCart() {
         });
         g_total = total;
         $.each(cart_tax, function (index, val) {
-            tax_row = tax_row + '<tr><td colspan="2" class="align-left">TAX ' + index + '%</td><td class="align-right">' + val.toFixed(2) + '</td></tr>';
+            tax_row = tax_row + '<tr><td colspan="2" class="align-left">TAX ' + index + '%</td><td class="align-right">' + val.toFixed(2) + '</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
             g_total = g_total + val;
         });
         out = out + '<tr><td colspan="3">&nbsp;</td></tr>';
-        out = out + '<tr><td class="align-left">Total</td><td class="align-right" colspan="2">' + total.toFixed(2) + '</td></tr>';
+        out = out + '<tr><td class="align-left">Total</td><td class="align-right" colspan="2">' + total.toFixed(2) + '</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
         out = out + tax_row;
-        out = out + '<tr><td colspan="2" class="align-left">Grand Total</td><td class="align-right">' + g_total.toFixed(2) + '</td></tr>';
-        out = out + '<tr><td colspan="3"><textarea name="orderdecs" id="orderdecs" placeholder="Order description (optional)...."></textarea></td></tr></tbody></table>';
+        out = out + '<tr><td colspan="2" class="align-left">Grand Total</td><td class="align-right">' + g_total.toFixed(2) + '</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
+        out = out + '<tr><td colspan="5"><textarea name="orderdecs" id="orderdecs" placeholder="Order description (optional)...."></textarea></td></tr></tbody></table>';
     } else {
         out = "<p>No items found in your cart</p>";
         $("#cart div[data-role=footer]").addClass("remove-item");
-        //fixedtoolbar({ visibleOnPageShow: false });
     }
     grand_total = g_total.toFixed(2);
     $(out).appendTo("#my_cart_items").enhanceWithin();
@@ -434,7 +415,8 @@ function processOrder() {
             success: function (html) {
                 cart.items = [];
                 grand_total = 0;
-                alert(html.message);
+                $("#order_success_text").html("<b>" + html.message + "</b>");
+                $("#order_success").popup("open");
                 $(":mobile-pagecontainer").pagecontainer("change", "#orders");
             },
             error: function (request, status, error) {
@@ -442,8 +424,6 @@ function processOrder() {
                 $("#success_msg").append("Process not successfull try again later......");
             }
         });
-    } else {
-        $(":mobile-pagecontainer").pagecontainer("change", "#registration");
     }
 }
 
@@ -460,12 +440,17 @@ function showOrders() {
             dataType: 'json',
             cache: false,
             success: function (data) {
-                $("#ordered_items").empty();
-                $.each(data.data, function (index, row) {
-                    out = out + '<tr><td class="align-left">' + row.id + '</td><td class="align-left">' + $.format.date(row.date, "dd-MMM-yyyy H:m") + '</td><td class="align-right">' + parseFloat(row.amount).toFixed(2) + '</td><td class="align-center">' + row.status + '</td></tr>';
-                });
-                out = out + '</tbody></table>';
-                $(out).appendTo("#ordered_items").enhanceWithin();
+                if (data.error == true) {
+                    $("#ordered_items").empty();
+                    $("#ordered_items").append("No items found");
+                } else {
+                    $("#ordered_items").empty();
+                    $.each(data.data, function (index, row) {
+                        out = out + '<tr><td class="align-left">' + row.id + '</td><td class="align-left">' + $.format.date(row.date, "dd-MMM-yyyy H:m") + '</td><td class="align-right">' + parseFloat(row.amount).toFixed(2) + '</td><td class="align-center">' + row.status + '</td></tr>';
+                    });
+                    out = out + '</tbody></table>';
+                    $(out).appendTo("#ordered_items").enhanceWithin();
+                }
             },
             error: function (request, status, error) {
                 $("#ordered_items").empty();
@@ -502,9 +487,37 @@ function processStep2() {
         var che = $("input[name='delivery']:checked");
         var obj = che.val();
         cart.delivery = obj;
-        $(":mobile-pagecontainer").pagecontainer("change", "#details");
+        var address = $("#address").val();
+        var city = $("#city").val();
+        var area = $("#area").val();
+        var pincode = $("#pincode").val();
+        setVal(config.user_address, address);
+        setVal(config.user_city, city);
+        setVal(config.user_area, area);
+        setVal(config.user_pincode, pincode);
+        $(":mobile-pagecontainer").pagecontainer("change", "#payment");
     } else {
         $(":mobile-pagecontainer").pagecontainer("change", "#registration");
+    }
+}
+
+function setDetails() {
+    var che = $("input[type='radio']:checked");
+    var obj = che.val();
+    if (obj == 0) {
+        $("#address_form").addClass("remove_form");
+    } else {
+        $("#address_form").removeClass("remove_form");
+    }
+}
+
+function showDetails() {
+    var che = $("input[type='radio']:checked");
+    var obj = che.val();
+    if (obj == 0) {
+        $("#address_form").addClass("remove_form");
+    } else {
+        $("#address_form").removeClass("remove_form");
     }
 }
 
@@ -515,23 +528,40 @@ function validateEmail(email) {
 
 function validateRegistration() {
     if ($.trim($("#name").val()).length < 3) {
-        alert("Name should be 3 char");
+        $("#reg_err_text").html("<b>Name should be 3 char</b>");
+        $("#reg_err").popup("open");
         return false;
     }
     if (!validateEmail(jQuery("#email").val())) {
-        alert("Please enter valid email");
-        return false;
-    }
-    if ($.trim($("#password").val()).length < 6) {
-        alert("Password must be 6 char");
-        return false;
-    }
-    if ($.trim($("#password").val()) !== $.trim($("#conpass").val())) {
-        alert("Re-entered password missmatched!");
+        $("#reg_err_text").html("<b>Please enter valid email</b>");
+        $("#reg_err").popup("open");
         return false;
     }
     if ($.trim($("#mobile").val()).length < 10) {
-        alert("Enter your 10 digit mobile number");
+        $("#reg_err_text").html("<b>Enter your 10 digit mobile number</b>");
+        $("#reg_err").popup("open");
+        return false;
+    }
+    return true;
+}
+
+function validForm() {
+    if ($.trim($("#contact_name").val()).length < 3) {
+        $("#feedback_err_text").html("<b>Name must be 3 char</b>");
+        $("#feedback_err").popup("open");
+        $("#contact_name").focus();
+        return false;
+    }
+    if (!validateEmail(jQuery("#contact_email").val())) {
+        $("#feedback_err_text").html("<b>Please enter valid email</b>");
+        $("#feedback_err").popup("open");
+        $("#contact_email").focus();
+        return false;
+    }
+    if ($.trim($("#contact_message").val()).length < 20) {
+        $("#feedback_err_text").html("<b>Message at least 20 char</b>");
+        $("#feedback_err").popup("open");
+        $("#contact_message").focus();
         return false;
     }
     return true;
@@ -543,4 +573,116 @@ function validateUpdation() {
         return false;
     }
     return true;
+}
+
+function increaseQty(id) {
+    var qty = parseInt($("#item_qty_" + id).val());
+    if (qty > 0 && qty < 99) {
+        qty = qty + 1;
+    }
+    $("#item_qty_" + id).val(qty);
+}
+
+function increaseCartQty(id) {
+    var new_qty = parseInt($("#cart_item_" + id).val());
+    if (new_qty > 0 && new_qty < 99) {
+        new_qty = new_qty + 1;
+    }
+    $("#cart_item_" + id).val(new_qty);
+}
+
+function decreaseQty(id) {
+    var qty = parseInt($("#item_qty_" + id).val());
+    if (qty > 1 && qty < 99) {
+        qty = qty - 1;
+    }
+    $("#item_qty_" + id).val(qty);
+}
+
+function decreaseCartQty(id) {
+    var new_qty = parseInt($("#cart_item_" + id).val());
+    if (new_qty > 1 && new_qty < 99) {
+        new_qty = new_qty - 1;
+    }
+    $("#cart_item_" + id).val(new_qty);
+}
+
+function gplusShare() {
+    /*var url = "https://play.google.com/store/apps/details?id=com.coolappz.periyava";
+     var fullurl = "https://plus.google.com/share?url=" + url;
+     window.open(fullurl, '', "toolbar=0,location=0,height=450,width=550");*/
+}
+
+function fbShare() {
+    /*var url = "https://play.google.com/store/apps/details?id=com.coolappz.periyava";
+     var fullurl = "http://www.facebook.com/sharer/sharer.php?u=" + url;
+     window.open(fullurl, '', "toolbar=0,location=0,height=450,width=650");*/
+}
+
+function twitterShare() {
+    /*var url = "https://play.google.com/store/apps/details?id=com.coolappz.periyava";
+     var ttl = "Dedicated mobile app about Sri Sri Kanji Maha Periyava. Download now for free!";
+     var fullurl = "https://twitter.com/share?original_referer=http://www.charing.com/&source=tweetbutton&text=" + ttl + "&url=" + url;
+     window.open(fullurl, '', "menubar=1,resizable=1,width=450,height=350");*/
+}
+
+function rateUs() {
+    /*var fullurl = "https://play.google.com/store/apps/details?id=com.coolappz.periyava";
+     window.open(fullurl, '', "menubar=1,resizable=1,width=450,height=350");*/
+}
+
+function receiveForm() {
+    if (validForm()) {
+        var name = $("#contact_name").val();
+        var email = $("#contact_email").val();
+        var phone = $("#contact_num").val();
+        var message = $("#contact_message").val();
+        /*var data = {"name": name, "email": email, "phone": phone, "message": message};
+         $.ajax({
+         type: "POST",
+         url: "http://www.periyava.org/mail.php",
+         data: data,
+         cache: false,
+         success: function (data) {
+         $('#result_table').append('<p>hello world</p>');
+         alert("Success!");
+         $.each(data.results, function (k, v) {
+         $.each(v, function (key, value) {
+         $('#result_table').append('<br/>' + key + ' : ' + value);
+         });
+         });
+         }
+         });*/
+    }
+    return false;
+}
+
+function redirectToOrders() {
+    $("#order_success").popup("close");
+    $(":mobile-pagecontainer").pagecontainer("change", "#orders");
+}
+
+function referFriend() {
+    var email = $("#friend_email").val();
+    var msg = $("#friend_message").val();
+    if (!validateEmail(email)) {
+        $("#refer_err_text").html("<b>Please enter valid email</b>");
+        $("#refer_err").popup("open");
+    } else {
+        //Do here something
+    }
+}
+
+function startTimer() {
+    $("#resend").empty();
+    var resend = '<a href="#" class="ui-btn ui-btn-corner-all" onclick="resend();"> Resend Code</a>';
+    var sec = 90;
+    var timer = setInterval(function () {
+        $("#timer").text(sec--);
+        if (sec == -1) {
+            clearInterval(timer);
+            $("#timer").empty();
+            $("#resend").append(resend);
+        }
+    }, 1000);
 }

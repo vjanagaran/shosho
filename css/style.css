@@ -120,8 +120,24 @@ body, input, select, textarea, button, .ui-btn {
     margin-bottom: 5px;
 }
 
-.item-qty > input{
-    width: 50px;
+.select-qty{
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+}
+
+.select-qty > input{
+    width: 40px;
+}
+
+.select-qty > a{
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.remove_form{
+    display: none;
 }
 
 .rateNormal {
@@ -145,7 +161,6 @@ body, input, select, textarea, button, .ui-btn {
 .item-qty{
     margin-right: 10px;
     float: right;
-    clear: left;
 }
 
 .remove-item {
@@ -167,12 +182,12 @@ body, input, select, textarea, button, .ui-btn {
 }
 
 .add-btn{
-    padding: 5px;
+    padding: 0;
+    margin-left: 10px;
     text-decoration: none;
     border-radius: 5px;
     cursor: pointer;
 }
-
 
 .ui-listview > li{
     margin: 2px!important;
