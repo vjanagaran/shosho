@@ -6,14 +6,14 @@ push.pushNotification = null;
 push.initPushwoosh = function () {
     push.pushNotification = window.plugins.pushNotification;
 
-    if (device.platform == "Android") {
+    if (device.platform === "Android") {
         registerPushwooshAndroid();
         alert("Init push on android");
     }
-    if (device.platform == "iPhone" || device.platform == "iOS") {
+    if (device.platform === "iPhone" || device.platform === "iOS") {
         registerPushwooshIOS();
     }
-}
+};
 
 function registerPushwooshAndroid() {
     document.addEventListener('push-notification',
@@ -21,7 +21,7 @@ function registerPushwooshAndroid() {
                 var title = event.notification.title;
                 var userData = event.notification.userdata;
                 //dump custom data to the console if it exists
-                if (typeof (userData) != "undefined") {
+                if (typeof (userData) !== "undefined") {
                     console.warn('user data: ' + JSON.stringify(userData));
                 }
                 alert(title);
