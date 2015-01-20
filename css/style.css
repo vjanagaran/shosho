@@ -124,16 +124,20 @@ body, input, select, textarea, button, .ui-btn {
     margin: 0;
     padding: 0;
     display: inline-block;
+    border: 1px solid #AAAAAA;
 }
 
-.select-qty > input{
-    width: 40px;
+.select-qty > input, .select-qty > a{
+    width: 30px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
 }
 
 .select-qty > a{
     text-decoration: none;
     cursor: pointer;
-    font-size: 20px;
 }
 
 .remove_form{
@@ -179,6 +183,11 @@ body, input, select, textarea, button, .ui-btn {
     background: #999999;
     padding: 3px 6px;
     border-radius: 50%;
+}
+
+.symbol{
+    cursor: pointer;
+    font-size: 20px;
 }
 
 .add-btn{

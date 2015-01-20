@@ -10,7 +10,7 @@ if (is_mobile) {
 }
 
 function onDeviceReady() {
-    if(is_mobile) {
+    if (is_mobile) {
         push.initPushwoosh();
     }
 }
@@ -240,12 +240,13 @@ function createCode() {
                     setVal(config.user_mobile, mobile);
                     setVal(config.user_email, email);
                     setVal(config.user_id, html.id);
-                    $("#reg_err_text").html("<b>" + html.message + "</b>");
-                    $("#reg_err").popup("open");
                     $(":mobile-pagecontainer").pagecontainer("change", "#verify");
                 } else {
-                    $("#reg_err_text").html("<b>" + html.message + "</b>");
-                    $("#reg_err").popup("open");
+                    setVal(config.user_name, name);
+                    setVal(config.user_mobile, mobile);
+                    setVal(config.user_email, email);
+                    setVal(config.user_id, html.id);
+                    $(":mobile-pagecontainer").pagecontainer("change", "#delivery");
                 }
             },
             error: function (request, status, error) {
@@ -356,7 +357,7 @@ function showMyCart() {
         $("#cart div[data-role=footer]").removeClass("remove-item");
         out = out + '<table data-role="table" data-mode="none"><thead><tr><th class="align-left">Your Order</th><th class="align-right">Qty</th><th class="align-right">Amount</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead><tbody>';
         $.each(cart.items, function (index, row) {
-            out = out + '<tr><td class = "align-left">' + row.name + '</td><td class="align-right"><div class="select-qty"><a onclick="decreaseCartQty(' + row.id + ')">-</a> <input data-role="none" name="qty" type="text" readonly="true" id="cart_item_' + row.id + '" value="' + row.qty + '"> <a onclick="increaseCartQty(' + row.id + ')">+</a></div></td><td class="align-right">' + (parseInt(row.rate) * parseInt(row.qty)).toFixed(2) + '</td><td ><a onclick="updateCart(' + row.id + ')">Update</a> <a href="#" onclick="removeItem(' + row.id + ');">x</a></td></tr>';
+            out = out + '<tr><td class = "align-left">' + row.name + '</td><td class="align-right"><div class="select-qty"><a onclick="decreaseCartQty(' + row.id + ')">-</a> <input data-role="none" name="qty" type="text" readonly="true" id="cart_item_' + row.id + '" value="' + row.qty + '"> <a onclick="increaseCartQty(' + row.id + ')">+</a></div></td><td class="align-right">' + (parseInt(row.rate) * parseInt(row.qty)).toFixed(2) + '</td><td ><a class="symbol" onclick="updateCart(' + row.id + ')">&#10004;</a> <a class="symbol" onclick="removeItem(' + row.id + ');">&#10008;</a></td></tr>';
             total = total + parseFloat(row.rate) * parseInt(row.qty);
             if (isNaN(cart_tax[row.tax])) {
                 cart_tax[row.tax] = 0;
@@ -408,7 +409,7 @@ function processOrder() {
     var id = getVal(config.user_id);
     var delivery = cart.delivery;
     var decs = cart.decs;
-    if (id != null) {
+    if (id != null && $("#cash_pay").prop('checked') == true) {
         var data = {items: []};
         var items = [];
         $.each(cart.items, function (index, row) {
@@ -423,7 +424,13 @@ function processOrder() {
             user: id,
             notes: decs,
             delivery: delivery,
-            total: grand_total
+            total: grand_total,
+            address1: getVal(config.user_address1),
+            address2: getVal(config.user_address2),
+            area: getVal(config.user_area),
+            city: getVal(config.user_city),
+            pincode: getVal(config.user_pincode),
+            alternetno: getVal(config.user_alternet_number)
         };
         $.ajax({
             type: "POST",
@@ -442,6 +449,8 @@ function processOrder() {
                 $("#success_msg").append("Process not successfull try again later......");
             }
         });
+    } else {
+        $("#success_msg").append("<b>Please select the payment mode</b>");
     }
 }
 
@@ -497,39 +506,58 @@ function updateCart(id) {
 function processStep1() {
     var decs = $("#orderdecs").val();
     cart.decs = decs;
-    $(":mobile-pagecontainer").pagecontainer("change", "#delivery");
-}
-
-function processStep2() {
     if (getVal(config.user_id) != null) {
-        var che = $("input[name='delivery']:checked");
-        var obj = che.val();
-        cart.delivery = obj;
-        var address = $("#address").val();
-        var city = $("#city").val();
-        var area = $("#area").val();
-        var pincode = $("#pincode").val();
-        setVal(config.user_address, address);
-        setVal(config.user_city, city);
-        setVal(config.user_area, area);
-        setVal(config.user_pincode, pincode);
-        $(":mobile-pagecontainer").pagecontainer("change", "#payment");
+        $(":mobile-pagecontainer").pagecontainer("change", "#delivery");
     } else {
         $(":mobile-pagecontainer").pagecontainer("change", "#registration");
     }
 }
 
+function processStep2() {
+    $("#delivery_err").empty();
+    if ((getVal(config.user_id) != null) && ($("#home_delivery").prop('checked') == true || $("#takeaway").prop('checked') == true)) {
+        var che = $("input[name='delivery']:checked");
+        var obj = che.val();
+        cart.delivery = obj;
+        var address1 = $("#address1").val();
+        var address2 = $("#address2").val();
+        var city = $("#city").val();
+        var area = $("#area").val();
+        var pincode = $("#pincode").val();
+        var alternet = $("#alt_num").val();
+        setVal(config.user_address1, address1);
+        setVal(config.user_address2, address2);
+        setVal(config.user_city, city);
+        setVal(config.user_area, area);
+        setVal(config.user_pincode, pincode);
+        setVal(config.user_alternet_number, alternet);
+        $(":mobile-pagecontainer").pagecontainer("change", "#payment");
+    } else {
+        $("#delivery_err").append("<b>Please select a delivery type..</b>");
+    }
+}
+
 function setDetails() {
+    $("#delivery_err").empty();
     var che = $("input[type='radio']:checked");
     var obj = che.val();
-    if (obj == 0) {
+    if ($("input:radio").attr("checked", false)) {
+        $("#address_form").addClass("remove_form");
+    } else if (obj == 0) {
         $("#address_form").addClass("remove_form");
     } else {
         $("#address_form").removeClass("remove_form");
+        $("#address1").val(getVal(config.user_address1));
+        $("#address2").val(getVal(config.user_address2));
+        $("#city").val(getVal(config.user_city));
+        $("#area").val(getVal(config.user_area));
+        $("#pincode").val(getVal(config.user_pincode));
+        $("#alt_num").val(getVal(config.user_alternet_number));
     }
 }
 
 function showDetails() {
+    $("#delivery_err").empty();
     var che = $("input[type='radio']:checked");
     var obj = che.val();
     if (obj == 0) {
@@ -580,14 +608,6 @@ function validForm() {
         $("#feedback_err_text").html("<b>Message at least 20 char</b>");
         $("#feedback_err").popup("open");
         $("#contact_message").focus();
-        return false;
-    }
-    return true;
-}
-
-function validateUpdation() {
-    if ($.trim($("#uname").val()).length < 3) {
-        alert("Name must be 3 char");
         return false;
     }
     return true;

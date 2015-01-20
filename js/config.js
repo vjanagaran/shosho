@@ -10,12 +10,14 @@ config = function () {
         user_mobile: "sho_sho_user_mobile",
         user_email: "sho_sho_user_email",
         user_password: "sho_sho_user_password",
-        user_address: "sho_sho_user_address",
+        user_address1: "sho_sho_user_address1",
+        user_address2: "sho_sho_user_address2",
         user_area: "sho_sho_user_area",
         user_pincode: "sho_sho_user_pincode",
         user_city: "sho_sho_user_city",
         user_image: "sho_sho_user_image",
         user_id: "sho_sho_userid",
+        user_alternet_number: "sho_sho_user_alternet_number",
         device_token: "sho_sho_device_token"
     };
 }();
