@@ -178,7 +178,7 @@
                 <div id="address_form">
                     <input type="text" name="address1" id="address1" value="" placeholder="Your Address Line 1" />
                     <input type="text" name="address2" id="address2" value="" placeholder="Your Address Line 2" />
-                    <select id="area" data-role="none">
+                    <select id="area" data-theme="b">
                         <option value="Palavakkam">Palavakkam</option>
                         <option value="Kottivakkam">Kottivakkam</option>
                         <option value="Neelankari">Neelankari</option>
@@ -288,7 +288,7 @@
                 <input type="text" name="name" value="" id="name" placeholder="Your Name" />
                 <input type="text" name="mobile" id="mobile" value="" placeholder="Your Mobile Number" />
                 <input type="text" name="email" id="email" value="" placeholder="Your E-mail" />
-                <a class="ui-btn ui-corner-all ui-btn-b" href="#" onclick="createCode();">Submit</a>
+                <a class="ui-btn ui-corner-all ui-btn-a" href="#" onclick="createCode();">Submit</a>
                 <div id="err_msg"></div>
             </div>
             <div data-role="popup" id="reg_err" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="max-width:400px;">
@@ -297,7 +297,7 @@
                 </div>
                 <div role="main" class="ui-content">
                     <p id="reg_err_text"></p>
-                    <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Ok</a>
+                    <a href="#" onclick="redirectToRespectivePages()" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Ok</a>
                 </div>
             </div>
         </div> <!-- registration -->

@@ -15,6 +15,7 @@ function onDeviceReady() {
     }
 }
 
+var after_reg = "";
 var router = new $.mobile.Router([{
         "#home": {handler: "homePage", events: "bs"},
         "#catalog": {handler: "catalogPage", events: "bs"},
@@ -257,6 +258,10 @@ function createCode() {
     }
 }
 
+function redirectToRespectivePages() {
+    alert('hello');
+}
+
 function verifyCode() {
     var code = $("#code").val();
     if (code != "") {
@@ -453,7 +458,7 @@ function processOrder() {
     }
 }
 
-function redirectOrdersPage(){
+function redirectOrdersPage() {
     $(":mobile-pagecontainer").pagecontainer("change", "#orders");
 }
 
@@ -489,7 +494,7 @@ function showOrders() {
         });
     } else {
         $("#ordered_items").empty();
-        $("#ordered_items").html("<p>Your information is not found so no items found...</p>");
+        $("#ordered_items").html("<p>Your information is not found...</p>");
     }
 }
 
@@ -578,16 +583,19 @@ function validateEmail(email) {
 function validateRegistration() {
     if ($.trim($("#name").val()).length < 3) {
         $("#reg_err_text").html("<b>Name should be 3 char</b>");
+        $("#reg_err .ui-content a").prop("onclick", null);
         $("#reg_err").popup("open");
         return false;
     }
     if (!validateEmail(jQuery("#email").val())) {
         $("#reg_err_text").html("<b>Please enter valid email</b>");
+        $("#reg_err .ui-content a").prop("onclick", null);
         $("#reg_err").popup("open");
         return false;
     }
     if ($.trim($("#mobile").val()).length < 10) {
         $("#reg_err_text").html("<b>Enter your 10 digit mobile number</b>");
+        $("#reg_err .ui-content a").prop("onclick", null);
         $("#reg_err").popup("open");
         return false;
     }
@@ -678,22 +686,27 @@ function receiveForm() {
         var email = $("#contact_email").val();
         var phone = $("#contact_num").val();
         var message = $("#contact_message").val();
-        /*var data = {"name": name, "email": email, "phone": phone, "message": message};
-         $.ajax({
-         type: "POST",
-         url: "http://www.periyava.org/mail.php",
-         data: data,
-         cache: false,
-         success: function (data) {
-         $('#result_table').append('<p>hello world</p>');
-         alert("Success!");
-         $.each(data.results, function (k, v) {
-         $.each(v, function (key, value) {
-         $('#result_table').append('<br/>' + key + ' : ' + value);
-         });
-         });
-         }
-         });*/
+        var data = {
+            name: name,
+            email: email,
+            phone: phone,
+            message: message
+        };
+        $.ajax({
+            type: "POST",
+            url: config.api_url + "module=user&action=feedback",
+            data: data,
+            cache: false,
+            success: function (data) {
+                if (data.error == false) {
+                    $("#feedback_err_text").html("<b>" + data.message + "</b>");
+                    $("#feedback_err").popup("open");
+                } else {
+                    $("#feedback_err_text").html("<b>" + data.message + "</b>");
+                    $("#feedback_err").popup("open");
+                }
+            }
+        });
     }
     return false;
 }
@@ -706,11 +719,29 @@ function redirectToOrders() {
 function referFriend() {
     var email = $("#friend_email").val();
     var msg = $("#friend_message").val();
+    var data = {
+        email: email,
+        message: msg
+    };
     if (!validateEmail(email)) {
         $("#refer_err_text").html("<b>Please enter valid email</b>");
         $("#refer_err").popup("open");
     } else {
-        //Do here something
+        $.ajax({
+            type: "POST",
+            url: config.api_url + "module=user&action=feedback",
+            data: data,
+            cache: false,
+            success: function (data) {
+                if (data.error == false) {
+                    $("#refer_err_text").html("<b>" + data.message + "</b>");
+                    $("#refer_err").popup("open");
+                } else {
+                    $("#refer_err_text").html("<b>" + data.message + "</b>");
+                    $("#refer_err").popup("open");
+                }
+            }
+        });
     }
 }
 
