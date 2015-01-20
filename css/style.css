@@ -50,7 +50,9 @@ body, input, select, textarea, button, .ui-btn {
 }
 
 #intro{
-    background: url("../img/intro.jpg") no-repeat scroll 0 0 / 100% 100% rgba(0, 0, 0, 0);
+    background: url("../img/intro.jpg") no-repeat;
+    background-size: cover;
+    background-position: 100% 100%;
 }
 
 #home .homeimg, #intro .homeimg {
@@ -124,7 +126,7 @@ body, input, select, textarea, button, .ui-btn {
     margin: 0;
     padding: 0;
     display: inline-block;
-    border: 1px solid #AAAAAA;
+    border: 1px solid #E4E4E4;
 }
 
 .select-qty > input, .select-qty > a{
@@ -132,11 +134,11 @@ body, input, select, textarea, button, .ui-btn {
     text-align: center;
     margin: 0;
     padding: 0;
-    display: inline-block;
 }
 
 .select-qty > a{
     text-decoration: none;
+    display: inline-block;
     cursor: pointer;
 }
 

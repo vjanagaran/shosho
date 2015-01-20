@@ -442,7 +442,6 @@ function processOrder() {
                 grand_total = 0;
                 $("#order_success_text").html("<b>" + html.message + "</b>");
                 $("#order_success").popup("open");
-                $(":mobile-pagecontainer").pagecontainer("change", "#orders");
             },
             error: function (request, status, error) {
                 $("#success_msg").empty();
@@ -452,6 +451,10 @@ function processOrder() {
     } else {
         $("#success_msg").append("<b>Please select the payment mode</b>");
     }
+}
+
+function redirectOrdersPage(){
+    $(":mobile-pagecontainer").pagecontainer("change", "#orders");
 }
 
 function showOrders() {
