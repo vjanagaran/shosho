@@ -172,13 +172,13 @@
                 <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#"><span>Total</span> <span id="delivery_items_total"> 0</span></a>
             </div>
             <div role="main" class="ui-content">
-                <ul data-role="listview">
-                    <li><label><input onchange="showDetails();" data-role="none" type="radio" name="delivery" id="home_delivery" value="1">Home Delivery</label></li>
-                    <li><label><input onchange="showDetails();" data-role="none" type="radio" name="delivery" id="takeaway" value="0">Take Away</label></li>
-                </ul>
+                <div class="ui-content"><label><input onchange="showDetails();" data-role="none" type="radio" name="delivery" id="home_delivery" value="1">Home Delivery</label></div>
+                <div class="ui-content"><label><input onchange="showDetails();" data-role="none" type="radio" name="delivery" id="takeaway" value="0">Take Away</label></div>
+                <div id="delivery_err"></div>
                 <div id="address_form">
-                    <input type="text" name="address" id="address" value="" placeholder="Your Door no." />
-                    <select id="area">
+                    <input type="text" name="address1" id="address1" value="" placeholder="Your Address Line 1" />
+                    <input type="text" name="address2" id="address2" value="" placeholder="Your Address Line 2" />
+                    <select id="area" data-role="none">
                         <option value="Palavakkam">Palavakkam</option>
                         <option value="Kottivakkam">Kottivakkam</option>
                         <option value="Neelankari">Neelankari</option>
@@ -186,6 +186,7 @@
                         <option value="Perungudi">Perungudi</option>
                         <option value="Thiruvanmiyur">Thiruvanmiyur</option>
                     </select>
+                    <p>Home delivery is not done outside of the drop down listed area.</p>
                     <input readonly="true" type="text" name="city" id="city" value="Chennai" placeholder="Your city" />
                     <input type="text" name="pincode" id="pincode" value="" placeholder="Your area pincode" />
                     <input type="text" name="alt_num" id="alt_num" value="" placeholder="Alternet phone number" />
@@ -289,15 +290,6 @@
                 <input type="text" name="email" id="email" value="" placeholder="Your E-mail" />
                 <a class="ui-btn ui-corner-all ui-btn-b" href="#" onclick="createCode();">Submit</a>
                 <div id="err_msg"></div>
-            </div>
-            <div data-role="popup" id="reg_err" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="max-width:400px;">
-                <div data-role="header" data-theme="a">
-                    <h1>Alert</h1>
-                </div>
-                <div role="main" class="ui-content">
-                    <p id="reg_err_text"></p>
-                    <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Ok</a>
-                </div>
             </div>
         </div> <!-- registration -->
 
