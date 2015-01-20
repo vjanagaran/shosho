@@ -72,6 +72,8 @@ body, input, select, textarea, button, .ui-btn {
 #catalog .category{
     margin: 10px;
     padding: 10px;
+    position: relative;
+    border-radius: 5px;
 }
 
 #catalog .category > img{
@@ -96,6 +98,7 @@ body, input, select, textarea, button, .ui-btn {
     padding: 10px;
     position: relative;
     border-bottom: 1px solid #AAAAAA;
+    border-radius: 5px;
 }
 
 #my_cart_items > table, #ordered_items > table{

@@ -16,6 +16,7 @@ function onDeviceReady() {
 }
 
 var after_reg = "";
+var redirect_me = false;
 var router = new $.mobile.Router([{
         "#home": {handler: "homePage", events: "bs"},
         "#catalog": {handler: "catalogPage", events: "bs"},
@@ -27,6 +28,7 @@ var router = new $.mobile.Router([{
         "#orders": {handler: "ordersPage", events: "bs"},
         "#more": {handler: "morePage", events: "bs"},
         "#verify": {handler: "verifyPage", events: "bs"},
+        "#feedback": {handler: "feedbackPage", events: "bs"},
         "#details": {handler: "detailsPage", events: "bs"}
     }],
         {
@@ -53,6 +55,7 @@ var router = new $.mobile.Router([{
             paymentPage: function (type, match, ui) {
                 log("Payment Items page", 3);
                 $("#payment_items_total").html(grand_total);
+                $("#cash_pay").attr("checked", true)
             },
             morePage: function (type, match, ui) {
                 log("More page", 3);
@@ -77,6 +80,10 @@ var router = new $.mobile.Router([{
                 log("Verification Page", 3);
                 clearInterval();
                 startTimer();
+            },
+            feedbackPage: function (type, match, ui) {
+                log("Feedback Page", 3);
+                showFeedbackForm();
             },
             detailsPage: function (type, match, ui) {
                 log("Details Page", 3);
@@ -237,17 +244,33 @@ function createCode() {
             cache: false,
             success: function (html) {
                 if (html.error == false) {
+                    $("#reg_err .ui-content a").removeAttr("data-rel");
+                    $("#reg_err .ui-content a").attr("onclick", "redirectToRespectivePages()");
                     setVal(config.user_name, name);
                     setVal(config.user_mobile, mobile);
                     setVal(config.user_email, email);
                     setVal(config.user_id, html.id);
-                    $(":mobile-pagecontainer").pagecontainer("change", "#verify");
+                    if (redirect_me == true) {
+                        after_reg = "me";
+                    } else {
+                        after_reg = "code";
+                    }
+                    $("#reg_err_text").html("<b>" + html.message + "</b>");
+                    $("#reg_err").popup("open");
                 } else {
+                    $("#reg_err .ui-content a").removeAttr("data-rel");
+                    $("#reg_err .ui-content a").attr("onclick", "redirectToRespectivePages()");
                     setVal(config.user_name, name);
                     setVal(config.user_mobile, mobile);
                     setVal(config.user_email, email);
                     setVal(config.user_id, html.id);
-                    $(":mobile-pagecontainer").pagecontainer("change", "#delivery");
+                    if (redirect_me == true) {
+                        after_reg = "me";
+                    } else {
+                        after_reg = "delivery";
+                    }
+                    $("#reg_err_text").html("<b>" + html.message + "</b>");
+                    $("#reg_err").popup("open");
                 }
             },
             error: function (request, status, error) {
@@ -259,7 +282,8 @@ function createCode() {
 }
 
 function redirectToRespectivePages() {
-    alert('hello');
+    $(":mobile-pagecontainer").pagecontainer("change", "#" + after_reg);
+
 }
 
 function verifyCode() {
@@ -298,7 +322,12 @@ function showMe() {
     var details = "<p><b>Name:</b> " + name + "</p>";
     details = details + "<p><b>Mobile No:</b> " + mobile + "</p>";
     details = details + "<p><b>Email:</b> " + email + "</p>";
-    $("#my_details").append(details);
+    if (name != null && email != null && mobile != null) {
+        $("#my_details").append(details);
+    } else {
+        $(":mobile-pagecontainer").pagecontainer("change", "#registration");
+        redirect_me = true;
+    }
 }
 
 var cart = {items: [], decs: "", delivery: ""};
@@ -360,7 +389,7 @@ function showMyCart() {
     var g_total = 0;
     if (cart.items.length > 0) {
         $("#cart div[data-role=footer]").removeClass("remove-item");
-        out = out + '<table data-role="table" data-mode="none"><thead><tr><th class="align-left">Your Order</th><th class="align-right">Qty</th><th class="align-right">Amount</th><th>&nbsp;</th><th>&nbsp;</th></tr></thead><tbody>';
+        out = out + '<table data-role="table" data-mode="reflow" class="ui-responsive"><thead><tr><th class="align-left" data-priority="persist">Your Order</th><th class="align-right" data-priority="1">Qty</th><th class="align-right" data-priority="2">Amount</th><th data-priority="3">&nbsp;</th><th data-priority="4">&nbsp;</th></tr></thead><tbody>';
         $.each(cart.items, function (index, row) {
             out = out + '<tr><td class = "align-left">' + row.name + '</td><td class="align-right"><div class="select-qty"><a onclick="decreaseCartQty(' + row.id + ')">-</a> <input data-role="none" name="qty" type="text" readonly="true" id="cart_item_' + row.id + '" value="' + row.qty + '"> <a onclick="increaseCartQty(' + row.id + ')">+</a></div></td><td class="align-right">' + (parseInt(row.rate) * parseInt(row.qty)).toFixed(2) + '</td><td ><a class="symbol" onclick="updateCart(' + row.id + ')">&#10004;</a> <a class="symbol" onclick="removeItem(' + row.id + ');">&#10008;</a></td></tr>';
             total = total + parseFloat(row.rate) * parseInt(row.qty);
@@ -468,7 +497,7 @@ function showOrders() {
         $("#ordered_items").empty();
         $("#ordered_items").append(loading);
         var out = "";
-        out = out + '<table data-role="table" data-mode="none"><thead><tr><th class="align-left">Order Id</th><th class="align-left">Date</th><th class="align-right">Amount</th><th class="align-center">Status</th></tr></thead><tbody>';
+        out = out + '<table data-role="table" data-mode="reflow" class="ui-responsive"><thead><tr><th class="align-left" data-priority="persist">Order Id</th><th class="align-left" data-priority="1">Date</th><th class="align-right" data-priority="2">Amount</th><th class="align-center" data-priority="3">Status</th></tr></thead><tbody>';
         $.ajax({
             type: "GET",
             url: config.api_url + "module=order&action=list&id=" + id,
@@ -546,12 +575,11 @@ function processStep2() {
 }
 
 function setDetails() {
+    $("#takeaway").attr("checked", true)
     $("#delivery_err").empty();
     var che = $("input[type='radio']:checked");
     var obj = che.val();
-    if ($("input:radio").attr("checked", false)) {
-        $("#address_form").addClass("remove_form");
-    } else if (obj == 0) {
+    if (obj == 0) {
         $("#address_form").addClass("remove_form");
     } else {
         $("#address_form").removeClass("remove_form");
@@ -581,21 +609,20 @@ function validateEmail(email) {
 }
 
 function validateRegistration() {
+    $("#reg_err .ui-content a").attr("data-rel", "back");
+    $("#reg_err .ui-content a").removeAttr("onclick");
     if ($.trim($("#name").val()).length < 3) {
         $("#reg_err_text").html("<b>Name should be 3 char</b>");
-        $("#reg_err .ui-content a").prop("onclick", null);
         $("#reg_err").popup("open");
         return false;
     }
     if (!validateEmail(jQuery("#email").val())) {
         $("#reg_err_text").html("<b>Please enter valid email</b>");
-        $("#reg_err .ui-content a").prop("onclick", null);
         $("#reg_err").popup("open");
         return false;
     }
     if ($.trim($("#mobile").val()).length < 10) {
         $("#reg_err_text").html("<b>Enter your 10 digit mobile number</b>");
-        $("#reg_err .ui-content a").prop("onclick", null);
         $("#reg_err").popup("open");
         return false;
     }
@@ -681,17 +708,32 @@ function rateUs() {
 }
 
 function receiveForm() {
-    if (validForm()) {
-        var name = $("#contact_name").val();
-        var email = $("#contact_email").val();
-        var phone = $("#contact_num").val();
-        var message = $("#contact_message").val();
-        var data = {
-            name: name,
-            email: email,
-            phone: phone,
-            message: message
-        };
+    var message = $("#contact_message").val();
+    var data = {};
+    var name = getVal(config.user_name);
+    var email = getVal(config.user_email);
+    var mobile = getVal(config.user_mobile);
+    if (message != "") {
+        if (name != null && email != null && mobile != null) {
+            data = {
+                name: name,
+                email: email,
+                phone: mobile,
+                message: message
+            };
+        } else {
+            if (validForm()) {
+                name = $("#contact_name").val();
+                email = $("#contact_email").val();
+                mobile = $("#contact_num").val();
+                data = {
+                    name: name,
+                    email: email,
+                    phone: mobile,
+                    message: message
+                };
+            }
+        }
         $.ajax({
             type: "POST",
             url: config.api_url + "module=user&action=feedback",
@@ -757,4 +799,43 @@ function startTimer() {
             $("#resend").append(resend);
         }
     }, 1000);
+}
+
+function showFeedbackForm() {
+    var name = getVal(config.user_name);
+    var email = getVal(config.user_email);
+    var mobile = getVal(config.user_mobile);
+    if (name != null && email != null && mobile != null) {
+        $("#contact_submit").addClass("remove_form");
+    } else {
+        $("#contact_submit").removeClass("remove_form");
+    }
+}
+
+function resend() {
+    var mobile = getVal(config.user_mobile);
+    var email = getVal(config.user_email);
+    var id = getVal(config.user_id);
+    var details = {
+        mobile: mobile,
+        email: email,
+        id: id,
+        device_token: getVal(config.device_token)
+    };
+    $.ajax({
+        type: "POST",
+        url: config.api_url + "module=user&action=resend",
+        data: details,
+        cache: false,
+        success: function (html) {
+            if (html.error == false) {
+                $("#verify_err_text").html("<b>" + html.message + "</b>");
+                $("#verify_err").popup("open");
+            }
+        },
+        error: function (request, status, error) {
+            $("#verify_err_text").html("<b>Process fail please try again......</b>");
+            $("#verify_err").popup("open");
+        }
+    });
 }

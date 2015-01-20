@@ -172,8 +172,8 @@
                 <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#"><span>Total</span> <span id="delivery_items_total"> 0</span></a>
             </div>
             <div role="main" class="ui-content">
-                <div class="ui-content"><label><input onchange="showDetails();" data-role="none" type="radio" name="delivery" id="home_delivery" value="1">Home Delivery</label></div>
                 <div class="ui-content"><label><input onchange="showDetails();" data-role="none" type="radio" name="delivery" id="takeaway" value="0">Take Away</label></div>
+                <div class="ui-content"><label><input onchange="showDetails();" data-role="none" type="radio" name="delivery" id="home_delivery" value="1">Home Delivery</label></div>
                 <div id="delivery_err"></div>
                 <div id="address_form">
                     <input type="text" name="address1" id="address1" value="" placeholder="Your Address Line 1" />
@@ -297,7 +297,7 @@
                 </div>
                 <div role="main" class="ui-content">
                     <p id="reg_err_text"></p>
-                    <a href="#" onclick="redirectToRespectivePages()" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Ok</a>
+                    <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">Ok</a>
                 </div>
             </div>
         </div> <!-- registration -->
@@ -375,13 +375,13 @@
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
-                <form action="" method="post" onsubmit="return receiveForm();">
+                <div id="contact_submit">
                     <div><input value="" type="text" id="contact_name" name="name" placeholder="Your Name" autofocus></div>
                     <div><input type="text" value="" id="contact_email" name="email" placeholder="Your Email"></div>
                     <div><input type="text" name="phone" id="contact_num" placeholder="Your Mobile No"><span id="num_msg"></span></div>
-                    <div><textarea id="contact_message" name="message" placeholder="Your Feedback"></textarea></div>
-                    <div id="contact_submit"><button type="submit" value="Submit">Submit</button></div>
-                </form>
+                </div>
+                <div><textarea id="contact_message" name="message" placeholder="Your Feedback"></textarea></div>
+                <div><a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-a" onclick="return receiveForm();">Submit</a></div>
             </div>
             <div data-role="popup" id="feedback_err" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="max-width:400px;">
                 <div data-role="header" data-theme="a">
