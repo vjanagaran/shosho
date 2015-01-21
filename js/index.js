@@ -18,6 +18,7 @@ function onDeviceReady() {
 var after_reg = "";
 var redirect_me = false;
 var router = new $.mobile.Router([{
+        "#intro": {handler: "introPage", events: "bs"},
         "#home": {handler: "homePage", events: "bs"},
         "#catalog": {handler: "catalogPage", events: "bs"},
         "#catalogitems(?:[?/](.*))?": {handler: "catalogitemsPage", events: "bs"},
@@ -32,6 +33,14 @@ var router = new $.mobile.Router([{
         "#details": {handler: "detailsPage", events: "bs"}
     }],
         {
+            introPage: function (type, match, ui) {
+                log("Home Page", 3);
+                showIntro();
+                removeVal(config.user_id);
+                removeVal(config.user_name);
+                removeVal(config.user_mobile);
+                removeVal(config.user_email);
+            },
             homePage: function (type, match, ui) {
                 log("Home Page", 3);
             },
@@ -197,6 +206,10 @@ function loadCatalog() {
     });
 }
 
+function showIntro() {
+
+}
+
 function loadCatalogItems(cat) {
     $("#menus").empty();
     $("#menus").append(loading);
@@ -250,11 +263,7 @@ function createCode() {
                     setVal(config.user_mobile, mobile);
                     setVal(config.user_email, email);
                     setVal(config.user_id, html.id);
-                    if (redirect_me == true) {
-                        after_reg = "me";
-                    } else {
-                        after_reg = "code";
-                    }
+                    after_reg = "verify";
                     $("#reg_err_text").html("<b>" + html.message + "</b>");
                     $("#reg_err").popup("open");
                 } else {
@@ -300,7 +309,15 @@ function verifyCode() {
             cache: false,
             success: function (html) {
                 if (html.error == false) {
-                    $(":mobile-pagecontainer").pagecontainer("change", "#details");
+                    if (redirect_me == true) {
+                        after_reg = "me";
+                    } else {
+                        after_reg = "delivery";
+                    }
+                    $("#verify_err .ui-content a").removeAttr("data-rel");
+                    $("#verify_err .ui-content a").attr("onclick", "redirectToRespectivePages()");
+                    $("#verify_err_text").html("<b>Code verified successfully</b>");
+                    $("#verify_err").popup("open");
                 } else {
                     $("#verify_err_text").html("<b>" + html.message + "</b>");
                     $("#verify_err").popup("open");
@@ -327,12 +344,12 @@ function showMe() {
         $("#me_mobile").val(mobile);
         $("#me_email").val(email);
     } else {
-        $(":mobile-pagecontainer").pagecontainer("change", "#registration");
         redirect_me = true;
+        $(":mobile-pagecontainer").pagecontainer("change", "#registration");
     }
 }
 
-function updateUser(){
+function updateUser() {
     $("#update_success_text").html("Sorry!! Work in progress..");
     $("#update_success").popup("open");
 }
@@ -567,23 +584,28 @@ function processStep1() {
 
 function processStep2() {
     $("#delivery_err").empty();
-    if ((getVal(config.user_id) != null) && ($("#home_delivery").prop('checked') == true || $("#takeaway").prop('checked') == true)) {
+    if ((getVal(config.user_id) != null)) {
+        var address1 = $("#address1").val();
         var che = $("input[name='delivery']:checked");
         var obj = che.val();
-        cart.delivery = obj;
-        var address1 = $("#address1").val();
-        var address2 = $("#address2").val();
-        var city = $("#city").val();
-        var area = $("#area").val();
-        var pincode = $("#pincode").val();
-        var alternet = $("#alt_num").val();
-        setVal(config.user_address1, address1);
-        setVal(config.user_address2, address2);
-        setVal(config.user_city, city);
-        setVal(config.user_area, area);
-        setVal(config.user_pincode, pincode);
-        setVal(config.user_alternet_number, alternet);
-        $(":mobile-pagecontainer").pagecontainer("change", "#payment");
+        if (obj == 1 && address1 < 3) {
+            $("#delivery_err").append("<b>Address line 1 mandatory</b>");
+            $("#address1").focus();
+        } else {
+            cart.delivery = obj;
+            var address2 = $("#address2").val();
+            var city = $("#city").val();
+            var area = $("#area").val();
+            var pincode = $("#pincode").val();
+            var alternet = $("#alt_num").val();
+            setVal(config.user_address1, address1);
+            setVal(config.user_address2, address2);
+            setVal(config.user_city, city);
+            setVal(config.user_area, area);
+            setVal(config.user_pincode, pincode);
+            setVal(config.user_alternet_number, alternet);
+            $(":mobile-pagecontainer").pagecontainer("change", "#payment");
+        }
     } else {
         $("#delivery_err").append("<b>Please select a delivery type..</b>");
     }
@@ -595,9 +617,11 @@ function setDetails() {
     var che = $("input[type='radio']:checked");
     var obj = che.val();
     if (obj == 0) {
+        $("#shosho_address").removeClass("remove_form");
         $("#address_form").addClass("remove_form");
     } else {
         $("#address_form").removeClass("remove_form");
+        $("#shosho_address").addClass("remove_form");
         $("#address1").val(getVal(config.user_address1));
         $("#address2").val(getVal(config.user_address2));
         $("#city").val(getVal(config.user_city));
@@ -612,9 +636,11 @@ function showDetails() {
     var che = $("input[type='radio']:checked");
     var obj = che.val();
     if (obj == 0) {
+        $("#shosho_address").removeClass("remove_form");
         $("#address_form").addClass("remove_form");
     } else {
         $("#address_form").removeClass("remove_form");
+        $("#shosho_address").addClass("remove_form");
     }
 }
 
@@ -631,7 +657,7 @@ function validateRegistration() {
         $("#reg_err").popup("open");
         return false;
     }
-    if (!validateEmail(jQuery("#email").val())) {
+    if (!validateEmail($.trim(jQuery("#email").val()))) {
         $("#reg_err_text").html("<b>Please enter valid email</b>");
         $("#reg_err").popup("open");
         return false;
@@ -651,7 +677,7 @@ function validForm() {
         $("#contact_name").focus();
         return false;
     }
-    if (!validateEmail(jQuery("#contact_email").val())) {
+    if (!validateEmail($.trim(jQuery("#contact_email").val()))) {
         $("#feedback_err_text").html("<b>Please enter valid email</b>");
         $("#feedback_err").popup("open");
         $("#contact_email").focus();
@@ -780,7 +806,7 @@ function referFriend() {
         email: email,
         message: msg
     };
-    if (!validateEmail(email)) {
+    if (!validateEmail($.trim(email))) {
         $("#refer_err_text").html("<b>Please enter valid email</b>");
         $("#refer_err").popup("open");
     } else {

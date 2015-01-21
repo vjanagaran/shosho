@@ -22,13 +22,16 @@
     <body>
         <div data-role="page" id="intro" data-title="Sho Sho Restaurant">
             <div role="main" class="ui-content">
-                <h3 class="align-center">Welcome to Sho Sho Restaurant</h3>
+                <h3 class="align-center band">Welcome to Sho Sho Restaurant</h3>
                 <div class="align-center">
                     <img src="img/logo.jpg" alt="sho sho" class="homeimg"/>
                 </div>
                 <div class="ui-grid-solo">
                     <div class=" align-center ui-block-a"><a class="ui-btn" href="#home">Get started</a></div>
                 </div>
+            </div>
+            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+                <h3 id="developed">App by <img src="img/jayam.png" alt="Jayam ltd"/></h3>
             </div>
         </div> <!-- introduction page-->
 
@@ -57,8 +60,8 @@
             </div>
             <div role="main" class="ui-content">
                 <input type="text" value="" placeholder="Your name" id="me_name"/>
-                <input type="text" value="" placeholder="Your email" id="me_email"/>
                 <input type="text" value="" placeholder="Your mobile" id="me_mobile"/>
+                <input type="text" value="" placeholder="Your email" id="me_email"/>
                 <a href="#" onclick="updateUser();" class="ui-btn ui-btn-corner-all ui-btn-a">Update Details</a>
             </div>
             <div data-role="popup" id="update_success" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="max-width:400px;">
@@ -203,6 +206,12 @@
                     <input type="text" name="pincode" id="pincode" value="" placeholder="Your area pincode" />
                     <input type="text" name="alt_num" id="alt_num" value="" placeholder="Alternet phone number" />
                 </div>
+                <div id="shosho_address">
+                    <h3>Sho Sho Resturant</h3>
+                    <h3>No. 2 Dargah Road,</h3>
+                    <h3>Pallavaram Chennai,</h3>
+                    <h3>Tamil Nadu 600043.</h3>
+                </div>
             </div>
             <div data-role="footer" data-position="fixed" data-tap-toggle="false">
                 <div class="ui-grid-solo">
@@ -321,7 +330,7 @@
             </div>
             <div role="main" class="ui-content">
                 <input type="text" name="code" value="" id="code" placeholder="Your Verification Code" />
-                <a class="ui-btn ui-corner-all ui-btn-b" href="#" onclick="verifyCode();">Submit</a>
+                <a class="ui-btn ui-corner-all ui-btn-a" href="#" onclick="verifyCode();">Verify</a>
                 <div id="timer"></div><div id="resend"></div>
             </div>
             <div data-role="popup" id="verify_err" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="max-width:400px;">
