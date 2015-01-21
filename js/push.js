@@ -14,6 +14,7 @@ push.initPushwoosh = function () {
 }
 
 function registerPushwooshAndroid() {
+    push.pushNotification = window.plugins.pushNotification;
     document.addEventListener('push-notification',
             function (event) {
                 var title = event.notification.title;
@@ -32,7 +33,6 @@ function registerPushwooshAndroid() {
 
     push.pushNotification.registerDevice(
             function (token) {
-                alert("set token: " + token);
                 onPushwooshAndroidInitialized(token);
             },
             function (status) {
@@ -73,6 +73,7 @@ function onPushwooshAndroidInitialized(pushToken) {
 }
 
 function registerPushwooshIOS() {
+    push.pushNotification = window.plugins.pushNotification;
     document.addEventListener('push-notification',
             function (event)
             {
