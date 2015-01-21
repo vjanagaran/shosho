@@ -1,4 +1,3 @@
-"use strict";
 var is_mobile = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;
 
 if (is_mobile) {
