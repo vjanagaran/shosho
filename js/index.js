@@ -35,10 +35,6 @@ var router = new $.mobile.Router([{
             introPage: function (type, match, ui) {
                 log("Home Page", 3);
                 showIntro();
-                removeVal(config.user_id);
-                removeVal(config.user_name);
-                removeVal(config.user_mobile);
-                removeVal(config.user_email);
             },
             homePage: function (type, match, ui) {
                 log("Home Page", 3);
