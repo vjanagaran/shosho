@@ -323,11 +323,18 @@ function showMe() {
     details = details + "<p><b>Mobile No:</b> " + mobile + "</p>";
     details = details + "<p><b>Email:</b> " + email + "</p>";
     if (name != null && email != null && mobile != null) {
-        $("#my_details").append(details);
+        $("#me_name").val(name);
+        $("#me_mobile").val(mobile);
+        $("#me_email").val(email);
     } else {
         $(":mobile-pagecontainer").pagecontainer("change", "#registration");
         redirect_me = true;
     }
+}
+
+function updateUser(){
+    $("#update_success_text").html("Sorry!! Work in progress..");
+    $("#update_success").popup("open");
 }
 
 var cart = {items: [], decs: "", delivery: ""};
@@ -389,9 +396,9 @@ function showMyCart() {
     var g_total = 0;
     if (cart.items.length > 0) {
         $("#cart div[data-role=footer]").removeClass("remove-item");
-        out = out + '<table data-role="table" data-mode="reflow" class="ui-responsive"><thead><tr><th class="align-left" data-priority="persist">Your Order</th><th class="align-right" data-priority="1">Qty</th><th class="align-right" data-priority="2">Amount</th><th data-priority="3">&nbsp;</th><th data-priority="4">&nbsp;</th></tr></thead><tbody>';
+        out = out + '<table data-role="table"><thead><tr><th class="align-left">Your Order</th><th class="align-right">Qty</th><th class="align-right">Amount</th><th>Manipulate</th></tr></thead><tbody>';
         $.each(cart.items, function (index, row) {
-            out = out + '<tr><td class = "align-left">' + row.name + '</td><td class="align-right"><div class="select-qty"><a onclick="decreaseCartQty(' + row.id + ')">-</a> <input data-role="none" name="qty" type="text" readonly="true" id="cart_item_' + row.id + '" value="' + row.qty + '"> <a onclick="increaseCartQty(' + row.id + ')">+</a></div></td><td class="align-right">' + (parseInt(row.rate) * parseInt(row.qty)).toFixed(2) + '</td><td ><a class="symbol" onclick="updateCart(' + row.id + ')">&#10004;</a> <a class="symbol" onclick="removeItem(' + row.id + ');">&#10008;</a></td></tr>';
+            out = out + '<tr><td class = "align-left">' + row.name + '</td><td class="align-right"><div class="select-qty"><a onclick="decreaseCartQty(' + row.id + ')">-</a> <input data-role="none" name="qty" type="text" readonly="true" id="cart_item_' + row.id + '" value="' + row.qty + '"> <a onclick="increaseCartQty(' + row.id + ')">+</a></div></td><td class="align-right">' + (parseInt(row.rate) * parseInt(row.qty)).toFixed(2) + '</td><td class="align-center"><a class="symbol" onclick="updateCart(' + row.id + ')">&#10004;</a> <a class="symbol" onclick="removeItem(' + row.id + ');">&#10008;</a></td></tr>';
             total = total + parseFloat(row.rate) * parseInt(row.qty);
             if (isNaN(cart_tax[row.tax])) {
                 cart_tax[row.tax] = 0;
@@ -400,14 +407,14 @@ function showMyCart() {
         });
         g_total = total;
         $.each(cart_tax, function (index, val) {
-            tax_row = tax_row + '<tr><td colspan="2" class="align-left">TAX ' + index + '%</td><td class="align-right">' + val.toFixed(2) + '</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
+            tax_row = tax_row + '<tr><td class="align-left" colspan="2">TAX ' + index + '%</td><td class="align-right">' + val.toFixed(2) + '</td><td>&nbsp;</td></tr>';
             g_total = g_total + val;
         });
-        out = out + '<tr><td colspan="3">&nbsp;</td></tr>';
-        out = out + '<tr><td class="align-left">Total</td><td class="align-right" colspan="2">' + total.toFixed(2) + '</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
+        out = out + '<tr><td>&nbsp;</td></tr>';
+        out = out + '<tbody><tr><td colspan="2" class="align-left">Total</td><td class="align-right">' + total.toFixed(2) + '</td><td>&nbsp;</td></tr>';
         out = out + tax_row;
-        out = out + '<tr><td colspan="2" class="align-left">Grand Total</td><td class="align-right">' + g_total.toFixed(2) + '</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
-        out = out + '<tr><td colspan="5"><textarea name="orderdecs" id="orderdecs" placeholder="Order description (optional)...."></textarea></td></tr></tbody></table>';
+        out = out + '<tr><td class="align-left" colspan="2">Grand Total</td><td class="align-right">' + g_total.toFixed(2) + '</td><td>&nbsp;</td></tr>';
+        out = out + '<tr><td colspan="4"><textarea name="orderdecs" id="orderdecs" placeholder="Order description (optional)...."></textarea></td></tr></tbody></table>';
     } else {
         out = "<p>No items found in your cart</p>";
         $("#cart div[data-role=footer]").addClass("remove-item");
@@ -472,10 +479,18 @@ function processOrder() {
             data: data,
             cache: false,
             success: function (html) {
-                cart.items = [];
-                grand_total = 0;
-                $("#order_success_text").html("<b>" + html.message + "</b>");
-                $("#order_success").popup("open");
+                if (html.error == false) {
+                    cart.items = [];
+                    grand_total = 0;
+                    $("#order_success .ui-content a").removeAttr("data-rel");
+                    $("#order_success .ui-content a").attr("onclick", "redirectOrdersPage()");
+                    $("#order_success_text").html("<b>" + html.message + "</b>");
+                    $("#order_success").popup("open");
+                } else {
+                    $("#order_success_text").html("<b>" + html.message + "</b>");
+                    $("#order_success .ui-content a").removeAttr("onclick");
+                    $("#order_success").popup("open");
+                }
             },
             error: function (request, status, error) {
                 $("#success_msg").empty();
@@ -497,7 +512,7 @@ function showOrders() {
         $("#ordered_items").empty();
         $("#ordered_items").append(loading);
         var out = "";
-        out = out + '<table data-role="table" data-mode="reflow" class="ui-responsive"><thead><tr><th class="align-left" data-priority="persist">Order Id</th><th class="align-left" data-priority="1">Date</th><th class="align-right" data-priority="2">Amount</th><th class="align-center" data-priority="3">Status</th></tr></thead><tbody>';
+        out = out + '<table data-role="none"><thead><tr><th class="align-left">Or.Id</th><th class="align-left">Date</th><th class="align-right">Amount</th><th class="align-center">Status</th></tr></thead><tbody>';
         $.ajax({
             type: "GET",
             url: config.api_url + "module=order&action=list&id=" + id,
@@ -510,7 +525,7 @@ function showOrders() {
                 } else {
                     $("#ordered_items").empty();
                     $.each(data.data, function (index, row) {
-                        out = out + '<tr><td class="align-left">' + row.id + '</td><td class="align-left">' + $.format.date(row.date, "dd-MMM-yyyy H:m") + '</td><td class="align-right">' + parseFloat(row.amount).toFixed(2) + '</td><td class="align-center">' + row.status + '</td></tr>';
+                        out = out + '<tr><td class="align-left">' + row.id + '</td><td class="align-left">' + $.format.date(row.date, "dd-MMM-yy") + '</td><td class="align-right">' + parseFloat(row.amount).toFixed(2) + '</td><td class="align-center">' + row.status + '</td></tr>';
                     });
                     out = out + '</tbody></table>';
                     $(out).appendTo("#ordered_items").enhanceWithin();
@@ -543,7 +558,7 @@ function updateCart(id) {
 function processStep1() {
     var decs = $("#orderdecs").val();
     cart.decs = decs;
-    if (getVal(config.user_id) != null) {
+    if (getVal(config.user_id) != null && getVal(config.user_id) !== "undefined") {
         $(":mobile-pagecontainer").pagecontainer("change", "#delivery");
     } else {
         $(":mobile-pagecontainer").pagecontainer("change", "#registration");
@@ -771,7 +786,7 @@ function referFriend() {
     } else {
         $.ajax({
             type: "POST",
-            url: config.api_url + "module=user&action=feedback",
+            url: config.api_url + "module=user&action=invitefriend",
             data: data,
             cache: false,
             success: function (data) {
