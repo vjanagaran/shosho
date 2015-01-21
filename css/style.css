@@ -254,7 +254,26 @@ body, input, select, textarea, button, .ui-btn {
         width: 50px;
     }
 
-    #catalog .category > span {
+    div[data-role="header"], div[data-role="header"] > a{
+        font-size: 14px!important;
+    }
+
+    div[data-role="header"] > a{
+        padding: 5px;
+    }
+
+    #catalog .category > span{
         font-size: 16px!important;
+    }
+}
+
+@media screen and (max-width: 240px) {
+
+    div[data-role="header"], div[data-role="header"] > a{
+        font-size: 14px!important;
+    }
+
+    div[data-role="header"] > a{
+        padding: 5px;
     }
 }

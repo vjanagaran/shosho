@@ -236,9 +236,9 @@ function loadCatalogItems(cat) {
 
 function createCode() {
     if (validateRegistration()) {
-        var name = $('#name').val();
-        var mobile = $('#mobile').val();
-        var email = $('#email').val();
+        var name = $.trim($('#name').val());
+        var mobile = $.trim($('#mobile').val());
+        var email = $.trim($('#email').val());
         var details = {
             name: name,
             mobile: mobile,
@@ -858,6 +858,7 @@ function resend() {
         id: id,
         device_token: getVal(config.device_token)
     };
+    startTimer();
     $.ajax({
         type: "POST",
         url: config.api_url + "module=user&action=resend",
