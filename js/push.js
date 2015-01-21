@@ -4,9 +4,7 @@ var GoogleAppID = "1069059125213";
 
 push.pushNotification = null;
 push.initPushwoosh = function () {
-    alert("Init push");
     push.pushNotification = window.plugins.pushNotification;
-
     if (device.platform == "Android") {
         registerPushwooshAndroid();
     }
@@ -30,7 +28,7 @@ function registerPushwooshAndroid() {
                 //pushNotification.stopGeoPushes();
             });
 
-    push.pushNotification.onDeviceReady({projectid: GoogleAppID, appid: PWAppID});
+    push.pushNotification.onDeviceReady({projectid: "1069059125213", appid: "AC4D4-E4A45"});
 
     push.pushNotification.registerDevice(
             function (token) {
@@ -84,7 +82,7 @@ function registerPushwooshIOS() {
             });
 
     //initialize the plugin
-    push.pushNotification.onDeviceReady({pw_appid: PWAppID});
+    push.pushNotification.onDeviceReady({pw_appid: "AC4D4-E4A45"});
 
     //register for pushes
     push.pushNotification.registerDevice(
