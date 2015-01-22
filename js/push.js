@@ -24,7 +24,7 @@ function registerPushwooshAndroid() {
                     console.warn('user data: ' + JSON.stringify(userData));
                 }
                 //and show alert
-                alert(title);
+                //alert(title);
                 //stopping geopushes
                 //pushNotification.stopGeoPushes();
             });
@@ -78,7 +78,7 @@ function registerPushwooshIOS() {
             function (event)
             {
                 var notification = event.notification;
-                alert(notification.aps.alert);
+                //alert(notification.aps.alert);
                 push.pushNotification.setApplicationIconBadgeNumber(0);
             });
 

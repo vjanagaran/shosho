@@ -1,5 +1,4 @@
 var is_mobile = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;
-
 if (is_mobile) {
     document.addEventListener("deviceready", onDeviceReady, false);
     document.addEventListener("touchstart", function () {
@@ -17,10 +16,10 @@ function onDeviceReady() {
 var after_reg = "";
 var redirect_me = false;
 var router = new $.mobile.Router([{
-        "#intro": {handler: "introPage", events: "bs"},
         "#home": {handler: "homePage", events: "bs"},
         "#catalog": {handler: "catalogPage", events: "bs"},
         "#catalogitems(?:[?/](.*))?": {handler: "catalogitemsPage", events: "bs"},
+        "#view_ordered_items(?:[?/](.*))?": {handler: "viewordereditemsPage", events: "bs"},
         "#cart": {handler: "cartPage", events: "bs"},
         "#delivery": {handler: "deliveryPage", events: "bs"},
         "#payment": {handler: "paymentPage", events: "bs"},
@@ -28,14 +27,11 @@ var router = new $.mobile.Router([{
         "#orders": {handler: "ordersPage", events: "bs"},
         "#more": {handler: "morePage", events: "bs"},
         "#verify": {handler: "verifyPage", events: "bs"},
+        "#getdirection": {handler: "getdirectionPage", events: "bs"},
         "#feedback": {handler: "feedbackPage", events: "bs"},
         "#details": {handler: "detailsPage", events: "bs"}
     }],
         {
-            introPage: function (type, match, ui) {
-                log("Home Page", 3);
-                showIntro();
-            },
             homePage: function (type, match, ui) {
                 log("Home Page", 3);
             },
@@ -48,6 +44,11 @@ var router = new $.mobile.Router([{
                 var params = router.getParams(match[1]);
                 loadCatalogItems(params.cat);
                 calcCart();
+            },
+            viewordereditemsPage: function (type, match, ui) {
+                log("View Ordered Items page", 3);
+                var params = router.getParams(match[1]);
+                loadOrderedItems(params.cat);
             },
             cartPage: function (type, match, ui) {
                 log("Cart Items page", 3);
@@ -85,6 +86,10 @@ var router = new $.mobile.Router([{
                 clearInterval();
                 startTimer();
             },
+            getdirectionPage: function (type, match, ui) {
+                log("GetDirection Page", 3);
+                getDirection();
+            },
             feedbackPage: function (type, match, ui) {
                 log("Feedback Page", 3);
                 showFeedbackForm();
@@ -101,7 +106,6 @@ var router = new $.mobile.Router([{
     defaultHandlerEvents: "s",
     defaultArgsRe: true
 });
-
 $.addTemplateFormatter({
     menuHref: function (value, options) {
         return "#catalogitems?cat=" + value;
@@ -159,8 +163,6 @@ $.addTemplateFormatter({
         return "decreaseQty(" + value + ")";
     }
 });
-
-
 /**** Pre Defined Functions **/
 
 function log(msg, level) {
@@ -179,7 +181,6 @@ function log(msg, level) {
 /********  General Functions **/
 
 var loading = '<div class="align-center"><br/><br/><img src="img/loading.gif" width="60" /></div>';
-
 function loadCatalog() {
     $("#categories").empty();
     $("#categories").append(loading);
@@ -199,10 +200,6 @@ function loadCatalog() {
             $("#categories").append('Error in loading data');
         }
     });
-}
-
-function showIntro() {
-
 }
 
 function loadCatalogItems(cat) {
@@ -287,7 +284,6 @@ function createCode() {
 
 function redirectToRespectivePages() {
     $(":mobile-pagecontainer").pagecontainer("change", "#" + after_reg);
-
 }
 
 function verifyCode() {
@@ -352,7 +348,6 @@ function updateUser() {
 var cart = {items: [], decs: "", delivery: ""};
 var confirm_id = 0;
 var grand_total = 0;
-
 function addToCart(id) {
     var qty = $("#item_qty_" + id).val();
     var name = $("#item_name_" + id).html();
@@ -423,7 +418,7 @@ function showMyCart() {
             g_total = g_total + val;
         });
         out = out + '<tr><td>&nbsp;</td></tr>';
-        out = out + '<tbody><tr><td colspan="2" class="align-left">Total</td><td class="align-right">' + total.toFixed(2) + '</td><td>&nbsp;</td></tr>';
+        out = out + '<tr><td colspan="2" class="align-left">Total</td><td class="align-right">' + total.toFixed(2) + '</td><td>&nbsp;</td></tr>';
         out = out + tax_row;
         out = out + '<tr><td class="align-left" colspan="2">Grand Total</td><td class="align-right">' + g_total.toFixed(2) + '</td><td>&nbsp;</td></tr>';
         out = out + '<tr><td colspan="4"><textarea name="orderdecs" id="orderdecs" placeholder="Order description (optional)...."></textarea></td></tr></tbody></table>';
@@ -524,7 +519,7 @@ function showOrders() {
         $("#ordered_items").empty();
         $("#ordered_items").append(loading);
         var out = "";
-        out = out + '<table data-role="none"><thead><tr><th class="align-left">Or.Id</th><th class="align-left">Date</th><th class="align-right">Amount</th><th class="align-center">Status</th></tr></thead><tbody>';
+        out = out + '<table data-role="none"><thead><tr><th class="align-left">Or.Id</th><th class="align-left">Date</th><th class="align-right">Amount</th><th class="align-center">Status</th><th>&nbsp;</th></tr></thead><tbody>';
         $.ajax({
             type: "GET",
             url: config.api_url + "module=order&action=list&id=" + id,
@@ -537,7 +532,7 @@ function showOrders() {
                 } else {
                     $("#ordered_items").empty();
                     $.each(data.data, function (index, row) {
-                        out = out + '<tr><td class="align-left">' + row.id + '</td><td class="align-left">' + $.format.date(row.date, "dd-MMM-yy") + '</td><td class="align-right">' + parseFloat(row.amount).toFixed(2) + '</td><td class="align-center">' + row.status + '</td></tr>';
+                        out = out + '<tr><td class="align-left">' + row.id + '</td><td class="align-left">' + $.format.date(row.date, "dd-MMM-yy") + '</td><td class="align-right">' + parseFloat(row.amount).toFixed(2) + '</td><td class="align-center">' + row.status + '</td><td><a href="#view_ordered_items?cat=' + row.id + '"><i class="fa fa-eye"></i></a></td></tr>';
                     });
                     out = out + '</tbody></table>';
                     $(out).appendTo("#ordered_items").enhanceWithin();
@@ -552,6 +547,69 @@ function showOrders() {
         $("#ordered_items").empty();
         $("#ordered_items").html("<p>Your information is not found...</p>");
     }
+}
+
+var reorder = [];
+
+function loadOrderedItems(oid) {
+    var out = "";
+    var items = {};
+    var ordered_tax = {};
+    var total = 0;
+    var tax_row = "";
+    var g_total = 0;
+    $("#ordered_items_list").empty();
+    $("#ordered_items_list").append(loading);
+    $.ajax({
+        type: "GET",
+        url: config.api_url + "module=order&action=orderlist&id=" + oid,
+        dataType: 'json',
+        cache: false,
+        success: function (data) {
+            if (data.error == false) {
+                out = out + '<table><thead><tr><th class="align-left">Items</th><th class="align-right">Qty</th><th class="align-right">Amount</th></tr></thead><tbody>';
+                $.each(data.item, function (index, row) {
+                    out = out + '<tr><td class="align-left">' + row.name + '</td><td class="align-right">' + row.quantity + '</td><td class="align-right">' + row.rate + '</td></tr>';
+                    total = total + parseFloat(row.rate) * parseInt(row.quantity);
+                    if (isNaN(ordered_tax[row.tax])) {
+                        ordered_tax[row.tax] = 0;
+                    }
+                    ordered_tax[row.tax] = parseFloat(ordered_tax[row.tax]) + (parseFloat(row.rate) * parseInt(row.quantity) * parseFloat(row.tax) / 100);
+                    items = {
+                        id: row.id,
+                        qty: row.quantity
+                    };
+                    reorder.push(items);
+                });
+                g_total = g_total + total;
+                $.each(ordered_tax, function (index, val) {
+                    tax_row = tax_row + '<tr><td class="align-left" colspan="2">TAX ' + index + '%</td><td class="align-right">' + val.toFixed(2) + '</td></tr>';
+                    g_total = g_total + val;
+                });
+                out = out + '<tr><td colspan="3">&nbsp;</td></tr>';
+                out = out + '<tr><td colspan="2" class="align-left">Total</td><td class="align-right">' + total.toFixed(2) + '</td></tr>';
+                out = out + tax_row;
+                out = out + '<tr><td class="align-left" colspan="2">Grand Total</td><td class="align-right">' + g_total.toFixed(2) + '</td></tr>';
+                out = out + '<tr><td colspan="3">&nbsp;</td></tr>';
+                out = out + '<tr><td colspan="2">Delivery Type</td><td>' + data.delivery_type + '</td></tr>'
+                out = out + '<tr><td colspan="2">Order Status</td><td>' + data.status + '</td></tr>'
+                out = out + '<tr><td colspan="2">Order Date</td><td>' + $.format.date(data.date, "dd-MMM-yy hh:mm") + '</td></tr></tbody></table>';
+                $("#ordered_items_list").empty();
+                $("#ordered_items_list").append(out);
+            } else {
+                $("#ordered_items_list").empty();
+                $("#ordered_items_list").append(data.message);
+            }
+        },
+        error: function (request, status, error) {
+            $("#ordered_items_list").empty();
+            $("#ordered_items_list").append("Loading failed please retry......");
+        }
+    });
+}
+
+function reorderItems() {
+    console.log(reorder);
 }
 
 function updateCart(id) {
@@ -875,4 +933,66 @@ function resend() {
             $("#verify_err").popup("open");
         }
     });
+}
+
+var map,
+        currentPosition,
+        directionsDisplay,
+        directionsService,
+        destinationLatitude = 12.966383,
+        destinationLongitude = 80.148874;
+function getDirection() {
+    if (typeof (google) !== "undefined") {
+        $("#map_canvas").append(navigator.geolocation.getCurrentPosition(routeMap, locError, {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}));
+    } else {
+        $("#map_canvas").empty();
+        $("#map_canvas").append("<p>Please connect your device with internet to share your location</p>");
+    }
+}
+
+function routeMap(position) {
+    $("#map_canvas").empty();
+    directionsDisplay = new google.maps.DirectionsRenderer();
+    directionsService = new google.maps.DirectionsService();
+    currentPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    map = new google.maps.Map(document.getElementById('map_canvas'), {
+        zoom: 15,
+        center: currentPosition,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    directionsDisplay.setMap(map);
+    var currentPositionMarker = new google.maps.Marker({
+        position: currentPosition,
+        map: map,
+        title: "Current position"
+    });
+    calculateRoute();
+}
+
+function locError(error) {
+    // the current position could not be located
+}
+
+function calculateRoute() {
+    var targetDestination = new google.maps.LatLng(destinationLatitude, destinationLongitude);
+    if (currentPosition != '' && targetDestination != '') {
+        var request = {
+            origin: currentPosition,
+            destination: targetDestination,
+            travelMode: google.maps.DirectionsTravelMode["DRIVING"]
+        };
+        directionsService.route(request, function (response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setPanel(document.getElementById("directions"));
+                directionsDisplay.setDirections(response);
+                $("#results").show();
+            }
+            else {
+                $("#results").hide();
+            }
+        });
+    }
+    else {
+        $("#results").hide();
+    }
 }

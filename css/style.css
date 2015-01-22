@@ -12,6 +12,15 @@
 
 body{
 }
+.ui-header-fixed {
+    z-index: 1002;
+}
+
+.ui-header .ui-btn {
+    background: none;
+    border: none;
+    box-shadow: none;
+}
 
 div[data-role="page"]{
     background: transparent;
@@ -118,7 +127,7 @@ body, input, select, textarea, button, .ui-btn {
     margin: 10px 0;
 }
 
-#my_cart_items > table, #ordered_items > table{
+#my_cart_items > table, #ordered_items > table, #ordered_items_list > table {
     width: 100%;
 }
 
@@ -189,7 +198,11 @@ body, input, select, textarea, button, .ui-btn {
     float: right;
 }
 
-.remove-item {
+#map_canvas{
+    height: 350px;
+}
+
+.remove-item, #results {
     display: none;
 }
 
