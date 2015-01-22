@@ -172,17 +172,15 @@
             <div role="main" class="ui-content">
                 <div class="ui-content"><label><input onchange="showDetails();" data-role="none" type="radio" name="delivery" id="takeaway" value="0">Take Away</label></div>
                 <div id="shosho_address">
-                    <h3>Sho Sho Resturant</h3>
-                    <h3>No. 2 Dargah Road,</h3>
-                    <h3>Pallavaram Chennai,</h3>
-                    <h3>Tamil Nadu 600043.</h3>
-                    <a href="#getdirection" class="ui-btn ui-btn-corner-all" id="show_direction">Get Directions</a>
+                    <p><b>Sho Sho Restaurant</b><br/>
+                        No. 2 Dargah Road,<br/>
+                        Pallavaram Chennai,<br/>
+                        Tamil Nadu 600043.</p>
+                    <a href="#getdirection" class="ui-btn ui-btn-corner-all" id="show_direction"><i class="fa fa-location-arrow"></i> Get Directions</a>
                 </div>
                 <div class="ui-content"><label><input onchange="showDetails();" data-role="none" type="radio" name="delivery" id="home_delivery" value="1">Home Delivery</label></div>
                 <div id="delivery_err"></div>
                 <div id="address_form">
-                    <input type="text" name="address1" id="address1" value="" placeholder="Your Address Line 1" />
-                    <input type="text" name="address2" id="address2" value="" placeholder="Your Address Line 2" />
                     <select id="area" data-theme="c">
                         <option value="Palavakkam">Palavakkam</option>
                         <option value="Kottivakkam">Kottivakkam</option>
@@ -192,6 +190,8 @@
                         <option value="Thiruvanmiyur">Thiruvanmiyur</option>
                     </select>
                     <p>Home delivery is not done outside of the drop down listed area.</p>
+                    <input type="text" name="address1" id="address1" value="" placeholder="Your Address Line 1" />
+                    <input type="text" name="address2" id="address2" value="" placeholder="Your Address Line 2" />
                     <input readonly="true" type="text" name="city" id="city" value="Chennai" placeholder="Your city" />
                     <input type="text" name="pincode" id="pincode" value="" placeholder="Your area pincode" />
                     <input type="text" name="alt_num" id="alt_num" value="" placeholder="Alternet phone number" />
