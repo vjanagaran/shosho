@@ -8,6 +8,8 @@ if (is_mobile) {
 }
 
 function onDeviceReady() {
+    $.mobile.defaultPageTransition = 'none';
+    $.mobile.defaultDialogTransition = 'none';
     if (is_mobile) {
         push.initPushwoosh();
     }
