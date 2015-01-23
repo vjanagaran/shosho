@@ -31,6 +31,10 @@ body{
     font-size: .9em;
 }
 
+div[data-role="popup"] .ui-content > a{
+    
+}
+
 .jayam a {
     color: #000000!important;
     text-decoration: none;

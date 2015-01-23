@@ -17,6 +17,7 @@ config = function () {
         user_city: "sho_sho_user_city",
         user_image: "sho_sho_user_image",
         user_id: "sho_sho_userid",
+        user_status: "sho_sho_user_status",
         user_alternet_number: "sho_sho_user_alternet_number",
         device_token: "sho_sho_device_token"
     };

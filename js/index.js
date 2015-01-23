@@ -26,6 +26,7 @@ var router = new $.mobile.Router([{
         "#delivery": {handler: "deliveryPage", events: "bs"},
         "#payment": {handler: "paymentPage", events: "bs"},
         "#me": {handler: "mePage", events: "bs"},
+        "#registration": {handler: "registrationPage", events: "bs"},
         "#orders": {handler: "ordersPage", events: "bs"},
         "#more": {handler: "morePage", events: "bs"},
         "#verify": {handler: "verifyPage", events: "bs"},
@@ -62,7 +63,11 @@ var router = new $.mobile.Router([{
             paymentPage: function (type, match, ui) {
                 log("Payment Items page", 3);
                 $("#payment_items_total").html(grand_total);
-                $("#cash_pay").attr("checked", true)
+                $("#cash_pay").attr("checked", true);
+            },
+            registrationPage: function (type, match, ui) {
+                log("Registration page", 3);
+                $("#err_msg").empty();
             },
             morePage: function (type, match, ui) {
                 log("More page", 3);
@@ -234,6 +239,8 @@ function loadCatalogItems(cat) {
 }
 
 function createCode() {
+    $("#err_msg").empty();
+    $("#err_msg").append(loading);
     if (validateRegistration()) {
         var name = $.trim($('#name').val());
         var mobile = $.trim($('#mobile').val());
@@ -250,6 +257,7 @@ function createCode() {
             data: details,
             cache: false,
             success: function (html) {
+                $("#err_msg").empty();
                 if (html.error == false) {
                     $("#reg_err .ui-content a").removeAttr("data-rel");
                     $("#reg_err .ui-content a").attr("onclick", "redirectToRespectivePages()");
@@ -257,6 +265,7 @@ function createCode() {
                     setVal(config.user_mobile, mobile);
                     setVal(config.user_email, email);
                     setVal(config.user_id, html.id);
+                    setVal(config.user_status, html.status);
                     after_reg = "verify";
                     $("#reg_err_text").html("<b>" + html.message + "</b>");
                     $("#reg_err").popup("open");
@@ -267,11 +276,7 @@ function createCode() {
                     setVal(config.user_mobile, mobile);
                     setVal(config.user_email, email);
                     setVal(config.user_id, html.id);
-                    if (redirect_me == true) {
-                        after_reg = "me";
-                    } else {
-                        after_reg = "delivery";
-                    }
+                    after_reg = "verify";
                     $("#reg_err_text").html("<b>" + html.message + "</b>");
                     $("#reg_err").popup("open");
                 }
@@ -294,7 +299,7 @@ function verifyCode() {
         var details = {
             user: getVal(config.user_id),
             code: code
-        }
+        };
         $.ajax({
             type: "POST",
             url: config.api_url + "module=user&action=verify",
@@ -302,14 +307,17 @@ function verifyCode() {
             cache: false,
             success: function (html) {
                 if (html.error == false) {
-                    if (redirect_me == true) {
-                        after_reg = "me";
-                    } else {
-                        after_reg = "delivery";
-                    }
                     $("#verify_err .ui-content a").removeAttr("data-rel");
                     $("#verify_err .ui-content a").attr("onclick", "redirectToRespectivePages()");
-                    $("#verify_err_text").html("<b>Code verified successfully</b>");
+                    setVal(config.user_status, html.status);
+                    if (getVal(config.user_status) != 0) {
+                        if (redirect_me != true) {
+                            after_reg = "delivery";
+                        } else {
+                            after_reg = "me";
+                        }
+                        $("#verify_err_text").html("<b>" + html.message + "</b>");
+                    }
                     $("#verify_err").popup("open");
                 } else {
                     $("#verify_err_text").html("<b>" + html.message + "</b>");
@@ -326,13 +334,12 @@ function verifyCode() {
 
 function showMe() {
     $("#my_details").empty();
+    $("#update_success").empty();
+    var id = getVal(config.user_id);
     var name = getVal(config.user_name);
     var mobile = getVal(config.user_mobile);
     var email = getVal(config.user_email);
-    var details = "<p><b>Name:</b> " + name + "</p>";
-    details = details + "<p><b>Mobile No:</b> " + mobile + "</p>";
-    details = details + "<p><b>Email:</b> " + email + "</p>";
-    if (name != null && email != null && mobile != null) {
+    if (id != null) {
         $("#me_name").val(name);
         $("#me_mobile").val(mobile);
         $("#me_email").val(email);
@@ -342,9 +349,53 @@ function showMe() {
     }
 }
 
+function validateUpdation() {
+    if ($.trim($("#me_name").val()).length < 3) {
+        $("#update_success").empty();
+        $("#update_success").append("<b>Name should be 3 char</b>");
+        return false;
+    }
+    if (!validateEmail($.trim(jQuery("#me_email").val()))) {
+        $("#update_success").empty();
+        $("#update_success").append("<b>Please enter valid email</b>");
+        return false;
+    }
+    return true;
+}
+
 function updateUser() {
-    $("#update_success_text").html("Sorry!! Work in progress..");
-    $("#update_success").popup("open");
+    $("#update_success").empty();
+    $("#update_success").append(loading);
+    if (validateUpdation()) {
+        var name = $("#me_name").val();
+        var email = $("#me_email").val();
+        var data = {
+            name: name,
+            email: email,
+            id: getVal(config.user_id)
+        };
+        $.ajax({
+            type: "POST",
+            url: config.api_url + "module=user&action=update",
+            data: data,
+            cache: false,
+            success: function (html) {
+                if (html.error == false) {
+                    setVal(config.user_name, name);
+                    setVal(config.user_email, email);
+                    $("#update_success").empty();
+                    $("#update_success").append(html.message);
+                } else {
+                    $("#update_success").empty();
+                    $("#update_success").append(html.message);
+                }
+            },
+            error: function (request, status, error) {
+                $("#update_success").empty();
+                $("#update_success").append("Process failed please try again after some times.....");
+            }
+        });
+    }
 }
 
 var cart = {items: [], decs: "", delivery: ""};
