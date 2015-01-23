@@ -22,17 +22,19 @@ body{
     box-shadow: none;
 }
 
-div[data-role="footer"]{
+.jayam {
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+    left: 0;
     text-align: center;
     font-size: .9em;
-    font-style: italic;
     color: #ffffff;
 }
 
-div[data-role="footer"] a {
-    color: #ffffff!important;
+.jayam a {
     text-decoration: none;
-    font-style: normal;
+    color: #ffffff!important;
 }
 
 .ui-controlgroup .ui-controlgroup-controls {
@@ -123,8 +125,8 @@ body, input, select, textarea, button, .ui-btn {
 }
 
 #catalog .category{
-    margin: 10px;
-    padding: 10px;
+    margin: 0 0 10px 0;
+    padding: 0 10px 0 0;
     position: relative;
     border-radius: 5px;
 }
@@ -138,9 +140,9 @@ body, input, select, textarea, button, .ui-btn {
 }
 
 #catalog .category > span{
-    margin-left: 70px;
+    margin: 5px 10px 5px 70px;
     text-align: left;
-    font-size: 1.25em!important;
+    font-size: 1.2em!important;
     display: block;
     white-space: normal;
     word-wrap: break-word;
@@ -240,14 +242,19 @@ body, input, select, textarea, button, .ui-btn {
     display: inline-block;
     background-color: tomato;
     font-size: 12px;
-    color: #000000;
+    color: #F55E3D!important;
+    text-shadow: none;
     cursor: pointer;
     position: absolute;
     top: 2px;
     right: 2px;
-    background: #999999;
+    background: #666666;
     padding: 3px 6px;
     border-radius: 50%;
+}
+
+.selected .select-qty {
+    border-color: #6f9e00;
 }
 
 .symbol{

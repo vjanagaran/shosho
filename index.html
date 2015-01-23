@@ -36,11 +36,6 @@
                     <div class=" align-center ui-block-a"><a class="ui-btn" href="#home">Get started</a></div>
                 </div>
             </div>
-            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
-                <div class="ui-grid-solo">
-                    <div>Powered by  <a href="http://www.jayam.co.uk"> Jayam Ltd.</a></div>
-                </div>
-            </div>
         </div> <!-- introduction page-->
 
         <div data-role="page" id="home" data-title="Sho Sho Restaurant">
@@ -58,11 +53,6 @@
                     <div class="ui-block-b"><a href="#more" class="ui-btn ui-btn-corner-all"><i class="fa fa-bars"></i><br/>More</a></div>
                 </fieldset>
             </div>
-            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
-                <div class="ui-grid-solo">
-                    <div>Powered by  <a href="http://www.jayam.co.uk"> Jayam Ltd.</a></div>
-                </div>
-            </div>
         </div> <!-- home -->
 
         <div data-role="page" id="me" data-title="Sho Sho Restaurant">
@@ -78,11 +68,6 @@
                 <a href="#" onclick="updateUser();" class="ui-btn ui-btn-corner-all ui-btn-a">Update Details</a>
             </div>
             <div id="update_success"></div>
-            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
-                <div class="ui-grid-solo">
-                    <div>Powered by  <a href="http://www.jayam.co.uk"> Jayam Ltd.</a></div>
-                </div>
-            </div>
         </div> <!-- me -->
 
         <div data-role="page" id="catalog" data-title="Sho Sho Restaurant">
@@ -94,14 +79,8 @@
             <div role="main" class="ui-content">
                 <div id="categories"></div>
             </div>
-            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
-                <div class="ui-grid-solo">
-                    <div>Powered by  <a href="http://www.jayam.co.uk"> Jayam Ltd.</a></div>
-                </div>
-            </div>
-
             <script type="text/html" id="category_list_tpl">
-                <a class="ui-btn ui-btn-a category" data-template-bind='[
+                <a class="ui-btn ui-btn-d category" data-template-bind='[
                    {"attribute": "href", "value": "id", "formatter": "menuHref"}]'>
                     <img data-src="image" />
                     <span data-content="name"></span>
@@ -136,7 +115,7 @@
                 <div data-template-bind='[
                      {"attribute": "class", "value": "id", "formatter": "menuItemClass"},
                      {"attribute": "id", "value": "id", "formatter": "menuItemId"}]'> 
-                    <a class="remove-item" data-template-bind='[{"attribute": "onclick", "value": "id", "formatter": "itemRemoveclick"}]'>X</a>
+                    <a class="remove-item" data-template-bind='[{"attribute": "onclick", "value": "id", "formatter": "itemRemoveclick"}]'>&#10008;</a>
                     <div class="item-info">
                         <h3 data-content="name" data-template-bind='[{"attribute": "id", "value": "id", "formatter": "itemNameId"}]'></h3><h3 class="item-decs" data-content="short_description"></h3>
                         <div>
@@ -150,7 +129,7 @@
                                            {"attribute": "value", "value": "id", "formatter": "itemQtyVal"}]'> 
                                     <a data-template-bind='[{"attribute": "onclick", "value": "id", "formatter": "qtyIncreaseOnclick"}]'>+</a>
                                 </div>
-                                <a class="add-btn" data-template-bind='[{"attribute": "onclick", "value": "id", "formatter": "itemOnclick"}]'>Add</a>
+                                <a class="add-btn" data-template-bind='[{"attribute": "onclick", "value": "id", "formatter": "itemOnclick"}]'>&#10004;</a>
                             </div>
                             <input type="hidden" data-value="tax" data-template-bind='[{"attribute": "id", "value": "id", "formatter": "itemTaxId"}]' />
                         </div>
@@ -274,11 +253,6 @@
             <div role="main" class="ui-content">
                 <div id="ordered_items"></div>
             </div>
-            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
-                <div class="ui-grid-solo">
-                    <div>Powered by  <a href="http://www.jayam.co.uk"> Jayam Ltd.</a></div>
-                </div>
-            </div>
         </div> <!-- orders -->
 
         <div data-role="page" id="view_ordered_items" data-title="Sho Sho Restaurant">
@@ -307,11 +281,6 @@
                     <li><a href="#refer">Refer Friend</a></li>
                     <li><a href="#about">About</a></li>
                 </ul>
-            </div>
-            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
-                <div class="ui-grid-solo">
-                    <div>Powered by  <a href="http://www.jayam.co.uk"> Jayam Ltd.</a></div>
-                </div>
             </div>
         </div> <!-- more -->
 
@@ -487,13 +456,14 @@
 
         <div data-role="panel" id="mypannel" data-position="left" data-theme="c" data-position-fixed="true" data-display="overlay">
             <br/><br/> 
-            <ul class="ui-content" data-role="listview">
+            <ul class="ui-content" data-role="listview" data-theme="a">
                 <li><a href="#home"><i class="fa fa-home"></i> Home</a></li>
                 <li><a href="#catalog"><i class="fa fa-cutlery"></i> Menu</a></li>
                 <li><a href="#orders"><i class="fa fa-paper-plane"></i> Orders</a></li>
                 <li><a href="#me"><i class="fa fa-user"></i> Me</a></li>
                 <li><a href="#more"><i class="fa fa-bars"></i> More</a></li>
             </ul>
+            <div class="jayam">Powered by  <a href="http://www.jayam.co.uk">Jayam Ltd</a></div>
         </div>
     </body>
 </html>

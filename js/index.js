@@ -405,7 +405,12 @@ function addToCart(id) {
     var qty = $("#item_qty_" + id).val();
     var name = $("#item_name_" + id).html();
     confirm_id = id;
-    $("#confirm_text").html("You're adding <b>" + name + "</b> into cart <b>" + qty + " nos.</b>");
+    var act = "adding";
+    if($( "#menu_item_" + id).hasClass("selected")) {
+        act = "updating";
+    }
+    
+    $("#confirm_text").html("You're " + act + " <b>" + name + "</b> into cart <b>" + qty + " nos.</b>");
     $("#popupDialog").popup("open");
 }
 
@@ -572,7 +577,10 @@ function showOrders() {
         $("#ordered_items").empty();
         $("#ordered_items").append(loading);
         var out = "";
-        out = out + '<table data-role="none"><thead><tr><th class="align-left">Or.Id</th><th class="align-left">Date</th><th class="align-right">Amount</th><th class="align-center">Status</th><th>&nbsp;</th></tr></thead><tbody>';
+        //out = out + '<table data-role="none"><thead><tr><th class="align-left">Or.Id</th><th class="align-left">Date</th><th class="align-right">Amount</th><th class="align-center">Status</th><th>&nbsp;</th></tr></thead><tbody>';
+        
+        out = out + '<div><ul data-role="listview" data-inset="true" data-theme="b">';
+        
         $.ajax({
             type: "GET",
             url: config.api_url + "module=order&action=list&id=" + id,
@@ -585,9 +593,11 @@ function showOrders() {
                 } else {
                     $("#ordered_items").empty();
                     $.each(data.data, function (index, row) {
-                        out = out + '<tr><td class="align-left">' + row.id + '</td><td class="align-left">' + $.format.date(row.date, "dd-MMM-yy") + '</td><td class="align-right">' + parseFloat(row.amount).toFixed(2) + '</td><td class="align-center">' + row.status + '</td><td><a href="#view_ordered_items?cat=' + row.id + '"><i class="fa fa-eye"></i></a></td></tr>';
+                        //out = out + '<tr><td class="align-left">' + row.id + '</td><td class="align-left">' + $.format.date(row.date, "dd-MMM-yy") + '</td><td class="align-right">' + parseFloat(row.amount).toFixed(2) + '</td><td class="align-center">' + row.status + '</td><td><a href="#view_ordered_items?cat=' + row.id + '"><i class="fa fa-eye"></i></a></td></tr>';
+                        out = out + '<li><a href="#view_ordered_items?cat=' + row.id + '">#' + row.id + '. on ' + $.format.date(row.date, "dd-MMM-yy") + ' Rs. ' + parseFloat(row.amount).toFixed(2) + ' (' + row.status + ')</a></li>';
                     });
-                    out = out + '</tbody></table>';
+                    //out = out + '</tbody></table>';
+                    out = out + '</ul></div>';
                     $(out).appendTo("#ordered_items").enhanceWithin();
                 }
             },
