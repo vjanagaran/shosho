@@ -35,8 +35,23 @@ div[data-role="footer"] a {
     font-style: normal;
 }
 
-.ui-controlgroup-horizontal .ui-controlgroup-controls {
-    display: block !important;
+.ui-controlgroup .ui-controlgroup-controls {
+    width: 100%;
+}
+
+.ui-controlgroup .ui-controlgroup-controls .ui-btn-1{
+    width:86%;
+    margin-left:1%;
+}
+
+.ui-controlgroup .ui-controlgroup-controls .ui-btn-2{
+    width:36%;
+    margin-left:1%;
+}
+
+.ui-controlgroup .ui-controlgroup-controls .ui-btn-3{
+    width:21%;
+    margin-left:1%;
 }
 
 div[data-role="page"]{
