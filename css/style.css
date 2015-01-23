@@ -35,7 +35,7 @@ div[data-role="footer"] a {
     font-style: normal;
 }
 
-.ui-controlgroup-horizontal .ui-controlgroup-controls { 
+.ui-controlgroup-horizontal .ui-controlgroup-controls {
     display: block !important;
 }
 
@@ -112,7 +112,6 @@ body, input, select, textarea, button, .ui-btn {
     padding: 10px;
     position: relative;
     border-radius: 5px;
-    background: #E4E4E4;
 }
 
 #catalog .category > img{
