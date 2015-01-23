@@ -36,7 +36,6 @@ var router = new $.mobile.Router([{
         {
             homePage: function (type, match, ui) {
                 log("Home Page", 3);
-                removeVal(config.user_id);
             },
             catalogPage: function (type, match, ui) {
                 log("Catalog Page", 3)
