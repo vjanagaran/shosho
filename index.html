@@ -59,7 +59,10 @@
             <div data-role="header" data-position="fixed">
                 <h1 class="ui-title" role="heading">User Profile</h1>
                 <a class="ui-btn-left ui-btn ui-shadow ui-corner-all" href="#mypannel"><i class="fa fa-list"></i></a>
-                <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#cart" data-iconpos="notext"><i class="fa fa-briefcase"></i> <span id="me_cart"> 0</span></a>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#cart" data-iconpos="notext"><i class="fa fa-briefcase"></i> <span id="me_cart"> 0</span></a>
+                </div>
             </div>
             <div role="main" class="ui-content">
                 <input type="text" value="" placeholder="Your name" id="me_name"/>
@@ -74,7 +77,10 @@
             <div data-role="header" data-position="fixed" data-tap-toggle="false">
                 <h1 class="ui-title" role="heading">Catalog</h1>
                 <a class="ui-btn-left ui-btn ui-shadow ui-corner-all" href="#mypannel"><i class="fa fa-list"></i></a>
-                <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#cart" data-iconpos="notext"><i class="fa fa-briefcase"></i> <span id="catalog_cart"> 0</span></a>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#cart" data-iconpos="notext"><i class="fa fa-briefcase"></i> <span id="catalog_cart"> 0</span></a>
+                </div>
             </div>
             <div role="main" class="ui-content">
                 <div id="categories"></div>
@@ -92,7 +98,10 @@
             <div data-role="header" data-position="fixed" data-tap-toggle="false">
                 <div id="cat_name"><h1 class="ui-title" role="heading">Menu Item</h1></div>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
-                <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#cart" data-iconpos="notext"><i class="fa fa-briefcase"></i> <span id="cart_items"> 0</span></a>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#cart" data-iconpos="notext"><i class="fa fa-briefcase"></i> <span id="cart_items"> 0</span></a>
+                </div>
             </div>
             <div role="main" class="ui-content">
                 <div id="menus"></div>
@@ -100,13 +109,13 @@
 
             <div data-role="popup" id="popupDialog" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="max-width:400px;">
                 <div data-role="header" data-theme="a">
-                    <h1>Confirm Item</h1>
+                    <h1 id="confirm_title"></h1>
                 </div>
                 <div role="main" class="ui-content">
                     <p id="confirm_text"></p>
-                    <div data-role="controlgroup" data-type="horizontal">
-                        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-2" onclick="addConfirmed();">Confirm</a>
-                        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b ui-btn-2" data-rel="back">Cancel</a>
+                    <div class="request_btns">
+                        <a href="#" class="ui-btn-2" id="request_process" onclick="">Confirm</a>
+                        <a href="#" class="ui-btn-2" data-rel="back">Cancel</a>
                     </div>
                 </div>
             </div>
@@ -124,7 +133,7 @@
                             <span data-content="rate" data-template-bind='[
                                   {"attribute": "id", "value": "id", "formatter": "itemPriceId"}]'></span>
                             <div class="item-qty">
-                                <div class="select-qty"><a data-template-bind='[{"attribute": "onclick", "value": "id", "formatter": "qtyDecreaseOnclick"}]'>-</a> 
+                                <div class="select-qty"><a data-template-bind='[{"attribute": "onclick", "value": "id", "formatter": "qtyDecreaseOnclick"}]'>&ndash;</a> 
                                     <input data-role="none" name="qty" type="text" readonly="true" data-template-bind='[{"attribute": "id", "value": "id", "formatter": "itemQtyId"},
                                            {"attribute": "value", "value": "id", "formatter": "itemQtyVal"}]'> 
                                     <a data-template-bind='[{"attribute": "onclick", "value": "id", "formatter": "qtyIncreaseOnclick"}]'>+</a>
@@ -142,10 +151,25 @@
             <div data-role="header" data-position="fixed" data-tap-toggle="false">
                 <h1 class="ui-title" role="heading">My Cart</h1>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
-                <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#"><span>Total</span> <span id="cart_items_total"> 0</span></a>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#"><span id="cart_items_total"> 0.00</span></a>
+                </div>
             </div>
             <div role="main" class="ui-content">
                 <div id="my_cart_items"></div>
+            </div>
+            <div data-role="popup" id="cart_manipulation" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="max-width:400px;">
+                <div data-role="header" data-theme="a">
+                    <h1 id="cart_confirm_title"></h1>
+                </div>
+                <div role="main" class="ui-content">
+                    <p id="cart_confirm_text"></p>
+                    <div class="request_btns">
+                        <a href="#" class="ui-btn-2" id="cart_request_process" onclick="">Confirm</a>
+                        <a href="#" class="ui-btn-2" data-rel="back">Cancel</a>
+                    </div>
+                </div>
             </div>
             <div data-role="footer" data-position="fixed" data-tap-toggle="false">
                 <div class="ui-grid-solo">
@@ -160,7 +184,10 @@
             <div data-role="header" data-position="fixed" data-tap-toggle="false">
                 <h1 class="ui-title" role="heading">Delivery Mode</h1>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
-                <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#"><span>Total</span> <span id="delivery_items_total"> 0</span></a>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#"><span id="delivery_items_total"> 0.00</span></a>
+                </div>
             </div>
             <div role="main" class="ui-content">
                 <div class="ui-content"><label><input onchange="showDetails();" data-role="none" type="radio" name="delivery" id="takeaway" value="0">Take Away</label></div>
@@ -169,7 +196,7 @@
                         No. 2 Dargah Road,<br/>
                         Pallavaram Chennai,<br/>
                         Tamil Nadu 600043.</p>
-                    <a href="#getdirection" class="ui-btn ui-btn-corner-all" id="show_direction"><i class="fa fa-location-arrow"></i> Get Directions</a>
+                    <a href="#" onclick="getDirection();" class="ui-btn ui-btn-corner-all" id="show_direction"><i class="fa fa-location-arrow"></i> Get Directions</a>
                 </div>
                 <div class="ui-content"><label><input onchange="showDetails();" data-role="none" type="radio" name="delivery" id="home_delivery" value="1">Home Delivery</label></div>
                 <div id="delivery_err"></div>
@@ -203,6 +230,9 @@
             <div data-role="header" data-position="fixed" data-tap-toggle="false">
                 <h1 class="ui-title" role="heading">Your Directions</h1>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                </div>
             </div>
             <div role="main" class="ui-content">
                 <div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
@@ -218,7 +248,10 @@
             <div data-role="header" data-position="fixed" data-tap-toggle="false">
                 <h1 class="ui-title" role="heading">Delivery Mode</h1>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
-                <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#"><span>Total</span> <span id="payment_items_total"> 0</span></a>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#"><span id="payment_items_total"> 0.00</span></a>
+                </div>
             </div>
             <div role="main" class="ui-content">
                 <div class="ui-content"><label><input data-role="none" type="radio" name="cash_pay" id="cash_pay" value="Cash">Cash on Delivery</label></div>
@@ -230,8 +263,8 @@
                 </div>
                 <div role="main" class="ui-content">
                     <p id="order_success_text"></p>
-                    <div data-role="controlgroup" data-type="horizontal">
-                        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-btn-1" data-rel="back">Ok</a>
+                    <div class="request_btns">
+                        <a href="#" class="ui-btn-1" data-rel="back">Ok</a>
                     </div>
                 </div>
             </div>
@@ -247,28 +280,50 @@
         <div data-role="page" id="orders" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
                 <h1 class="ui-title" role="heading">My Orders</h1>
-                <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#cart"><i class="fa fa-briefcase"></i> <span id="order_cart"> 0</span></a>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#cart"><i class="fa fa-briefcase"></i> <span id="order_cart"> 0</span></a>
+                </div>
                 <a class="ui-btn-left ui-btn ui-shadow ui-corner-all" href="#mypannel"><i class="fa fa-list"></i></a>
             </div>
             <div role="main" class="ui-content">
                 <div id="ordered_items"></div>
             </div>
+
         </div> <!-- orders -->
 
         <div data-role="page" id="view_ordered_items" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
                 <h1 class="ui-title" role="heading">Ordered Items</h1>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                </div>
             </div>
             <div role="main" class="ui-content">
                 <div id="ordered_items_list"></div>
+            </div>
+            <div data-role="popup" data-dismissible="false" id="re-order_success" data-overlay-theme="a" data-theme="a" style="max-width:400px;">
+                <div data-role="header" data-theme="a">
+                    <h1>Alert</h1>
+                </div>
+                <div role="main" class="ui-content">
+                    <p>By clicking continue your existing cart items will be removed(if you have)</p>
+                    <div class="request_btns">
+                        <a href="#" onclick="processReorder();" class="ui-btn-2">Continue</a>
+                        <a href="#" class="ui-btn-2" data-rel="back">Cancel</a>
+                    </div>
+                </div>
             </div>
         </div> <!-- view ordered items -->
 
         <div data-role="page" id="more" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
                 <h1 class="ui-title" role="heading">More Options</h1>
-                <a class="ui-btn-right ui-btn ui-shadow ui-corner-all" href="#cart"><i class="fa fa-briefcase"></i> <span id="more_cart"> 0</span></a>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#cart"><i class="fa fa-briefcase"></i> <span id="more_cart"> 0</span></a>
+                </div>
                 <a class="ui-btn-left ui-btn ui-shadow ui-corner-all" href="#mypannel"><i class="fa fa-list"></i></a>
             </div>
             <div role="main" class="ui-content">
@@ -288,6 +343,9 @@
             <div data-role="header" data-position="fixed">
                 <h1 class="ui-title" role="heading">Registration</h1>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                </div>
             </div>
             <div role="main" class="ui-content">
                 <input type="text" name="name" value="" id="name" placeholder="Your Name" />
@@ -302,8 +360,8 @@
                 </div>
                 <div role="main" class="ui-content">
                     <p id="reg_err_text"></p>
-                    <div data-role="controlgroup" data-type="horizontal">
-                        <a href="#" class="ui-btn-1 ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">Ok</a>
+                    <div class="request_btns">
+                        <a href="#" class="ui-btn-1">Ok</a>
                     </div>
                 </div>
             </div>
@@ -312,6 +370,9 @@
         <div data-role="page" id="verify" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
                 <h1 class="ui-title" role="heading">Registration</h1>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                </div>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
@@ -325,8 +386,8 @@
                 </div>
                 <div role="main" class="ui-content">
                     <p id="verify_err_text"></p>
-                    <div data-role="controlgroup" data-type="horizontal">
-                        <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-btn-1" data-rel="back">Ok</a>
+                    <div class="request_btns">
+                        <a href="#" class="ui-btn-1" data-rel="back">Ok</a>
                     </div>
                 </div>
             </div>
@@ -335,6 +396,9 @@
         <div data-role="page" id="policy" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
                 <h1 class="ui-title" role="heading">Policy</h1>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                </div>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
@@ -345,6 +409,9 @@
         <div data-role="page" id="refer" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
                 <h1 class="ui-title" role="heading">Refer Friend</h1>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                </div>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
@@ -358,8 +425,8 @@
                 </div>
                 <div role="main" class="ui-content">
                     <p id="refer_err_text"></p>
-                    <div data-role="controlgroup" data-type="horizontal">
-                        <a href="#" class="ui-btn-1 ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Ok</a>
+                    <div class="request_btns">
+                        <a href="#" class="ui-btn-1" data-rel="back">Ok</a>
                     </div>
                 </div>
             </div>
@@ -368,6 +435,9 @@
         <div data-role="page" id="share" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
                 <h1 class="ui-title" role="heading">Share this app</h1>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                </div>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
@@ -383,6 +453,9 @@
         <div data-role="page" id="feedback" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
                 <h1 class="ui-title" role="heading">Feedback Form</h1>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                </div>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
@@ -400,8 +473,8 @@
                 </div>
                 <div role="main" class="ui-content">
                     <p id="feedback_err_text"></p>
-                    <div data-role="controlgroup" data-type="horizontal">
-                        <a href="#" class="ui-btn-1 ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel="back">Ok</a>
+                    <div class="request_btns">
+                        <a href="#" class="ui-btn-1" data-rel="back">Ok</a>
                     </div>
                 </div>
             </div>
@@ -410,6 +483,9 @@
         <div data-role="page" id="contact" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
                 <h1 class="ui-title" role="heading">Contact</h1>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                </div>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
@@ -423,6 +499,9 @@
         <div data-role="page" id="faq" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
                 <h1 class="ui-title" role="heading">Frequently Asked Questions</h1>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                </div>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
@@ -447,6 +526,9 @@
         <div data-role="page" id="about" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed">
                 <h1 class="ui-title" role="heading">About App</h1>
+                <div class="ui-btn-right">
+                    <a class="ui-btn ui-shadow ui-corner-all" href="#faq" data-iconpos="notext"><i class="fa fa-info-circle"></i></a>
+                </div>
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
@@ -463,7 +545,7 @@
                 <li><a href="#me"><i class="fa fa-user"></i> Me</a></li>
                 <li><a href="#more"><i class="fa fa-bars"></i> More</a></li>
             </ul>
-            <div class="jayam">Powered by  <a href="http://www.jayam.co.uk">Jayam Ltd</a></div>
+            <div class="jayam">Powered by  <a onclick="openJayam();" href="#">Jayam Ltd</a></div>
         </div>
     </body>
 </html>

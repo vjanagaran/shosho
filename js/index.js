@@ -239,9 +239,9 @@ function loadCatalogItems(cat) {
 }
 
 function createCode() {
-    $("#err_msg").empty();
-    $("#err_msg").append(loading);
     if (validateRegistration()) {
+        $("#err_msg").empty();
+        $("#err_msg").append(loading);
         var name = $.trim($('#name').val());
         var mobile = $.trim($('#mobile').val());
         var email = $.trim($('#email').val());
@@ -399,24 +399,24 @@ function updateUser() {
 }
 
 var cart = {items: [], decs: "", delivery: ""};
-var confirm_id = 0;
 var grand_total = 0;
 function addToCart(id) {
+    $('#request_process').attr('onclick', 'addConfirmed(' + id + ')');
     var qty = $("#item_qty_" + id).val();
     var name = $("#item_name_" + id).html();
-    confirm_id = id;
     var act = "adding";
-    if($( "#menu_item_" + id).hasClass("selected")) {
+    var title = "Add";
+    if ($("#menu_item_" + id).hasClass("selected")) {
         act = "updating";
+        title = "Update";
     }
-    
+    $("#confirm_title").html(title + " Item");
     $("#confirm_text").html("You're " + act + " <b>" + name + "</b> into cart <b>" + qty + " nos.</b>");
     $("#popupDialog").popup("open");
 }
 
-function addConfirmed() {
+function addConfirmed(id) {
     $("#popupDialog").popup("close");
-    var id = confirm_id;
     var qty = $("#item_qty_" + id).val();
     var rate = $("#item_price_" + id).html();
     var name = $("#item_name_" + id).html();
@@ -426,7 +426,7 @@ function addConfirmed() {
         name: name,
         qty: qty,
         rate: rate,
-        tax: tax,
+        tax: tax
     };
     $("#menu_item_" + id).addClass("selected");
     $.each(cart.items, function (index, row) {
@@ -463,7 +463,7 @@ function showMyCart() {
         $("#cart div[data-role=footer]").removeClass("remove-item");
         out = out + '<table data-role="table"><thead><tr><th class="align-left">Your Order</th><th class="align-right">Qty</th><th class="align-right">Amount</th><th>Manipulate</th></tr></thead><tbody>';
         $.each(cart.items, function (index, row) {
-            out = out + '<tr><td class = "align-left">' + row.name + '</td><td class="align-right"><div class="select-qty"><a onclick="decreaseCartQty(' + row.id + ')">-</a> <input data-role="none" name="qty" type="text" readonly="true" id="cart_item_' + row.id + '" value="' + row.qty + '"> <a onclick="increaseCartQty(' + row.id + ')">+</a></div></td><td class="align-right">' + (parseInt(row.rate) * parseInt(row.qty)).toFixed(2) + '</td><td class="align-center"><a class="symbol" onclick="updateCart(' + row.id + ')">&#10004;</a> <a class="symbol" onclick="removeItem(' + row.id + ');">&#10008;</a></td></tr>';
+            out = out + '<tr><td class = "align-left">' + row.name + '</td><td class="align-right"><div class="select-qty"><a onclick="decreaseCartQty(' + row.id + ')">&ndash;</a> <input data-role="none" name="qty" type="text" readonly="true" id="cart_item_' + row.id + '" value="' + row.qty + '"> <a onclick="increaseCartQty(' + row.id + ')">+</a></div></td><td class="align-right">' + (parseInt(row.rate) * parseInt(row.qty)).toFixed(2) + '</td><td class="align-center"><a class="symbol" onclick="updateCart(' + row.id + ')">&#10004;</a> <a class="symbol" onclick="removeItem(' + row.id + ');">&#10008;</a></td></tr>';
             total = total + parseFloat(row.rate) * parseInt(row.qty);
             if (isNaN(cart_tax[row.tax])) {
                 cart_tax[row.tax] = 0;
@@ -489,6 +489,15 @@ function showMyCart() {
 }
 
 function removeFromCart(id) {
+    $('#request_process').attr('onclick', 'removeConfirmed(' + id + ')');
+    var name = $("#item_name_" + id).html();
+    $("#confirm_title").html("Remove Item");
+    $("#confirm_text").html("You're removing <b>" + name + "</b> from cart");
+    $("#popupDialog").popup("open");
+}
+
+function removeConfirmed(id) {
+    $("#popupDialog").popup("close");
     $.each(cart.items, function (index, row) {
         if (row.id == id) {
             cart.items.splice(index, 1);
@@ -500,6 +509,20 @@ function removeFromCart(id) {
 }
 
 function removeItem(id) {
+    var name = "";
+    $('#cart_request_process').attr('onclick', 'removeItemConfirmed(' + id + ')');
+    $.each(cart.items, function (index, row) {
+        if (row.id == id) {
+            name = row.name;
+        }
+    });
+    $("#cart_confirm_title").html("Remove Item");
+    $("#cart_confirm_text").html("You're removing <b>" + name + "</b> from cart");
+    $("#cart_manipulation").popup("open");
+}
+
+function removeItemConfirmed(id) {
+    $("#cart_manipulation").popup("close");
     $.each(cart.items, function (index, row) {
         if (row.id == id) {
             cart.items.splice(index, 1);
@@ -508,6 +531,36 @@ function removeItem(id) {
     });
     $("#menu_item_" + id).removeClass("selected");
     showMyCart();
+    $("#cart_items_total").html(grand_total);
+}
+
+
+function updateCart(id) {
+    $('#cart_request_process').attr('onclick', 'updateCartConfirmed(' + id + ')');
+    var qty = $("#cart_item_" + id).val();
+    var name = "";
+    $.each(cart.items, function (index, row) {
+        if (row.id == id) {
+            name = row.name;
+            qty = row.qty;
+        }
+    });
+    $("#cart_confirm_title").html("Update Item");
+    $("#cart_confirm_text").html("You're updating <b>" + name + "</b> into cart <b>" + qty + " nos.</b>");
+    $("#cart_manipulation").popup("open");
+}
+
+function updateCartConfirmed(id) {
+    $("#cart_manipulation").popup("close");
+    var new_qty = $("#cart_item_" + id).val();
+    $.each(cart.items, function (index, row) {
+        if (row.id == id) {
+            row.qty = new_qty;
+            return false;
+        }
+    });
+    showMyCart();
+    calcCart();
     $("#cart_items_total").html(grand_total);
 }
 
@@ -578,9 +631,8 @@ function showOrders() {
         $("#ordered_items").append(loading);
         var out = "";
         //out = out + '<table data-role="none"><thead><tr><th class="align-left">Or.Id</th><th class="align-left">Date</th><th class="align-right">Amount</th><th class="align-center">Status</th><th>&nbsp;</th></tr></thead><tbody>';
-        
+
         out = out + '<div><ul data-role="listview" data-inset="true" data-theme="b">';
-        
         $.ajax({
             type: "GET",
             url: config.api_url + "module=order&action=list&id=" + id,
@@ -613,8 +665,8 @@ function showOrders() {
 }
 
 var reorder = [];
-
 function loadOrderedItems(oid) {
+    reorder = [];
     var out = "";
     var items = {};
     var ordered_tax = {};
@@ -640,7 +692,10 @@ function loadOrderedItems(oid) {
                     ordered_tax[row.tax] = parseFloat(ordered_tax[row.tax]) + (parseFloat(row.rate) * parseInt(row.quantity) * parseFloat(row.tax) / 100);
                     items = {
                         id: row.id,
-                        qty: row.quantity
+                        name: row.name,
+                        qty: row.quantity,
+                        rate: row.curr_rate,
+                        tax: row.curr_tax
                     };
                     reorder.push(items);
                 });
@@ -657,6 +712,7 @@ function loadOrderedItems(oid) {
                 out = out + '<tr><td colspan="2">Delivery Type</td><td>' + data.delivery_type + '</td></tr>'
                 out = out + '<tr><td colspan="2">Order Status</td><td>' + data.status + '</td></tr>'
                 out = out + '<tr><td colspan="2">Order Date</td><td>' + $.format.date(data.date, "dd-MMM-yy hh:mm") + '</td></tr></tbody></table>';
+                out = out + '<a href="#re-order_success" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-a ui-btn-inline ui-btn-corner-all">Re-order Items</a>';
                 $("#ordered_items_list").empty();
                 $("#ordered_items_list").append(out);
             } else {
@@ -671,21 +727,21 @@ function loadOrderedItems(oid) {
     });
 }
 
-function reorderItems() {
-    console.log(reorder);
-}
-
-function updateCart(id) {
-    var new_qty = $("#cart_item_" + id).val();
-    $.each(cart.items, function (index, row) {
-        if (row.id == id) {
-            row.qty = new_qty;
-            return false;
-        }
+function processReorder() {
+    var item = "";
+    cart.items = [];
+    $.each(reorder, function (index, row) {
+        item = {
+            id: row.id,
+            name: row.name,
+            qty: row.qty,
+            rate: row.rate,
+            tax: row.tax
+        };
+        cart.items.push(item);
     });
-    showMyCart();
     calcCart();
-    $("#cart_items_total").html(grand_total);
+    $(":mobile-pagecontainer").pagecontainer("change", "#cart");
 }
 
 function processStep1() {
@@ -841,22 +897,22 @@ function decreaseCartQty(id) {
 }
 
 function gplusShare() {
-    /*var url = "https://play.google.com/store/apps/details?id=com.coolappz.periyava";
-     var fullurl = "https://plus.google.com/share?url=" + url;
-     window.open(fullurl, '', "toolbar=0,location=0,height=450,width=550");*/
+    var url = "https://play.google.com/store/apps/details?id=com.jayam.shosho";
+    var fullurl = "https://plus.google.com/share?url=" + url;
+    window.open(fullurl, '', "toolbar=0,location=0,height=450,width=550");
 }
 
 function fbShare() {
-    /*var url = "https://play.google.com/store/apps/details?id=com.coolappz.periyava";
-     var fullurl = "http://www.facebook.com/sharer/sharer.php?u=" + url;
-     window.open(fullurl, '', "toolbar=0,location=0,height=450,width=650");*/
+    var url = "https://play.google.com/store/apps/details?id=com.jayam.shosho";
+    var fullurl = "http://www.facebook.com/sharer/sharer.php?u=" + url;
+    window.open(fullurl, '', "toolbar=0,location=0,height=450,width=650");
 }
 
 function twitterShare() {
-    /*var url = "https://play.google.com/store/apps/details?id=com.coolappz.periyava";
-     var ttl = "Dedicated mobile app about Sri Sri Kanji Maha Periyava. Download now for free!";
-     var fullurl = "https://twitter.com/share?original_referer=http://www.charing.com/&source=tweetbutton&text=" + ttl + "&url=" + url;
-     window.open(fullurl, '', "menubar=1,resizable=1,width=450,height=350");*/
+    var url = "https://play.google.com/store/apps/details?id=com.jayam.shosho";
+    var ttl = "Dedicated mobile app about Sho Sho Restaurant. Download now for free!";
+    var fullurl = "https://twitter.com/share?original_referer=http://www.charing.com/&source=tweetbutton&text=" + ttl + "&url=" + url;
+    window.open(fullurl, '', "menubar=1,resizable=1,width=450,height=350");
 }
 
 function rateUs() {
@@ -998,64 +1054,72 @@ function resend() {
     });
 }
 
-var map,
-        currentPosition,
-        directionsDisplay,
-        directionsService,
-        destinationLatitude = 12.966383,
-        destinationLongitude = 80.148874;
+/*var map,
+ currentPosition,
+ directionsDisplay,
+ directionsService,
+ destinationLatitude = 12.966383,
+ destinationLongitude = 80.148874;
+ function getDirection() {
+ if (typeof (google) !== "undefined") {
+ $("#map_canvas").append(navigator.geolocation.getCurrentPosition(routeMap, locError, {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}));
+ } else {
+ $("#map_canvas").empty();
+ $("#map_canvas").append("<p>Please connect your device with internet to share your location</p>");
+ }
+ }
+ 
+ function routeMap(position) {
+ $("#map_canvas").empty();
+ directionsDisplay = new google.maps.DirectionsRenderer();
+ directionsService = new google.maps.DirectionsService();
+ currentPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+ map = new google.maps.Map(document.getElementById('map_canvas'), {
+ zoom: 15,
+ center: currentPosition,
+ mapTypeId: google.maps.MapTypeId.ROADMAP
+ });
+ directionsDisplay.setMap(map);
+ var currentPositionMarker = new google.maps.Marker({
+ position: currentPosition,
+ map: map,
+ title: "Current position"
+ });
+ calculateRoute();
+ }
+ 
+ function locError(error) {
+ // the current position could not be located
+ }
+ 
+ function calculateRoute() {
+ var targetDestination = new google.maps.LatLng(destinationLatitude, destinationLongitude);
+ if (currentPosition != '' && targetDestination != '') {
+ var request = {
+ origin: currentPosition,
+ destination: targetDestination,
+ travelMode: google.maps.DirectionsTravelMode["DRIVING"]
+ };
+ directionsService.route(request, function (response, status) {
+ if (status == google.maps.DirectionsStatus.OK) {
+ directionsDisplay.setPanel(document.getElementById("directions"));
+ directionsDisplay.setDirections(response);
+ $("#results").show();
+ }
+ else {
+ $("#results").hide();
+ }
+ });
+ }
+ else {
+ $("#results").hide();
+ }
+ }*/
+
+function openJayam() {
+    window.open('http://www.jayam.co.uk', '', 'toolbar=0,location=0,height=200,width=400');
+}
+
 function getDirection() {
-    if (typeof (google) !== "undefined") {
-        $("#map_canvas").append(navigator.geolocation.getCurrentPosition(routeMap, locError, {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}));
-    } else {
-        $("#map_canvas").empty();
-        $("#map_canvas").append("<p>Please connect your device with internet to share your location</p>");
-    }
-}
-
-function routeMap(position) {
-    $("#map_canvas").empty();
-    directionsDisplay = new google.maps.DirectionsRenderer();
-    directionsService = new google.maps.DirectionsService();
-    currentPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    map = new google.maps.Map(document.getElementById('map_canvas'), {
-        zoom: 15,
-        center: currentPosition,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    });
-    directionsDisplay.setMap(map);
-    var currentPositionMarker = new google.maps.Marker({
-        position: currentPosition,
-        map: map,
-        title: "Current position"
-    });
-    calculateRoute();
-}
-
-function locError(error) {
-    // the current position could not be located
-}
-
-function calculateRoute() {
-    var targetDestination = new google.maps.LatLng(destinationLatitude, destinationLongitude);
-    if (currentPosition != '' && targetDestination != '') {
-        var request = {
-            origin: currentPosition,
-            destination: targetDestination,
-            travelMode: google.maps.DirectionsTravelMode["DRIVING"]
-        };
-        directionsService.route(request, function (response, status) {
-            if (status == google.maps.DirectionsStatus.OK) {
-                directionsDisplay.setPanel(document.getElementById("directions"));
-                directionsDisplay.setDirections(response);
-                $("#results").show();
-            }
-            else {
-                $("#results").hide();
-            }
-        });
-    }
-    else {
-        $("#results").hide();
-    }
+    window.open('https://www.google.co.in/maps/dir//2,+Dharga+Rd,+Thiruvalluvar+Nagar,+Pallavaram,+Chennai,+Tamil+Nadu/@12.9632452,80.1618809,17z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x3a525e4011670f25:0x239b4e1ab7cb2833!2m2!1d80.1641876!2d12.96324', '', 'toolbar=0,location=0,height=400,width=600');
 }

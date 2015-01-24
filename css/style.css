@@ -37,31 +37,40 @@ body{
     color: #ffffff!important;
 }
 
-.ui-controlgroup .ui-controlgroup-controls {
+.request_btns{
     width: 100%;
+    margin-top: 20px;
+    border-top: 1px solid #eee;
 }
 
-.ui-controlgroup .ui-controlgroup-controls .ui-btn-1{
-    width:86%;
-    margin-left:1%;
+.ui-btn-2:first-child {
+    border-right: 1px solid #eee;
+}
+.request_btns .ui-btn-2, .request_btns .ui-btn-1 {
+    display: inline-block;
+    margin: 0;
+    padding: 5px 0;
+    text-align: center;
+    text-decoration: none;
+    color: #000000;
 }
 
-.ui-controlgroup .ui-controlgroup-controls .ui-btn-2{
-    width:36%;
-    margin-left:1%;
+.request_btns .ui-btn-2{
+    width: 48%;
 }
 
-.ui-controlgroup .ui-controlgroup-controls .ui-btn-3{
-    width:21%;
-    margin-left:1%;
+.request_btns .ui-btn-1 {
+    width: 98%;
 }
 
 div[data-role="page"]{
     background: transparent;
 }
 
-div[data-role="header"]{
-    border: 0;
+div[data-role="header"] .ui-title{
+    text-align: left;
+    margin: 0 9%;
+    padding: 0.57em 0;
 }
 
 .ui-block-a a.ui-btn, .ui-block-b a.ui-btn, .ui-block-c a.ui-btn, .ui-block-d a.ui-btn{
@@ -186,20 +195,20 @@ body, input, select, textarea, button, .ui-btn {
 .select-qty{
     margin: 0;
     padding: 0;
-    display: inline-block;
+    display: inline-flex;
     border: 1px solid #E4E4E4;
 }
 
 .select-qty > input, .select-qty > a{
-    width: 30px;
+    width: 25px;
     text-align: center;
     margin: 0;
+    float: left;
     padding: 0;
 }
 
 .select-qty > a{
     text-decoration: none;
-    display: inline-block;
     cursor: pointer;
 }
 
