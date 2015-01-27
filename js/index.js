@@ -37,6 +37,7 @@ var router = new $.mobile.Router([{
         {
             homePage: function (type, match, ui) {
                 log("Home Page", 3);
+                removeVal(config.user_id);
             },
             catalogPage: function (type, match, ui) {
                 log("Catalog Page", 3)
@@ -67,7 +68,7 @@ var router = new $.mobile.Router([{
             },
             registrationPage: function (type, match, ui) {
                 log("Registration page", 3);
-                $("#err_msg").empty();
+                registerNavigation();
             },
             morePage: function (type, match, ui) {
                 log("More page", 3);
@@ -534,7 +535,6 @@ function removeItemConfirmed(id) {
     $("#cart_items_total").html(grand_total);
 }
 
-
 function updateCart(id) {
     $('#cart_request_process').attr('onclick', 'updateCartConfirmed(' + id + ')');
     var qty = $("#cart_item_" + id).val();
@@ -607,6 +607,7 @@ function processOrder() {
                 } else {
                     $("#order_success_text").html("<b>" + html.message + "</b>");
                     $("#order_success .ui-content a").removeAttr("onclick");
+                    $("#order_success .ui-content a").attr("data-rel", "back");
                     $("#order_success").popup("open");
                 }
             },
@@ -1122,4 +1123,16 @@ function openJayam() {
 
 function getDirection() {
     window.open('https://www.google.co.in/maps/dir//2,+Dharga+Rd,+Thiruvalluvar+Nagar,+Pallavaram,+Chennai,+Tamil+Nadu/@12.9632452,80.1618809,17z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x3a525e4011670f25:0x239b4e1ab7cb2833!2m2!1d80.1641876!2d12.96324', '', 'toolbar=0,location=0,height=400,width=600');
+}
+
+function registerNavigation() {
+    $("#err_msg").empty();
+    if (redirect_me != true) {
+        $("#respect_nav").attr("data-rel", "back");
+        $("#respect_nav").removeAttr("href");
+    } else {
+        $("#respect_nav").attr("href", "#catalog");
+        $("#respect_nav").removeAttr("data-rel");
+        redirect_me = false;
+    }
 }
