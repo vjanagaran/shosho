@@ -277,6 +277,7 @@ function createCode() {
                     setVal(config.user_mobile, mobile);
                     setVal(config.user_email, email);
                     setVal(config.user_id, html.id);
+                    setVal(config.user_status, html.status);
                     after_reg = "verify";
                     $("#reg_err_text").html("<b>" + html.message + "</b>");
                     $("#reg_err").popup("open");
@@ -311,14 +312,12 @@ function verifyCode() {
                     $("#verify_err .ui-content a").removeAttr("data-rel");
                     $("#verify_err .ui-content a").attr("onclick", "redirectToRespectivePages()");
                     setVal(config.user_status, html.status);
-                    if (getVal(config.user_status) != 0) {
-                        if (redirect_me != true) {
-                            after_reg = "delivery";
-                        } else {
-                            after_reg = "me";
-                        }
-                        $("#verify_err_text").html("<b>" + html.message + "</b>");
+                    if (redirect_me != true) {
+                        after_reg = "delivery";
+                    } else {
+                        after_reg = "me";
                     }
+                    $("#verify_err_text").html("<b>" + html.message + "</b>");
                     $("#verify_err").popup("open");
                 } else {
                     $("#verify_err_text").html("<b>" + html.message + "</b>");
@@ -340,7 +339,7 @@ function showMe() {
     var name = getVal(config.user_name);
     var mobile = getVal(config.user_mobile);
     var email = getVal(config.user_email);
-    if (id != null) {
+    if (id != null && getVal(config.user_status) != 0) {
         $("#me_name").val(name);
         $("#me_mobile").val(mobile);
         $("#me_email").val(email);
@@ -748,7 +747,7 @@ function processReorder() {
 function processStep1() {
     var decs = $("#orderdecs").val();
     cart.decs = decs;
-    if (getVal(config.user_id) != null && getVal(config.user_id) !== "undefined") {
+    if (getVal(config.user_id) != null && getVal(config.user_status) != 0) {
         $(":mobile-pagecontainer").pagecontainer("change", "#delivery");
     } else {
         $(":mobile-pagecontainer").pagecontainer("change", "#registration");
