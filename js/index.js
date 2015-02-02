@@ -13,6 +13,8 @@ function onDeviceReady() {
     if (is_mobile) {
         push.initPushwoosh();
     }
+    getAppConfig();
+    getAllItems();
 }
 
 var after_reg = "";
@@ -32,7 +34,11 @@ var router = new $.mobile.Router([{
         "#verify": {handler: "verifyPage", events: "bs"},
         "#getdirection": {handler: "getdirectionPage", events: "bs"},
         "#feedback": {handler: "feedbackPage", events: "bs"},
-        "#details": {handler: "detailsPage", events: "bs"}
+        "#details": {handler: "detailsPage", events: "bs"},
+        "#contact": {handler: "contactPage", events: "bs"},
+        "#faq": {handler: "faqPage", events: "bs"},
+        "#about": {handler: "aboutPage", events: "bs"},
+        "#policy": {handler: "policyPage", events: "bs"}
     }],
         {
             homePage: function (type, match, ui) {
@@ -101,6 +107,22 @@ var router = new $.mobile.Router([{
             feedbackPage: function (type, match, ui) {
                 log("Feedback Page", 3);
                 showFeedbackForm();
+            },
+            contactPage: function (type, match, ui) {
+                log("Contact Page", 3);
+                showContact();
+            },
+            faqPage: function (type, match, ui) {
+                log("Faq Page", 3);
+                showFAQ();
+            },
+            aboutPage: function (type, match, ui) {
+                log("About Page", 3);
+                showAboutApp();
+            },
+            policyPage: function (type, match, ui) {
+                log("Policy Page", 3);
+                showPolicy();
             },
             detailsPage: function (type, match, ui) {
                 log("Details Page", 3);
@@ -191,51 +213,55 @@ function log(msg, level) {
 var loading = '<div class="align-center"><br/><br/><img src="img/loading.gif" width="60" /></div>';
 function loadCatalog() {
     $("#categories").empty();
-    $("#categories").append(loading);
+    var rs = $.parseJSON(getVal(config.product_list));
+    if (rs == null) {
+        $("#categories").empty();
+        $("#categories").append('Error in loading data');
+    } else {
+        $.each(rs, function (k, v) {
+            $("#categories").loadTemplate($('#category_list_tpl'), v, {append: true});
+        });
+    }
+}
+
+function getAppConfig() {
+    $.ajax({
+        type: "GET",
+        url: config.api_url + "module=config&action=list",
+        cache: false,
+        success: function (rs) {
+            if (rs.error == false) {
+                setVal(config.app_config, JSON.stringify(rs.data));
+            }
+        }
+    });
+}
+
+function getAllItems() {
     $.ajax({
         type: "GET",
         dataType: 'json',
-        url: config.api_url + "module=cat&action=list",
+        url: config.api_url + "module=menu&action=all",
         cache: false,
-        success: function (data) {
-            $("#categories").empty();
-            $.each(data.data, function (k, v) {
-                $("#categories").loadTemplate($('#category_list_tpl'), v, {append: true});
-            });
-        },
-        error: function (request, status, error) {
-            $("#categories").empty();
-            $("#categories").append('Error in loading data');
+        success: function (rs) {
+            if (rs.error == false) {
+                setVal(config.product_list, JSON.stringify(rs.data));
+            }
         }
     });
 }
 
 function loadCatalogItems(cat) {
     $("#menus").empty();
-    $("#menus").append(loading);
     var heading = "";
-    var cat_name = "";
+    var rs = $.parseJSON(getVal(config.product_list));
     if (cat !== "") {
-        $.ajax({
-            type: "GET",
-            url: config.api_url + "module=menu&action=list&id=" + cat,
-            dataType: 'json',
-            cache: false,
-            success: function (data) {
-                $("#menus").empty();
-                $("#cat_name").empty();
-                $.each(data.data, function (k, v) {
-                    $("#menus").loadTemplate($('#menus_list_tpl'), v, {append: true});
-                    cat_name = v.cat_name;
-                });
-                heading = heading + '<h1 class="ui-title" role="heading">' + cat_name + '</h1>';
-                $("#cat_name").append(heading);
-            },
-            error: function (request, status, error) {
-                $("#menus").empty();
-                $("#menus").append('Error in loading data');
-            }
+        $("#cat_name").empty();
+        $.each(rs[cat]["items"], function (k, v) {
+            $("#menus").loadTemplate($('#menus_list_tpl'), v, {append: true});
         });
+        heading = heading + '<h1 class="ui-title" role="heading">' + rs[cat]["cat_name"] + '</h1>';
+        $("#cat_name").append(heading);
     }
 }
 
@@ -450,6 +476,30 @@ function addConfirmed(id) {
     });
     cart.items.push(item);
     calcCart();
+}
+
+function showFAQ() {
+    $("#faq_details").empty();
+    var rs = $.parseJSON(getVal(config.app_config));
+    $("#faq_details").append(rs["faq_details"]);
+}
+
+function showAboutApp() {
+    $("#about_app_details").empty();
+    var rs = $.parseJSON(getVal(config.app_config));
+    $("#about_app_details").append(rs["#about_app_details"]);
+}
+
+function showContact() {
+    $("#contact_details").empty();
+    var rs = $.parseJSON(getVal(config.app_config));
+    $("#contact_details").append(rs["contact_details"]);
+}
+
+function showPolicy() {
+    $("#policy_details").empty();
+    var rs = $.parseJSON(getVal(config.app_config));
+    $("#policy_details").append(rs["policy_details"]);
 }
 
 function calcCart() {

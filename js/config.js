@@ -19,7 +19,9 @@ config = function () {
         user_id: "sho_sho_userid",
         user_status: "sho_sho_user_status",
         user_alternet_number: "sho_sho_user_alternet_number",
-        device_token: "sho_sho_device_token"
+        device_token: "sho_sho_device_token",
+        app_config: "sho_sho_app_config",
+        product_list: "sho_sho_product_list"
     };
 }();
 
