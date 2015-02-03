@@ -43,7 +43,6 @@ var router = new $.mobile.Router([{
         {
             homePage: function (type, match, ui) {
                 log("Home Page", 3);
-                removeVal(config.user_id);
             },
             catalogPage: function (type, match, ui) {
                 log("Catalog Page", 3)
@@ -487,7 +486,7 @@ function showFAQ() {
 function showAboutApp() {
     $("#about_app_details").empty();
     var rs = $.parseJSON(getVal(config.app_config));
-    $("#about_app_details").append(rs["#about_app_details"]);
+    $("#about_app_details").append(rs["about_app_details"]);
 }
 
 function showContact() {
@@ -693,8 +692,6 @@ function showOrders() {
         $("#ordered_items").empty();
         $("#ordered_items").append(loading);
         var out = "";
-        //out = out + '<table data-role="none"><thead><tr><th class="align-left">Or.Id</th><th class="align-left">Date</th><th class="align-right">Amount</th><th class="align-center">Status</th><th>&nbsp;</th></tr></thead><tbody>';
-
         out = out + '<div><ul data-role="listview" data-inset="true" data-theme="b">';
         $.ajax({
             type: "GET",
@@ -708,10 +705,8 @@ function showOrders() {
                 } else {
                     $("#ordered_items").empty();
                     $.each(data.data, function (index, row) {
-                        //out = out + '<tr><td class="align-left">' + row.id + '</td><td class="align-left">' + $.format.date(row.date, "dd-MMM-yy") + '</td><td class="align-right">' + parseFloat(row.amount).toFixed(2) + '</td><td class="align-center">' + row.status + '</td><td><a href="#view_ordered_items?cat=' + row.id + '"><i class="fa fa-eye"></i></a></td></tr>';
                         out = out + '<li><a href="#view_ordered_items?cat=' + row.id + '">#' + row.id + '. on ' + $.format.date(row.date, "dd-MMM-yy") + ' Rs. ' + parseFloat(row.amount).toFixed(2) + ' (' + row.status + ')</a></li>';
                     });
-                    //out = out + '</tbody></table>';
                     out = out + '</ul></div>';
                     $(out).appendTo("#ordered_items").enhanceWithin();
                 }
@@ -778,6 +773,9 @@ function loadOrderedItems(oid) {
                 out = out + '<a href="#re-order_success" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-a ui-btn-inline ui-btn-corner-all">Re-order Items</a>';
                 $("#ordered_items_list").empty();
                 $("#ordered_items_list").append(out);
+                $("#reorder_alert").empty();
+                var rs = $.parseJSON(getVal(config.app_config));
+                $("#reorder_alert").append(rs["reorder_alert"]);
             } else {
                 $("#ordered_items_list").empty();
                 $("#ordered_items_list").append(data.message);
@@ -962,20 +960,20 @@ function decreaseCartQty(id) {
 function gplusShare() {
     var url = "https://play.google.com/store/apps/details?id=com.jayam.shosho";
     var fullurl = "https://plus.google.com/share?url=" + url;
-    window.open(fullurl, '', "toolbar=0,location=0,height=450,width=550");
+    window.open(fullurl, '_system');
 }
 
 function fbShare() {
     var url = "https://play.google.com/store/apps/details?id=com.jayam.shosho";
     var fullurl = "http://www.facebook.com/sharer/sharer.php?u=" + url;
-    window.open(fullurl, '', "toolbar=0,location=0,height=450,width=650");
+    window.open(fullurl, '_system');
 }
 
 function twitterShare() {
     var url = "https://play.google.com/store/apps/details?id=com.jayam.shosho";
     var ttl = "Dedicated mobile app about Sho Sho Restaurant. Download now for free!";
     var fullurl = "https://twitter.com/share?original_referer=http://www.charing.com/&source=tweetbutton&text=" + ttl + "&url=" + url;
-    window.open(fullurl, '', "menubar=1,resizable=1,width=450,height=350");
+    window.open(fullurl, '_system');
 }
 
 function rateUs() {
@@ -1117,74 +1115,12 @@ function resend() {
     });
 }
 
-/*var map,
- currentPosition,
- directionsDisplay,
- directionsService,
- destinationLatitude = 12.966383,
- destinationLongitude = 80.148874;
- function getDirection() {
- if (typeof (google) !== "undefined") {
- $("#map_canvas").append(navigator.geolocation.getCurrentPosition(routeMap, locError, {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}));
- } else {
- $("#map_canvas").empty();
- $("#map_canvas").append("<p>Please connect your device with internet to share your location</p>");
- }
- }
- 
- function routeMap(position) {
- $("#map_canvas").empty();
- directionsDisplay = new google.maps.DirectionsRenderer();
- directionsService = new google.maps.DirectionsService();
- currentPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
- map = new google.maps.Map(document.getElementById('map_canvas'), {
- zoom: 15,
- center: currentPosition,
- mapTypeId: google.maps.MapTypeId.ROADMAP
- });
- directionsDisplay.setMap(map);
- var currentPositionMarker = new google.maps.Marker({
- position: currentPosition,
- map: map,
- title: "Current position"
- });
- calculateRoute();
- }
- 
- function locError(error) {
- // the current position could not be located
- }
- 
- function calculateRoute() {
- var targetDestination = new google.maps.LatLng(destinationLatitude, destinationLongitude);
- if (currentPosition != '' && targetDestination != '') {
- var request = {
- origin: currentPosition,
- destination: targetDestination,
- travelMode: google.maps.DirectionsTravelMode["DRIVING"]
- };
- directionsService.route(request, function (response, status) {
- if (status == google.maps.DirectionsStatus.OK) {
- directionsDisplay.setPanel(document.getElementById("directions"));
- directionsDisplay.setDirections(response);
- $("#results").show();
- }
- else {
- $("#results").hide();
- }
- });
- }
- else {
- $("#results").hide();
- }
- }*/
-
 function openJayam() {
-    window.open('http://www.jayam.co.uk', '', 'toolbar=0,location=0,height=200,width=400');
+    window.open('http://www.jayam.co.uk', '_system');
 }
 
 function getDirection() {
-    window.open('https://www.google.co.in/maps/dir//2,+Dharga+Rd,+Thiruvalluvar+Nagar,+Pallavaram,+Chennai,+Tamil+Nadu/@12.9632452,80.1618809,17z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x3a525e4011670f25:0x239b4e1ab7cb2833!2m2!1d80.1641876!2d12.96324', '', 'toolbar=0,location=0,height=400,width=600');
+    window.open('https://www.google.co.in/maps/dir//2,+Dharga+Rd,+Thiruvalluvar+Nagar,+Pallavaram,+Chennai,+Tamil+Nadu/@12.9632452,80.1618809,17z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x3a525e4011670f25:0x239b4e1ab7cb2833!2m2!1d80.1641876!2d12.96324', '_system');
 }
 
 function registerNavigation() {
@@ -1193,8 +1129,7 @@ function registerNavigation() {
         $("#respect_nav").attr("data-rel", "back");
         $("#respect_nav").removeAttr("href");
     } else {
-        $("#respect_nav").attr("href", "#catalog");
         $("#respect_nav").removeAttr("data-rel");
-        redirect_me = false;
+        $("#respect_nav").attr("href", "#catalog");
     }
 }
