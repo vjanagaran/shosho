@@ -811,6 +811,7 @@ function processStep1() {
     if (getVal(config.user_id) != null && getVal(config.user_status) != 0) {
         $(":mobile-pagecontainer").pagecontainer("change", "#delivery");
     } else {
+        redirect_me = false;
         $(":mobile-pagecontainer").pagecontainer("change", "#registration");
     }
 }
