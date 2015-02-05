@@ -24,6 +24,14 @@
                 $("body>[data-role='panel']").panel();
                 $("[data-role=panel]").panel().enhanceWithin();
             });
+
+            $(document).on("pageinit", function () {
+                $("[data-role=panel] a").on("click", function () {
+                    if ($(this).attr("href") == "#" + $.mobile.activePage[0].id) {
+                        $("[data-role=panel]").panel("close");
+                    }
+                });
+            });
         </script>
     </head>
     <body>
@@ -87,9 +95,9 @@
             </div>
             <script type="text/html" id="category_list_tpl">
                 <a class="ui-btn ui-btn-d category" data-template-bind='[
-                   {"attribute": "href", "value": "id", "formatter": "menuHref"}]'>
+                   {"attribute": "href", "value": "cat_id", "formatter": "menuHref"}]'>
                     <img data-src="image" />
-                    <span data-content="name"></span>
+                    <span data-content="cat_name"></span>
                 </a>
             </script>
         </div> <!-- catalog -->
@@ -308,7 +316,7 @@
                     <h1>Alert</h1>
                 </div>
                 <div role="main" class="ui-content">
-                    <p>By clicking continue your existing cart items will be removed(if you have)</p>
+                    <p id="reorder_alert"></p>
                     <div class="request_btns">
                         <a href="#" onclick="processReorder();" class="ui-btn-2">Continue</a>
                         <a href="#" class="ui-btn-2" data-rel="back">Cancel</a>
@@ -402,7 +410,7 @@
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
-                <p>Your policy and privacy will come here.</p>
+                <div id="policy_details"></div>
             </div>
         </div> <!-- policy -->
 
@@ -491,7 +499,7 @@
             <div role="main" class="ui-content">
                 <div class="align-center">
                     <img src="img/map.jpg" alt="sho sho map" class="mapimg" />
-                    <p>Sho Sho Restaurant<br/>No. 2<br/>Dargah Road,<br/>Pallavaram Chennai,<br/> Tamil Nadu 600043.</p>
+                    <div id="contact_details"></div>
                 </div>
             </div>
         </div> <!-- contact -->
@@ -505,21 +513,7 @@
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
-                <div data-role="collapsibleset" data-theme="a" data-content-theme="a">
-                    <div data-role="collapsible"><h2>Question 1</h2>
-                        <h3>Answer 1</h3>
-                    </div>
-                </div>
-                <div data-role="collapsibleset" data-theme="a" data-content-theme="a">
-                    <div data-role="collapsible"><h2>Question 2</h2>
-                        <h3>Answer 2</h3>
-                    </div>
-                </div>
-                <div data-role="collapsibleset" data-theme="a" data-content-theme="a">
-                    <div data-role="collapsible"><h2>Question 3</h2>
-                        <h3>Answer 3</h3>
-                    </div>
-                </div>
+                <div id="faq_details"></div>
             </div>
         </div> <!-- faq -->
 
@@ -532,7 +526,7 @@
                 <a data-rel="back" data-icon="carat-l" data-iconpos="notext">Menu</a>
             </div>
             <div role="main" class="ui-content">
-                <p>We have taken this app to get update and keep in touch with Sho Sho Restaurant.</p>
+                <div id="about_app_details"></div>
             </div>
         </div> <!-- about -->
 

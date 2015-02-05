@@ -13,6 +13,8 @@ function onDeviceReady() {
     if (is_mobile) {
         push.initPushwoosh();
     }
+    getAppConfig();
+    getAllItems();
 }
 
 var after_reg = "";
@@ -32,12 +34,15 @@ var router = new $.mobile.Router([{
         "#verify": {handler: "verifyPage", events: "bs"},
         "#getdirection": {handler: "getdirectionPage", events: "bs"},
         "#feedback": {handler: "feedbackPage", events: "bs"},
-        "#details": {handler: "detailsPage", events: "bs"}
+        "#details": {handler: "detailsPage", events: "bs"},
+        "#contact": {handler: "contactPage", events: "bs"},
+        "#faq": {handler: "faqPage", events: "bs"},
+        "#about": {handler: "aboutPage", events: "bs"},
+        "#policy": {handler: "policyPage", events: "bs"}
     }],
         {
             homePage: function (type, match, ui) {
                 log("Home Page", 3);
-                removeVal(config.user_id);
             },
             catalogPage: function (type, match, ui) {
                 log("Catalog Page", 3)
@@ -101,6 +106,22 @@ var router = new $.mobile.Router([{
             feedbackPage: function (type, match, ui) {
                 log("Feedback Page", 3);
                 showFeedbackForm();
+            },
+            contactPage: function (type, match, ui) {
+                log("Contact Page", 3);
+                showContact();
+            },
+            faqPage: function (type, match, ui) {
+                log("Faq Page", 3);
+                showFAQ();
+            },
+            aboutPage: function (type, match, ui) {
+                log("About Page", 3);
+                showAboutApp();
+            },
+            policyPage: function (type, match, ui) {
+                log("Policy Page", 3);
+                showPolicy();
             },
             detailsPage: function (type, match, ui) {
                 log("Details Page", 3);
@@ -191,51 +212,55 @@ function log(msg, level) {
 var loading = '<div class="align-center"><br/><br/><img src="img/loading.gif" width="60" /></div>';
 function loadCatalog() {
     $("#categories").empty();
-    $("#categories").append(loading);
+    var rs = $.parseJSON(getVal(config.product_list));
+    if (rs == null) {
+        $("#categories").empty();
+        $("#categories").append('Error in loading data');
+    } else {
+        $.each(rs, function (k, v) {
+            $("#categories").loadTemplate($('#category_list_tpl'), v, {append: true});
+        });
+    }
+}
+
+function getAppConfig() {
+    $.ajax({
+        type: "GET",
+        url: config.api_url + "module=config&action=list",
+        cache: false,
+        success: function (rs) {
+            if (rs.error == false) {
+                setVal(config.app_config, JSON.stringify(rs.data));
+            }
+        }
+    });
+}
+
+function getAllItems() {
     $.ajax({
         type: "GET",
         dataType: 'json',
-        url: config.api_url + "module=cat&action=list",
+        url: config.api_url + "module=menu&action=all",
         cache: false,
-        success: function (data) {
-            $("#categories").empty();
-            $.each(data.data, function (k, v) {
-                $("#categories").loadTemplate($('#category_list_tpl'), v, {append: true});
-            });
-        },
-        error: function (request, status, error) {
-            $("#categories").empty();
-            $("#categories").append('Error in loading data');
+        success: function (rs) {
+            if (rs.error == false) {
+                setVal(config.product_list, JSON.stringify(rs.data));
+            }
         }
     });
 }
 
 function loadCatalogItems(cat) {
     $("#menus").empty();
-    $("#menus").append(loading);
     var heading = "";
-    var cat_name = "";
+    var rs = $.parseJSON(getVal(config.product_list));
     if (cat !== "") {
-        $.ajax({
-            type: "GET",
-            url: config.api_url + "module=menu&action=list&id=" + cat,
-            dataType: 'json',
-            cache: false,
-            success: function (data) {
-                $("#menus").empty();
-                $("#cat_name").empty();
-                $.each(data.data, function (k, v) {
-                    $("#menus").loadTemplate($('#menus_list_tpl'), v, {append: true});
-                    cat_name = v.cat_name;
-                });
-                heading = heading + '<h1 class="ui-title" role="heading">' + cat_name + '</h1>';
-                $("#cat_name").append(heading);
-            },
-            error: function (request, status, error) {
-                $("#menus").empty();
-                $("#menus").append('Error in loading data');
-            }
+        $("#cat_name").empty();
+        $.each(rs[cat]["items"], function (k, v) {
+            $("#menus").loadTemplate($('#menus_list_tpl'), v, {append: true});
         });
+        heading = heading + '<h1 class="ui-title" role="heading">' + rs[cat]["cat_name"] + '</h1>';
+        $("#cat_name").append(heading);
     }
 }
 
@@ -277,6 +302,7 @@ function createCode() {
                     setVal(config.user_mobile, mobile);
                     setVal(config.user_email, email);
                     setVal(config.user_id, html.id);
+                    setVal(config.user_status, html.status);
                     after_reg = "verify";
                     $("#reg_err_text").html("<b>" + html.message + "</b>");
                     $("#reg_err").popup("open");
@@ -311,14 +337,12 @@ function verifyCode() {
                     $("#verify_err .ui-content a").removeAttr("data-rel");
                     $("#verify_err .ui-content a").attr("onclick", "redirectToRespectivePages()");
                     setVal(config.user_status, html.status);
-                    if (getVal(config.user_status) != 0) {
-                        if (redirect_me != true) {
-                            after_reg = "delivery";
-                        } else {
-                            after_reg = "me";
-                        }
-                        $("#verify_err_text").html("<b>" + html.message + "</b>");
+                    if (redirect_me != true) {
+                        after_reg = "delivery";
+                    } else {
+                        after_reg = "me";
                     }
+                    $("#verify_err_text").html("<b>" + html.message + "</b>");
                     $("#verify_err").popup("open");
                 } else {
                     $("#verify_err_text").html("<b>" + html.message + "</b>");
@@ -340,7 +364,7 @@ function showMe() {
     var name = getVal(config.user_name);
     var mobile = getVal(config.user_mobile);
     var email = getVal(config.user_email);
-    if (id != null) {
+    if (id != null && getVal(config.user_status) != 0) {
         $("#me_name").val(name);
         $("#me_mobile").val(mobile);
         $("#me_email").val(email);
@@ -364,10 +388,23 @@ function validateUpdation() {
     return true;
 }
 
+function checkUpdation() {
+    var up_name = $.trim($("#me_name").val());
+    var up_email = $.trim(jQuery("#me_email").val());
+    var name = $.trim(getVal(config.user_name));
+    var email = $.trim(getVal(config.user_email));
+    if (up_name == name && up_email == email) {
+        $("#update_success").empty();
+        $("#update_success").append("<b>No informations found to update</b>");
+        return false;
+    }
+    return true;
+}
+
 function updateUser() {
     $("#update_success").empty();
     $("#update_success").append(loading);
-    if (validateUpdation()) {
+    if (validateUpdation() && checkUpdation()) {
         var name = $("#me_name").val();
         var email = $("#me_email").val();
         var data = {
@@ -438,6 +475,30 @@ function addConfirmed(id) {
     });
     cart.items.push(item);
     calcCart();
+}
+
+function showFAQ() {
+    $("#faq_details").empty();
+    var rs = $.parseJSON(getVal(config.app_config));
+    $("#faq_details").append(rs["faq_details"]);
+}
+
+function showAboutApp() {
+    $("#about_app_details").empty();
+    var rs = $.parseJSON(getVal(config.app_config));
+    $("#about_app_details").append(rs["about_app_details"]);
+}
+
+function showContact() {
+    $("#contact_details").empty();
+    var rs = $.parseJSON(getVal(config.app_config));
+    $("#contact_details").append(rs["contact_details"]);
+}
+
+function showPolicy() {
+    $("#policy_details").empty();
+    var rs = $.parseJSON(getVal(config.app_config));
+    $("#policy_details").append(rs["policy_details"]);
 }
 
 function calcCart() {
@@ -631,8 +692,6 @@ function showOrders() {
         $("#ordered_items").empty();
         $("#ordered_items").append(loading);
         var out = "";
-        //out = out + '<table data-role="none"><thead><tr><th class="align-left">Or.Id</th><th class="align-left">Date</th><th class="align-right">Amount</th><th class="align-center">Status</th><th>&nbsp;</th></tr></thead><tbody>';
-
         out = out + '<div><ul data-role="listview" data-inset="true" data-theme="b">';
         $.ajax({
             type: "GET",
@@ -646,10 +705,8 @@ function showOrders() {
                 } else {
                     $("#ordered_items").empty();
                     $.each(data.data, function (index, row) {
-                        //out = out + '<tr><td class="align-left">' + row.id + '</td><td class="align-left">' + $.format.date(row.date, "dd-MMM-yy") + '</td><td class="align-right">' + parseFloat(row.amount).toFixed(2) + '</td><td class="align-center">' + row.status + '</td><td><a href="#view_ordered_items?cat=' + row.id + '"><i class="fa fa-eye"></i></a></td></tr>';
                         out = out + '<li><a href="#view_ordered_items?cat=' + row.id + '">#' + row.id + '. on ' + $.format.date(row.date, "dd-MMM-yy") + ' Rs. ' + parseFloat(row.amount).toFixed(2) + ' (' + row.status + ')</a></li>';
                     });
-                    //out = out + '</tbody></table>';
                     out = out + '</ul></div>';
                     $(out).appendTo("#ordered_items").enhanceWithin();
                 }
@@ -716,6 +773,9 @@ function loadOrderedItems(oid) {
                 out = out + '<a href="#re-order_success" data-rel="popup" data-transition="pop" class="ui-btn ui-btn-a ui-btn-inline ui-btn-corner-all">Re-order Items</a>';
                 $("#ordered_items_list").empty();
                 $("#ordered_items_list").append(out);
+                $("#reorder_alert").empty();
+                var rs = $.parseJSON(getVal(config.app_config));
+                $("#reorder_alert").append(rs["reorder_alert"]);
             } else {
                 $("#ordered_items_list").empty();
                 $("#ordered_items_list").append(data.message);
@@ -748,9 +808,10 @@ function processReorder() {
 function processStep1() {
     var decs = $("#orderdecs").val();
     cart.decs = decs;
-    if (getVal(config.user_id) != null && getVal(config.user_id) !== "undefined") {
+    if (getVal(config.user_id) != null && getVal(config.user_status) != 0) {
         $(":mobile-pagecontainer").pagecontainer("change", "#delivery");
     } else {
+        redirect_me = false;
         $(":mobile-pagecontainer").pagecontainer("change", "#registration");
     }
 }
@@ -900,20 +961,20 @@ function decreaseCartQty(id) {
 function gplusShare() {
     var url = "https://play.google.com/store/apps/details?id=com.jayam.shosho";
     var fullurl = "https://plus.google.com/share?url=" + url;
-    window.open(fullurl, '', "toolbar=0,location=0,height=450,width=550");
+    window.open(fullurl, '_system');
 }
 
 function fbShare() {
     var url = "https://play.google.com/store/apps/details?id=com.jayam.shosho";
     var fullurl = "http://www.facebook.com/sharer/sharer.php?u=" + url;
-    window.open(fullurl, '', "toolbar=0,location=0,height=450,width=650");
+    window.open(fullurl, '_system');
 }
 
 function twitterShare() {
     var url = "https://play.google.com/store/apps/details?id=com.jayam.shosho";
     var ttl = "Dedicated mobile app about Sho Sho Restaurant. Download now for free!";
     var fullurl = "https://twitter.com/share?original_referer=http://www.charing.com/&source=tweetbutton&text=" + ttl + "&url=" + url;
-    window.open(fullurl, '', "menubar=1,resizable=1,width=450,height=350");
+    window.open(fullurl, '_system');
 }
 
 function rateUs() {
@@ -1055,74 +1116,12 @@ function resend() {
     });
 }
 
-/*var map,
- currentPosition,
- directionsDisplay,
- directionsService,
- destinationLatitude = 12.966383,
- destinationLongitude = 80.148874;
- function getDirection() {
- if (typeof (google) !== "undefined") {
- $("#map_canvas").append(navigator.geolocation.getCurrentPosition(routeMap, locError, {enableHighAccuracy: true, timeout: 5000, maximumAge: 0}));
- } else {
- $("#map_canvas").empty();
- $("#map_canvas").append("<p>Please connect your device with internet to share your location</p>");
- }
- }
- 
- function routeMap(position) {
- $("#map_canvas").empty();
- directionsDisplay = new google.maps.DirectionsRenderer();
- directionsService = new google.maps.DirectionsService();
- currentPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
- map = new google.maps.Map(document.getElementById('map_canvas'), {
- zoom: 15,
- center: currentPosition,
- mapTypeId: google.maps.MapTypeId.ROADMAP
- });
- directionsDisplay.setMap(map);
- var currentPositionMarker = new google.maps.Marker({
- position: currentPosition,
- map: map,
- title: "Current position"
- });
- calculateRoute();
- }
- 
- function locError(error) {
- // the current position could not be located
- }
- 
- function calculateRoute() {
- var targetDestination = new google.maps.LatLng(destinationLatitude, destinationLongitude);
- if (currentPosition != '' && targetDestination != '') {
- var request = {
- origin: currentPosition,
- destination: targetDestination,
- travelMode: google.maps.DirectionsTravelMode["DRIVING"]
- };
- directionsService.route(request, function (response, status) {
- if (status == google.maps.DirectionsStatus.OK) {
- directionsDisplay.setPanel(document.getElementById("directions"));
- directionsDisplay.setDirections(response);
- $("#results").show();
- }
- else {
- $("#results").hide();
- }
- });
- }
- else {
- $("#results").hide();
- }
- }*/
-
 function openJayam() {
-    window.open('http://www.jayam.co.uk', '', 'toolbar=0,location=0,height=200,width=400');
+    window.open('http://www.jayam.co.uk', '_system');
 }
 
 function getDirection() {
-    window.open('https://www.google.co.in/maps/dir//2,+Dharga+Rd,+Thiruvalluvar+Nagar,+Pallavaram,+Chennai,+Tamil+Nadu/@12.9632452,80.1618809,17z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x3a525e4011670f25:0x239b4e1ab7cb2833!2m2!1d80.1641876!2d12.96324', '', 'toolbar=0,location=0,height=400,width=600');
+    window.open('https://www.google.co.in/maps/dir//2,+Dharga+Rd,+Thiruvalluvar+Nagar,+Pallavaram,+Chennai,+Tamil+Nadu/@12.9632452,80.1618809,17z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x3a525e4011670f25:0x239b4e1ab7cb2833!2m2!1d80.1641876!2d12.96324', '_system');
 }
 
 function registerNavigation() {
@@ -1131,8 +1130,7 @@ function registerNavigation() {
         $("#respect_nav").attr("data-rel", "back");
         $("#respect_nav").removeAttr("href");
     } else {
-        $("#respect_nav").attr("href", "#catalog");
         $("#respect_nav").removeAttr("data-rel");
-        redirect_me = false;
+        $("#respect_nav").attr("href", "#catalog");
     }
 }
