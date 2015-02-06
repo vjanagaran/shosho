@@ -140,6 +140,10 @@ body, input, select, textarea, button, .ui-btn {
     margin: 0;
 }
 
+#delivery .ui-content .ui-content {
+    padding-left: 0!important;
+}
+
 #developed > img{
     width: 100px;
     height: auto;

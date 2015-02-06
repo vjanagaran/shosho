@@ -886,7 +886,6 @@ function setDetails() {
 }
 
 function showDetails() {
-    $("#delivery_err").empty();
     var che = $("input[type='radio']:checked");
     var obj = che.val();
     if (obj == 0) {
