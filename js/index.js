@@ -13,13 +13,12 @@ function onDeviceReady() {
     if (is_mobile) {
         push.initPushwoosh();
     }
-    getAppConfig();
-    getAllItems();
 }
 
 var after_reg = "";
 var redirect_me = false;
 var router = new $.mobile.Router([{
+        "#loading": {handler: "loadingPage", events: "bs"},
         "#home": {handler: "homePage", events: "bs"},
         "#catalog": {handler: "catalogPage", events: "bs"},
         "#catalogitems(?:[?/](.*))?": {handler: "catalogitemsPage", events: "bs"},
@@ -41,6 +40,10 @@ var router = new $.mobile.Router([{
         "#policy": {handler: "policyPage", events: "bs"}
     }],
         {
+            loadingPage: function (type, match, ui) {
+                log("Intro Page", 3)
+                loadLocalData();
+            },
             homePage: function (type, match, ui) {
                 log("Home Page", 3);
             },
@@ -205,11 +208,51 @@ function log(msg, level) {
 }
 
 
-
-
 /********  General Functions **/
 
 var loading = '<div class="align-center"><br/><br/><img src="img/loading.gif" width="60" /></div>';
+
+jQuery.fn.center = function () {
+    this.css("position", "fixed");
+    this.css("top", ($(window).height() / 2) - (this.outerHeight() / 2));
+    this.css("left", ($(window).width() / 2) - (this.outerWidth() / 2));
+    return this;
+};
+
+function loadLocalData() {
+    //$("#load_gif").append(loading);
+   // $("#load_data").append("Loading app configuration");
+    $.ajax({
+        type: "GET",
+        url: config.api_url + "module=config&action=list",
+        cache: false,
+        success: function (rs) {
+            if (rs.error == false) {
+                setVal(config.app_config, JSON.stringify(rs.data));
+                //$("#load_data").empty();
+               // $("#load_data").append("Loading shoping menus");
+                $.ajax({
+                    type: "GET",
+                    dataType: 'json',
+                    url: config.api_url + "module=menu&action=all",
+                    cache: false,
+                    success: function (rs) {
+                        if (rs.error == false) {
+                            setVal(config.product_list, JSON.stringify(rs.data));
+                            if ($("#externalpopup").parent().hasClass('ui-popup-hidden')) {
+                                $(":mobile-pagecontainer").pagecontainer("change", "#intro");
+                            } else {
+                                $("#externalpopup .ui-content a").removeAttr("data-rel");
+                                $("#externalpopup .ui-content a").attr("href", "#intro");
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    });
+}
+
 function loadCatalog() {
     $("#categories").empty();
     var rs = $.parseJSON(getVal(config.product_list));
@@ -221,33 +264,6 @@ function loadCatalog() {
             $("#categories").loadTemplate($('#category_list_tpl'), v, {append: true});
         });
     }
-}
-
-function getAppConfig() {
-    $.ajax({
-        type: "GET",
-        url: config.api_url + "module=config&action=list",
-        cache: false,
-        success: function (rs) {
-            if (rs.error == false) {
-                setVal(config.app_config, JSON.stringify(rs.data));
-            }
-        }
-    });
-}
-
-function getAllItems() {
-    $.ajax({
-        type: "GET",
-        dataType: 'json',
-        url: config.api_url + "module=menu&action=all",
-        cache: false,
-        success: function (rs) {
-            if (rs.error == false) {
-                setVal(config.product_list, JSON.stringify(rs.data));
-            }
-        }
-    });
 }
 
 function loadCatalogItems(cat) {
@@ -358,8 +374,7 @@ function verifyCode() {
 }
 
 function showMe() {
-    $("#my_details").empty();
-    $("#update_success").empty();
+    $("#me_loader").empty();
     var id = getVal(config.user_id);
     var name = getVal(config.user_name);
     var mobile = getVal(config.user_mobile);
@@ -375,36 +390,38 @@ function showMe() {
 }
 
 function validateUpdation() {
+    $("#me_loader").empty();
     if ($.trim($("#me_name").val()).length < 3) {
-        $("#update_success").empty();
-        $("#update_success").append("<b>Name should be 3 char</b>");
+        $("#update_success_text").html("<b>Name should be 3 char</b>");
+        $("#update_success").popup("open");
         return false;
     }
     if (!validateEmail($.trim(jQuery("#me_email").val()))) {
-        $("#update_success").empty();
-        $("#update_success").append("<b>Please enter valid email</b>");
+        $("#update_success_text").html("<b>Please enter valid email</b>");
+        $("#update_success").popup("open");
         return false;
     }
     return true;
 }
 
 function checkUpdation() {
+    $("#me_loader").empty();
     var up_name = $.trim($("#me_name").val());
     var up_email = $.trim(jQuery("#me_email").val());
     var name = $.trim(getVal(config.user_name));
     var email = $.trim(getVal(config.user_email));
     if (up_name == name && up_email == email) {
-        $("#update_success").empty();
-        $("#update_success").append("<b>No informations found to update</b>");
+        $("#update_success_text").html("<b>No informations found to update</b>");
+        $("#update_success").popup("open");
         return false;
     }
     return true;
 }
 
 function updateUser() {
-    $("#update_success").empty();
-    $("#update_success").append(loading);
     if (validateUpdation() && checkUpdation()) {
+        $("#me_loader").empty();
+        $("#me_loader").append(loading);
         var name = $("#me_name").val();
         var email = $("#me_email").val();
         var data = {
@@ -419,18 +436,21 @@ function updateUser() {
             cache: false,
             success: function (html) {
                 if (html.error == false) {
+                    $("#me_loader").empty();
                     setVal(config.user_name, name);
                     setVal(config.user_email, email);
-                    $("#update_success").empty();
-                    $("#update_success").append(html.message);
+                    $("#update_success_text").html("<b>" + html.message + "</b>");
+                    $("#update_success").popup("open");
                 } else {
-                    $("#update_success").empty();
-                    $("#update_success").append(html.message);
+                    $("#me_loader").empty();
+                    $("#update_success_text").html("<b>" + html.message + "</b>");
+                    $("#update_success").popup("open");
                 }
             },
             error: function (request, status, error) {
-                $("#update_success").empty();
-                $("#update_success").append("Process failed please try again after some times.....");
+                $("#me_loader").empty();
+                $("#update_success_text").html("<b>Process failed please try again after some times.....</b>");
+                $("#update_success").popup("open");
             }
         });
     }
@@ -523,9 +543,9 @@ function showMyCart() {
     var g_total = 0;
     if (cart.items.length > 0) {
         $("#cart div[data-role=footer]").removeClass("remove-item");
-        out = out + '<table data-role="table"><thead><tr><th class="align-left">Your Order</th><th class="align-right">Qty</th><th class="align-right">Amount</th><th>Manipulate</th></tr></thead><tbody>';
+        out = out + '<table data-role="table"><thead><tr><th class="align-left">Your Order</th><th class="align-right">Qty</th><th class="align-right">Amount</th><th>Action</th></tr></thead><tbody>';
         $.each(cart.items, function (index, row) {
-            out = out + '<tr><td class = "align-left">' + row.name + '</td><td class="align-right"><div class="select-qty"><a onclick="decreaseCartQty(' + row.id + ')">&ndash;</a> <input data-role="none" name="qty" type="text" readonly="true" id="cart_item_' + row.id + '" value="' + row.qty + '"> <a onclick="increaseCartQty(' + row.id + ')">+</a></div></td><td class="align-right">' + (parseInt(row.rate) * parseInt(row.qty)).toFixed(2) + '</td><td class="align-center"><a class="symbol" onclick="updateCart(' + row.id + ')">&#10004;</a> <a class="symbol" onclick="removeItem(' + row.id + ');">&#10008;</a></td></tr>';
+            out = out + '<tr><td class = "align-left">' + row.name + '</td><td class="align-right"><div class="ui-grid-b"><div class="ui-block-a"><a onclick="decreaseCartQty(' + row.id + ')">&ndash;</a></div><div class="ui-block-b"><input data-role="none" name="qty" type="text" readonly="true" id="cart_item_' + row.id + '" value="' + row.qty + '" /></div><div class="ui-block-c"><a onclick="increaseCartQty(' + row.id + ')">+</a></div></div></td><td class="align-right">' + (parseInt(row.rate) * parseInt(row.qty)).toFixed(2) + '</td><td class="align-center"><a class="symbol" onclick="updateCart(' + row.id + ')">&#10004;</a> <a class="symbol" onclick="removeItem(' + row.id + ');">&#10008;</a></td></tr>';
             total = total + parseFloat(row.rate) * parseInt(row.qty);
             if (isNaN(cart_tax[row.tax])) {
                 cart_tax[row.tax] = 0;
@@ -541,7 +561,7 @@ function showMyCart() {
         out = out + '<tr><td colspan="2" class="align-left">Total</td><td class="align-right">' + total.toFixed(2) + '</td><td>&nbsp;</td></tr>';
         out = out + tax_row;
         out = out + '<tr><td class="align-left" colspan="2">Grand Total</td><td class="align-right">' + g_total.toFixed(2) + '</td><td>&nbsp;</td></tr>';
-        out = out + '<tr><td colspan="4"><textarea name="orderdecs" id="orderdecs" placeholder="Order description (optional)...."></textarea></td></tr></tbody></table>';
+        out = out + '<tr><td colspan="4"><textarea rows="3" name="orderdecs" id="orderdecs" placeholder="Order description (optional)...."></textarea></td></tr></tbody></table>';
     } else {
         out = "<p>No items found in your cart</p>";
         $("#cart div[data-role=footer]").addClass("remove-item");
@@ -692,7 +712,7 @@ function showOrders() {
         $("#ordered_items").empty();
         $("#ordered_items").append(loading);
         var out = "";
-        out = out + '<div><ul data-role="listview" data-inset="true" data-theme="b">';
+        out = out + '<div><ul data-role="listview" data-inset="true" data-theme="a">';
         $.ajax({
             type: "GET",
             url: config.api_url + "module=order&action=list&id=" + id,
@@ -817,13 +837,13 @@ function processStep1() {
 }
 
 function processStep2() {
-    $("#delivery_err").empty();
     if ((getVal(config.user_id) != null)) {
         var address1 = $("#address1").val();
         var che = $("input[name='delivery']:checked");
         var obj = che.val();
         if (obj == 1 && address1 < 3) {
-            $("#delivery_err").append("<b>Address line 1 mandatory</b>");
+            $("#delivery_err_text").html("<b>Address line 1 mandatory</b>");
+            $("#delivery_err").popup("open");
             $("#address1").focus();
         } else {
             cart.delivery = obj;
@@ -841,13 +861,13 @@ function processStep2() {
             $(":mobile-pagecontainer").pagecontainer("change", "#payment");
         }
     } else {
-        $("#delivery_err").append("<b>Please select a delivery type..</b>");
+        $("#delivery_err_text").html("<b>Please select a delivery type..</b>");
+        $("#delivery_err").popup("open");
     }
 }
 
 function setDetails() {
     $("#takeaway").attr("checked", true)
-    $("#delivery_err").empty();
     var che = $("input[type='radio']:checked");
     var obj = che.val();
     if (obj == 0) {
@@ -866,7 +886,6 @@ function setDetails() {
 }
 
 function showDetails() {
-    $("#delivery_err").empty();
     var che = $("input[type='radio']:checked");
     var obj = che.val();
     if (obj == 0) {
@@ -962,12 +981,14 @@ function gplusShare() {
     var url = "https://play.google.com/store/apps/details?id=com.jayam.shosho";
     var fullurl = "https://plus.google.com/share?url=" + url;
     window.open(fullurl, '_system');
+    return false;
 }
 
 function fbShare() {
     var url = "https://play.google.com/store/apps/details?id=com.jayam.shosho";
     var fullurl = "http://www.facebook.com/sharer/sharer.php?u=" + url;
     window.open(fullurl, '_system');
+    return false;
 }
 
 function twitterShare() {
@@ -975,6 +996,7 @@ function twitterShare() {
     var ttl = "Dedicated mobile app about Sho Sho Restaurant. Download now for free!";
     var fullurl = "https://twitter.com/share?original_referer=http://www.charing.com/&source=tweetbutton&text=" + ttl + "&url=" + url;
     window.open(fullurl, '_system');
+    return false;
 }
 
 function rateUs() {
@@ -1118,10 +1140,12 @@ function resend() {
 
 function openJayam() {
     window.open('http://www.jayam.co.uk', '_system');
+    return false;
 }
 
 function getDirection() {
     window.open('https://www.google.co.in/maps/dir//2,+Dharga+Rd,+Thiruvalluvar+Nagar,+Pallavaram,+Chennai,+Tamil+Nadu/@12.9632452,80.1618809,17z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x3a525e4011670f25:0x239b4e1ab7cb2833!2m2!1d80.1641876!2d12.96324', '_system');
+    return false;
 }
 
 function registerNavigation() {

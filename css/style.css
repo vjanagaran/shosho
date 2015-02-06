@@ -16,10 +16,24 @@ body{
     z-index: 1002;
 }
 
+#loading{
+    background: url('../splash.png');
+    background-position: center center;
+    background-size: cover;
+}
+
+.fa-info-circle{
+    display: none!important;
+}
+
 .ui-header .ui-btn {
     background: none;
     border: none;
     box-shadow: none;
+}
+
+textarea{
+    height: auto!important;
 }
 
 .jayam {
@@ -46,6 +60,7 @@ body{
 .ui-btn-2:first-child {
     border-right: 1px solid #eee;
 }
+
 .request_btns .ui-btn-2, .request_btns .ui-btn-1 {
     display: inline-block;
     margin: 0;
@@ -69,7 +84,7 @@ div[data-role="page"]{
 
 div[data-role="header"] .ui-title{
     text-align: left;
-    margin: 0 11%;
+    margin: 0 13%;
     padding: 0.57em 0;
 }
 
@@ -89,6 +104,33 @@ body, input, select, textarea, button, .ui-btn {
     margin: -8px 0;
 }
 
+.ui-grid-b{
+    max-width: 70%!important;
+    border: 1px solid #E4E4E4;
+    overflow: hidden;
+}
+
+.ui-grid-b .ui-block-a > a, .ui-grid-b .ui-block-c > a, .ui-grid-b .ui-block-b > input{
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+.ui-grid-b .ui-block-a > a, .ui-grid-b .ui-block-c > a{
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.ui-grid-b .ui-block-a, .ui-grid-b .ui-block-b, .ui-grid-b .ui-block-c{
+    overflow: hidden;
+    margin: 0!important;
+    padding: 0!important;
+    float: left;
+}
+
 .align-center{
     text-align: center;
 }
@@ -106,6 +148,10 @@ body, input, select, textarea, button, .ui-btn {
     background: #F55E3D;
     padding: 10px 0;
     margin: 0;
+}
+
+#delivery .ui-content .ui-content {
+    padding-left: 0!important;
 }
 
 #developed > img{
@@ -195,7 +241,7 @@ body, input, select, textarea, button, .ui-btn {
 .select-qty{
     margin: 0;
     padding: 0;
-    display: inline-flex;
+    float: left;
     border: 1px solid #E4E4E4;
 }
 
@@ -234,9 +280,18 @@ body, input, select, textarea, button, .ui-btn {
     color: #555555;
 }
 
+.clear_both{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clear: both;
+}
+
 .item-qty{
     margin-right: 10px;
     float: right;
+    overflow: hidden;
+    clear: both;
 }
 
 #map_canvas{
