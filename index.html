@@ -23,6 +23,7 @@
             $(function () {
                 $("body>[data-role='panel']").panel();
                 $("[data-role=panel]").panel().enhanceWithin();
+                $("#externalpopup").enhanceWithin().popup();
             });
 
             $(document).on("pageinit", function () {
@@ -35,6 +36,21 @@
         </script>
     </head>
     <body>
+
+        <div data-role="page" id="loading" data-title="E-Gas Cylinders">
+            <div role="main" class="ui-content">
+                <div id="make_center">
+                    <div id="load_gif"></div>
+                    <p class="align-center" id="load_data"></p>
+                </div>
+            </div>
+            <script>
+                $("#loading").on("pageshow", function () {
+                    $("div#make_center").center();
+                });
+            </script>
+        </div> <!-- loading page-->
+
         <div data-role="page" id="intro" data-title="Sho Sho Restaurant">
             <div role="main" class="ui-content">
                 <div class="align-center">
@@ -424,7 +440,7 @@
             </div>
             <div role="main" class="ui-content">
                 <input type="email" placeholder="Your friend's email id" value="" name="friend_email" id="friend_email"/>
-                <textarea name="friend_message" id="friend_message" placeholder="Your message for friend"></textarea>
+                <textarea rows="3" name="friend_message" id="friend_message" placeholder="Your message for friend"></textarea>
                 <a href="#" class="ui-btn ui-btn-corner-all" onclick="referFriend();">Refer</a>
             </div>
             <div data-role="popup" id="refer_err" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="max-width:400px;">
@@ -472,7 +488,7 @@
                     <div><input type="text" value="" id="contact_email" name="email" placeholder="Your Email"></div>
                     <div><input type="text" name="phone" id="contact_num" placeholder="Your Mobile No"><span id="num_msg"></span></div>
                 </div>
-                <div><textarea id="contact_message" name="message" placeholder="Your Feedback"></textarea></div>
+                <div><textarea rows="3" id="contact_message" name="message" placeholder="Your Feedback"></textarea></div>
                 <div><a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-a" onclick="return receiveForm();">Submit</a></div>
             </div>
             <div data-role="popup" id="feedback_err" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="max-width:400px;">
@@ -529,6 +545,18 @@
                 <div id="about_app_details"></div>
             </div>
         </div> <!-- about -->
+
+        <div data-role="popup" id="externalpopup" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="max-width:400px;">
+            <div data-role="header" data-theme="a">
+                <h1>Information</h1>
+            </div>
+            <div role="main" class="ui-content">
+                <p id="externalpopup_text"></p>
+                <div class="request_btns">
+                    <a href="#" class="ui-btn-1" data-rel="back">Ok</a>
+                </div>
+            </div>
+        </div> <!-- External popup -->
 
         <div data-role="panel" id="mypannel" data-position="left" data-theme="c" data-position-fixed="true" data-display="overlay">
             <br/><br/> 

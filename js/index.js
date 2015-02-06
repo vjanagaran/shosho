@@ -13,13 +13,12 @@ function onDeviceReady() {
     if (is_mobile) {
         push.initPushwoosh();
     }
-    getAppConfig();
-    getAllItems();
 }
 
 var after_reg = "";
 var redirect_me = false;
 var router = new $.mobile.Router([{
+        "#loading": {handler: "loadingPage", events: "bs"},
         "#home": {handler: "homePage", events: "bs"},
         "#catalog": {handler: "catalogPage", events: "bs"},
         "#catalogitems(?:[?/](.*))?": {handler: "catalogitemsPage", events: "bs"},
@@ -41,6 +40,10 @@ var router = new $.mobile.Router([{
         "#policy": {handler: "policyPage", events: "bs"}
     }],
         {
+            loadingPage: function (type, match, ui) {
+                log("Intro Page", 3)
+                loadLocalData();
+            },
             homePage: function (type, match, ui) {
                 log("Home Page", 3);
             },
@@ -205,11 +208,51 @@ function log(msg, level) {
 }
 
 
-
-
 /********  General Functions **/
 
 var loading = '<div class="align-center"><br/><br/><img src="img/loading.gif" width="60" /></div>';
+
+jQuery.fn.center = function () {
+    this.css("position", "fixed");
+    this.css("top", ($(window).height() / 2) - (this.outerHeight() / 2));
+    this.css("left", ($(window).width() / 2) - (this.outerWidth() / 2));
+    return this;
+};
+
+function loadLocalData() {
+    $("#load_gif").append(loading);
+    $("#load_data").append("Loading app configuration");
+    $.ajax({
+        type: "GET",
+        url: config.api_url + "module=config&action=list",
+        cache: false,
+        success: function (rs) {
+            if (rs.error == false) {
+                setVal(config.app_config, JSON.stringify(rs.data));
+                $("#load_data").empty();
+                $("#load_data").append("Loading shoping menus");
+                $.ajax({
+                    type: "GET",
+                    dataType: 'json',
+                    url: config.api_url + "module=menu&action=all",
+                    cache: false,
+                    success: function (rs) {
+                        if (rs.error == false) {
+                            setVal(config.product_list, JSON.stringify(rs.data));
+                            if ($("#externalpopup").parent().hasClass('ui-popup-hidden')) {
+                                $(":mobile-pagecontainer").pagecontainer("change", "#intro");
+                            } else {
+                                $("#externalpopup .ui-content a").removeAttr("data-rel");
+                                $("#externalpopup .ui-content a").attr("href", "#intro");
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    });
+}
+
 function loadCatalog() {
     $("#categories").empty();
     var rs = $.parseJSON(getVal(config.product_list));
@@ -221,33 +264,6 @@ function loadCatalog() {
             $("#categories").loadTemplate($('#category_list_tpl'), v, {append: true});
         });
     }
-}
-
-function getAppConfig() {
-    $.ajax({
-        type: "GET",
-        url: config.api_url + "module=config&action=list",
-        cache: false,
-        success: function (rs) {
-            if (rs.error == false) {
-                setVal(config.app_config, JSON.stringify(rs.data));
-            }
-        }
-    });
-}
-
-function getAllItems() {
-    $.ajax({
-        type: "GET",
-        dataType: 'json',
-        url: config.api_url + "module=menu&action=all",
-        cache: false,
-        success: function (rs) {
-            if (rs.error == false) {
-                setVal(config.product_list, JSON.stringify(rs.data));
-            }
-        }
-    });
 }
 
 function loadCatalogItems(cat) {
@@ -541,7 +557,7 @@ function showMyCart() {
         out = out + '<tr><td colspan="2" class="align-left">Total</td><td class="align-right">' + total.toFixed(2) + '</td><td>&nbsp;</td></tr>';
         out = out + tax_row;
         out = out + '<tr><td class="align-left" colspan="2">Grand Total</td><td class="align-right">' + g_total.toFixed(2) + '</td><td>&nbsp;</td></tr>';
-        out = out + '<tr><td colspan="4"><textarea name="orderdecs" id="orderdecs" placeholder="Order description (optional)...."></textarea></td></tr></tbody></table>';
+        out = out + '<tr><td colspan="4"><textarea rows="3" name="orderdecs" id="orderdecs" placeholder="Order description (optional)...."></textarea></td></tr></tbody></table>';
     } else {
         out = "<p>No items found in your cart</p>";
         $("#cart div[data-role=footer]").addClass("remove-item");
@@ -962,12 +978,14 @@ function gplusShare() {
     var url = "https://play.google.com/store/apps/details?id=com.jayam.shosho";
     var fullurl = "https://plus.google.com/share?url=" + url;
     window.open(fullurl, '_system');
+    return false;
 }
 
 function fbShare() {
     var url = "https://play.google.com/store/apps/details?id=com.jayam.shosho";
     var fullurl = "http://www.facebook.com/sharer/sharer.php?u=" + url;
     window.open(fullurl, '_system');
+    return false;
 }
 
 function twitterShare() {
@@ -975,6 +993,7 @@ function twitterShare() {
     var ttl = "Dedicated mobile app about Sho Sho Restaurant. Download now for free!";
     var fullurl = "https://twitter.com/share?original_referer=http://www.charing.com/&source=tweetbutton&text=" + ttl + "&url=" + url;
     window.open(fullurl, '_system');
+    return false;
 }
 
 function rateUs() {
@@ -1118,10 +1137,12 @@ function resend() {
 
 function openJayam() {
     window.open('http://www.jayam.co.uk', '_system');
+    return false;
 }
 
 function getDirection() {
     window.open('https://www.google.co.in/maps/dir//2,+Dharga+Rd,+Thiruvalluvar+Nagar,+Pallavaram,+Chennai,+Tamil+Nadu/@12.9632452,80.1618809,17z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x3a525e4011670f25:0x239b4e1ab7cb2833!2m2!1d80.1641876!2d12.96324', '_system');
+    return false;
 }
 
 function registerNavigation() {
