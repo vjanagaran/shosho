@@ -38,16 +38,16 @@
     <body>
         <div data-role="page" id="loading" data-title="Sho Sho Restaurant">
             <div role="main" class="ui-content">
-                <div id="make_center">
-                    <div id="load_gif"></div>
-                    <p class="align-center" id="load_data"></p>
-                </div>
+                <!--  <div id="make_center">
+                      <div id="load_gif"></div>
+                      <p class="align-center" id="load_data"></p>
+                  </div> -->
             </div>
-            <script>
-                $("#loading").on("pageshow", function () {
-                    $("div#make_center").center();
-                });
-            </script>
+            <!-- <script>
+                 $("#loading").on("pageshow", function () {
+                     $("div#make_center").center();
+                 });
+             </script> -->
         </div> <!-- loading page-->
 
         <div data-role="page" id="intro" data-title="Sho Sho Restaurant">
@@ -372,13 +372,10 @@
             </div>
             <div role="main" class="ui-content">
                 <ul data-role="listview" data-inset="true" data-theme='a'>
-                    <li><a href="#policy">Policy</a></li>
                     <li><a href="#contact">Contact</a></li>
-                    <li><a href="#faq">FAQ's</a></li>
                     <li><a href="#share">Share this app</a></li>
                     <li><a href="#feedback">Feedback Form</a></li>
                     <li><a href="#refer">Refer Friend</a></li>
-                    <li><a href="#about">About</a></li>
                 </ul>
             </div>
         </div> <!-- more -->

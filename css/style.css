@@ -16,6 +16,16 @@ body{
     z-index: 1002;
 }
 
+#loading{
+    background: url('../splash.png');
+    background-position: center center;
+    background-size: cover;
+}
+
+.fa-info-circle{
+    display: none!important;
+}
+
 .ui-header .ui-btn {
     background: none;
     border: none;

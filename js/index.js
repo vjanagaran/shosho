@@ -220,8 +220,8 @@ jQuery.fn.center = function () {
 };
 
 function loadLocalData() {
-    $("#load_gif").append(loading);
-    $("#load_data").append("Loading app configuration");
+    //$("#load_gif").append(loading);
+   // $("#load_data").append("Loading app configuration");
     $.ajax({
         type: "GET",
         url: config.api_url + "module=config&action=list",
@@ -229,8 +229,8 @@ function loadLocalData() {
         success: function (rs) {
             if (rs.error == false) {
                 setVal(config.app_config, JSON.stringify(rs.data));
-                $("#load_data").empty();
-                $("#load_data").append("Loading shoping menus");
+                //$("#load_data").empty();
+               // $("#load_data").append("Loading shoping menus");
                 $.ajax({
                     type: "GET",
                     dataType: 'json',
