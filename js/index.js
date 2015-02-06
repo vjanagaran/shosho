@@ -374,8 +374,7 @@ function verifyCode() {
 }
 
 function showMe() {
-    $("#my_details").empty();
-    $("#update_success").empty();
+    $("#me_loader").empty();
     var id = getVal(config.user_id);
     var name = getVal(config.user_name);
     var mobile = getVal(config.user_mobile);
@@ -391,27 +390,29 @@ function showMe() {
 }
 
 function validateUpdation() {
+    $("#me_loader").empty();
     if ($.trim($("#me_name").val()).length < 3) {
-        $("#update_success").empty();
-        $("#update_success").append("<b>Name should be 3 char</b>");
+        $("#update_success_text").html("<b>Name should be 3 char</b>");
+        $("#update_success").popup("open");
         return false;
     }
     if (!validateEmail($.trim(jQuery("#me_email").val()))) {
-        $("#update_success").empty();
-        $("#update_success").append("<b>Please enter valid email</b>");
+        $("#update_success_text").html("<b>Please enter valid email</b>");
+        $("#update_success").popup("open");
         return false;
     }
     return true;
 }
 
 function checkUpdation() {
+    $("#me_loader").empty();
     var up_name = $.trim($("#me_name").val());
     var up_email = $.trim(jQuery("#me_email").val());
     var name = $.trim(getVal(config.user_name));
     var email = $.trim(getVal(config.user_email));
     if (up_name == name && up_email == email) {
-        $("#update_success").empty();
-        $("#update_success").append("<b>No informations found to update</b>");
+        $("#update_success_text").html("<b>No informations found to update</b>");
+        $("#update_success").popup("open");
         return false;
     }
     return true;
@@ -711,7 +712,7 @@ function showOrders() {
         $("#ordered_items").empty();
         $("#ordered_items").append(loading);
         var out = "";
-        out = out + '<div><ul data-role="listview" data-inset="true" data-theme="b">';
+        out = out + '<div><ul data-role="listview" data-inset="true" data-theme="a">';
         $.ajax({
             type: "GET",
             url: config.api_url + "module=order&action=list&id=" + id,
@@ -867,7 +868,6 @@ function processStep2() {
 
 function setDetails() {
     $("#takeaway").attr("checked", true)
-    $("#delivery_err").empty();
     var che = $("input[type='radio']:checked");
     var obj = che.val();
     if (obj == 0) {
