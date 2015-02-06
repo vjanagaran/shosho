@@ -94,6 +94,33 @@ body, input, select, textarea, button, .ui-btn {
     margin: -8px 0;
 }
 
+.ui-grid-b{
+    max-width: 70%!important;
+    border: 1px solid #E4E4E4;
+    overflow: hidden;
+}
+
+.ui-grid-b .ui-block-a > a, .ui-grid-b .ui-block-c > a, .ui-grid-b .ui-block-b > input{
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    float: left;
+    margin: 0;
+    padding: 0;
+}
+
+.ui-grid-b .ui-block-a > a, .ui-grid-b .ui-block-c > a{
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.ui-grid-b .ui-block-a, .ui-grid-b .ui-block-b, .ui-grid-b .ui-block-c{
+    overflow: hidden;
+    margin: 0!important;
+    padding: 0!important;
+    float: left;
+}
+
 .align-center{
     text-align: center;
 }
@@ -200,7 +227,7 @@ body, input, select, textarea, button, .ui-btn {
 .select-qty{
     margin: 0;
     padding: 0;
-    display: inline-flex;
+    float: left;
     border: 1px solid #E4E4E4;
 }
 
@@ -239,9 +266,18 @@ body, input, select, textarea, button, .ui-btn {
     color: #555555;
 }
 
+.clear_both{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    clear: both;
+}
+
 .item-qty{
     margin-right: 10px;
     float: right;
+    overflow: hidden;
+    clear: both;
 }
 
 #map_canvas{

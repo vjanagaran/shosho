@@ -543,9 +543,9 @@ function showMyCart() {
     var g_total = 0;
     if (cart.items.length > 0) {
         $("#cart div[data-role=footer]").removeClass("remove-item");
-        out = out + '<table data-role="table"><thead><tr><th class="align-left">Your Order</th><th class="align-right">Qty</th><th class="align-right">Amount</th><th>Manipulate</th></tr></thead><tbody>';
+        out = out + '<table data-role="table"><thead><tr><th class="align-left">Your Order</th><th class="align-right">Qty</th><th class="align-right">Amount</th><th>Action</th></tr></thead><tbody>';
         $.each(cart.items, function (index, row) {
-            out = out + '<tr><td class = "align-left">' + row.name + '</td><td class="align-right"><div class="select-qty"><a onclick="decreaseCartQty(' + row.id + ')">&ndash;</a> <input data-role="none" name="qty" type="text" readonly="true" id="cart_item_' + row.id + '" value="' + row.qty + '"> <a onclick="increaseCartQty(' + row.id + ')">+</a></div></td><td class="align-right">' + (parseInt(row.rate) * parseInt(row.qty)).toFixed(2) + '</td><td class="align-center"><a class="symbol" onclick="updateCart(' + row.id + ')">&#10004;</a> <a class="symbol" onclick="removeItem(' + row.id + ');">&#10008;</a></td></tr>';
+            out = out + '<tr><td class = "align-left">' + row.name + '</td><td class="align-right"><div class="ui-grid-b"><div class="ui-block-a"><a onclick="decreaseCartQty(' + row.id + ')">&ndash;</a></div><div class="ui-block-b"><input data-role="none" name="qty" type="text" readonly="true" id="cart_item_' + row.id + '" value="' + row.qty + '" /></div><div class="ui-block-c"><a onclick="increaseCartQty(' + row.id + ')">+</a></div></div></td><td class="align-right">' + (parseInt(row.rate) * parseInt(row.qty)).toFixed(2) + '</td><td class="align-center"><a class="symbol" onclick="updateCart(' + row.id + ')">&#10004;</a> <a class="symbol" onclick="removeItem(' + row.id + ');">&#10008;</a></td></tr>';
             total = total + parseFloat(row.rate) * parseInt(row.qty);
             if (isNaN(cart_tax[row.tax])) {
                 cart_tax[row.tax] = 0;
