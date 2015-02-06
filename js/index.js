@@ -418,9 +418,9 @@ function checkUpdation() {
 }
 
 function updateUser() {
-    $("#update_success").empty();
-    $("#update_success").append(loading);
     if (validateUpdation() && checkUpdation()) {
+        $("#me_loader").empty();
+        $("#me_loader").append(loading);
         var name = $("#me_name").val();
         var email = $("#me_email").val();
         var data = {
@@ -435,18 +435,21 @@ function updateUser() {
             cache: false,
             success: function (html) {
                 if (html.error == false) {
+                    $("#me_loader").empty();
                     setVal(config.user_name, name);
                     setVal(config.user_email, email);
-                    $("#update_success").empty();
-                    $("#update_success").append(html.message);
+                    $("#update_success_text").html("<b>" + html.message + "</b>");
+                    $("#update_success").popup("open");
                 } else {
-                    $("#update_success").empty();
-                    $("#update_success").append(html.message);
+                    $("#me_loader").empty();
+                    $("#update_success_text").html("<b>" + html.message + "</b>");
+                    $("#update_success").popup("open");
                 }
             },
             error: function (request, status, error) {
-                $("#update_success").empty();
-                $("#update_success").append("Process failed please try again after some times.....");
+                $("#me_loader").empty();
+                $("#update_success_text").html("<b>Process failed please try again after some times.....</b>");
+                $("#update_success").popup("open");
             }
         });
     }
@@ -833,13 +836,13 @@ function processStep1() {
 }
 
 function processStep2() {
-    $("#delivery_err").empty();
     if ((getVal(config.user_id) != null)) {
         var address1 = $("#address1").val();
         var che = $("input[name='delivery']:checked");
         var obj = che.val();
         if (obj == 1 && address1 < 3) {
-            $("#delivery_err").append("<b>Address line 1 mandatory</b>");
+            $("#delivery_err_text").html("<b>Address line 1 mandatory</b>");
+            $("#delivery_err").popup("open");
             $("#address1").focus();
         } else {
             cart.delivery = obj;
@@ -857,7 +860,8 @@ function processStep2() {
             $(":mobile-pagecontainer").pagecontainer("change", "#payment");
         }
     } else {
-        $("#delivery_err").append("<b>Please select a delivery type..</b>");
+        $("#delivery_err_text").html("<b>Please select a delivery type..</b>");
+        $("#delivery_err").popup("open");
     }
 }
 
