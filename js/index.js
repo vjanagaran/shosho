@@ -221,7 +221,7 @@ jQuery.fn.center = function () {
 
 function loadLocalData() {
     //$("#load_gif").append(loading);
-   // $("#load_data").append("Loading app configuration");
+    // $("#load_data").append("Loading app configuration");
     $.ajax({
         type: "GET",
         url: config.api_url + "module=config&action=list",
@@ -230,7 +230,7 @@ function loadLocalData() {
             if (rs.error == false) {
                 setVal(config.app_config, JSON.stringify(rs.data));
                 //$("#load_data").empty();
-               // $("#load_data").append("Loading shoping menus");
+                // $("#load_data").append("Loading shoping menus");
                 $.ajax({
                     type: "GET",
                     dataType: 'json',
@@ -563,7 +563,7 @@ function showMyCart() {
         out = out + '<tr><td class="align-left" colspan="2">Grand Total</td><td class="align-right">' + g_total.toFixed(2) + '</td><td>&nbsp;</td></tr>';
         out = out + '<tr><td colspan="4"><textarea rows="3" name="orderdecs" id="orderdecs" placeholder="Order description (optional)...."></textarea></td></tr></tbody></table>';
     } else {
-        out = "<p>No items found in your cart</p>";
+        out = "<p>Order yet to be placed</p>";
         $("#cart div[data-role=footer]").addClass("remove-item");
     }
     grand_total = g_total.toFixed(2);
