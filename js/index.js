@@ -19,6 +19,7 @@ var after_reg = "";
 var redirect_me = false;
 var router = new $.mobile.Router([{
         "#loading": {handler: "loadingPage", events: "bs"},
+        "#intro": {handler: "introPage", events: "bs"},
         "#home": {handler: "homePage", events: "bs"},
         "#catalog": {handler: "catalogPage", events: "bs"},
         "#catalogitems(?:[?/](.*))?": {handler: "catalogitemsPage", events: "bs"},
@@ -41,8 +42,12 @@ var router = new $.mobile.Router([{
     }],
         {
             loadingPage: function (type, match, ui) {
-                log("Intro Page", 3)
+                log("Loading Page", 3)
                 loadLocalData();
+            },
+            introPage: function (type, match, ui) {
+                log("Intro Page", 3)
+                getIntroText();
             },
             homePage: function (type, match, ui) {
                 log("Home Page", 3);
@@ -251,6 +256,12 @@ function loadLocalData() {
             }
         }
     });
+}
+
+function getIntroText() {
+    var rs = $.parseJSON(getVal(config.app_config));
+    $("#intro_txt").empty();
+    $("#intro_txt").append(rs["intro_text"]);
 }
 
 function loadCatalog() {
