@@ -12,6 +12,7 @@
 
 body{
 }
+
 .ui-header-fixed {
     z-index: 1002;
 }
@@ -26,6 +27,10 @@ body{
     background: none;
     border: none;
     box-shadow: none;
+}
+
+.ui-btn-left span{
+    font-size: 1.3em;
 }
 
 textarea{
@@ -85,11 +90,11 @@ div[data-role="page"]{
     background: transparent;
 }
 
-div[data-role="header"] .ui-title{
+/*div[data-role="header"] .ui-title{
     text-align: left;
     margin: 0 13%;
     padding: 0.57em 0;
-}
+}*/
 
 .ui-block-a a.ui-btn, .ui-block-b a.ui-btn, .ui-block-c a.ui-btn, .ui-block-d a.ui-btn{
     border: 0!important;
@@ -202,8 +207,9 @@ body, input, select, textarea, button, .ui-btn {
     text-align: left;
     font-size: 1.2em!important;
     display: block;
-    white-space: normal;
+    //white-space: normal;
     word-wrap: break-word;
+    line-height: 260%;
 }
 
 .menu-items{

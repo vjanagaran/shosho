@@ -76,6 +76,7 @@ var router = new $.mobile.Router([{
             },
             paymentPage: function (type, match, ui) {
                 log("Payment Items page", 3);
+                $("#success_msg").empty();
                 $("#payment_items_total").html(grand_total);
                 $("#cash_pay").attr("checked", true);
             },
@@ -286,7 +287,7 @@ function loadCatalogItems(cat) {
         $.each(rs[cat]["items"], function (k, v) {
             $("#menus").loadTemplate($('#menus_list_tpl'), v, {append: true});
         });
-        heading = heading + '<h1 class="ui-title" role="heading">' + rs[cat]["cat_name"] + '</h1>';
+        heading = heading + rs[cat]["cat_name"];
         $("#cat_name").append(heading);
     }
 }
@@ -657,6 +658,8 @@ function updateCartConfirmed(id) {
 }
 
 function processOrder() {
+    $("#success_msg").empty();
+    $("#success_msg").append(loading);
     var id = getVal(config.user_id);
     var delivery = cart.delivery;
     var decs = cart.decs;
@@ -690,6 +693,7 @@ function processOrder() {
             cache: false,
             success: function (html) {
                 if (html.error == false) {
+                    $("#success_msg").empty();
                     cart.items = [];
                     grand_total = 0;
                     $("#order_success .ui-content a").removeAttr("data-rel");
@@ -697,6 +701,7 @@ function processOrder() {
                     $("#order_success_text").html("<b>" + html.message + "</b>");
                     $("#order_success").popup("open");
                 } else {
+                    $("#success_msg").empty();
                     $("#order_success_text").html("<b>" + html.message + "</b>");
                     $("#order_success .ui-content a").removeAttr("onclick");
                     $("#order_success .ui-content a").attr("data-rel", "back");

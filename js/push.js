@@ -23,9 +23,9 @@ function registerPushwooshAndroid() {
                 if (typeof (userData) != "undefined") {
                     console.warn('user data: ' + JSON.stringify(userData));
                 }
-                $("#externalpopup_text").html(title);
                 $("#externalpopup .ui-content a").removeAttr("href");
                 $("#externalpopup .ui-content a").attr("data-rel", "back");
+                $("#externalpopup_text").html(title);
                 $("#externalpopup").popup("open");
                 //and show alert
                 //alert(title);
@@ -82,9 +82,9 @@ function registerPushwooshIOS() {
             function (event)
             {
                 var notification = event.notification;
-                $("#externalpopup_text").html(notification.aps.alert);
                 $("#externalpopup .ui-content a").removeAttr("href");
                 $("#externalpopup .ui-content a").attr("data-rel", "back");
+                $("#externalpopup_text").html(notification.aps.alert);
                 $("#externalpopup").popup("open");
                 //alert(notification.aps.alert);
                 push.pushNotification.setApplicationIconBadgeNumber(0);
