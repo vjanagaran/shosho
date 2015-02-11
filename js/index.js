@@ -295,6 +295,7 @@ function loadCatalogItems(cat) {
 function createCode() {
     if (validateRegistration()) {
         $("#err_msg").empty();
+        $("#registration .ui-content a").addClass("remove-item");
         $("#err_msg").append(loading);
         var name = $.trim($('#name').val());
         var mobile = $.trim($('#mobile').val());
@@ -315,6 +316,7 @@ function createCode() {
                 if (html.error == false) {
                     $("#reg_err .ui-content a").removeAttr("data-rel");
                     $("#reg_err .ui-content a").attr("onclick", "redirectToRespectivePages()");
+                    $("#registration .ui-content a").removeClass("remove-item");
                     setVal(config.user_name, name);
                     setVal(config.user_mobile, mobile);
                     setVal(config.user_email, email);
@@ -326,6 +328,7 @@ function createCode() {
                 } else {
                     $("#reg_err .ui-content a").removeAttr("data-rel");
                     $("#reg_err .ui-content a").attr("onclick", "redirectToRespectivePages()");
+                    $("#registration .ui-content a").removeClass("remove-item");
                     setVal(config.user_name, name);
                     setVal(config.user_mobile, mobile);
                     setVal(config.user_email, email);
@@ -337,6 +340,7 @@ function createCode() {
                 }
             },
             error: function (request, status, error) {
+                $("#registration .ui-content a").removeClass("remove-item");
                 $("#err_msg").empty();
                 $("#err_msg").append("Process fail please try again......");
             }
@@ -349,6 +353,9 @@ function redirectToRespectivePages() {
 }
 
 function verifyCode() {
+    $("#verify_spinner").empty();
+    $("#verify_spinner").append(loading);
+    $("#verify .ui-content a").addClass("remove-item");
     var code = $("#code").val();
     if (code != "") {
         var details = {
@@ -362,6 +369,8 @@ function verifyCode() {
             cache: false,
             success: function (html) {
                 if (html.error == false) {
+                    $("#verify_spinner").empty();
+                    $("#verify .ui-content a").removeClass("remove-item");
                     $("#verify_err .ui-content a").removeAttr("data-rel");
                     $("#verify_err .ui-content a").attr("onclick", "redirectToRespectivePages()");
                     setVal(config.user_status, html.status);
@@ -373,11 +382,15 @@ function verifyCode() {
                     $("#verify_err_text").html("<b>" + html.message + "</b>");
                     $("#verify_err").popup("open");
                 } else {
+                    $("#verify_spinner").empty();
+                    $("#verify .ui-content a").removeClass("remove-item");
                     $("#verify_err_text").html("<b>" + html.message + "</b>");
                     $("#verify_err").popup("open");
                 }
             },
             error: function (request, status, error) {
+                $("#verify .ui-content a").removeClass("remove-item");
+                $("#verify_spinner").empty();
                 $("#err_msg").empty();
                 $("#err_msg").append("Process fail please try again......");
             }
@@ -433,6 +446,7 @@ function checkUpdation() {
 function updateUser() {
     if (validateUpdation() && checkUpdation()) {
         $("#me_loader").empty();
+        $("#me .ui-content a").addClass("remove-item");
         $("#me_loader").append(loading);
         var name = $("#me_name").val();
         var email = $("#me_email").val();
@@ -448,6 +462,7 @@ function updateUser() {
             cache: false,
             success: function (html) {
                 if (html.error == false) {
+                    $("#me .ui-content a").removeClass("remove-item");
                     $("#me_loader").empty();
                     setVal(config.user_name, name);
                     setVal(config.user_email, email);
@@ -455,11 +470,13 @@ function updateUser() {
                     $("#update_success").popup("open");
                 } else {
                     $("#me_loader").empty();
+                    $("#me .ui-content a").removeClass("remove-item");
                     $("#update_success_text").html("<b>" + html.message + "</b>");
                     $("#update_success").popup("open");
                 }
             },
             error: function (request, status, error) {
+                $("#me .ui-content a").removeClass("remove-item");
                 $("#me_loader").empty();
                 $("#update_success_text").html("<b>Process failed please try again after some times.....</b>");
                 $("#update_success").popup("open");
@@ -660,6 +677,7 @@ function updateCartConfirmed(id) {
 function processOrder() {
     $("#success_msg").empty();
     $("#success_msg").append(loading);
+    $("#payment div[data-role=footer]").addClass("remove-item");
     var id = getVal(config.user_id);
     var delivery = cart.delivery;
     var decs = cart.decs;
@@ -697,11 +715,13 @@ function processOrder() {
                     cart.items = [];
                     grand_total = 0;
                     $("#order_success .ui-content a").removeAttr("data-rel");
+                    $("#payment div[data-role=footer]").removeClass("remove-item");
                     $("#order_success .ui-content a").attr("onclick", "redirectOrdersPage()");
                     $("#order_success_text").html("<b>" + html.message + "</b>");
                     $("#order_success").popup("open");
                 } else {
                     $("#success_msg").empty();
+                    $("#payment div[data-role=footer] a").removeClass("remove-item");
                     $("#order_success_text").html("<b>" + html.message + "</b>");
                     $("#order_success .ui-content a").removeAttr("onclick");
                     $("#order_success .ui-content a").attr("data-rel", "back");
@@ -710,10 +730,12 @@ function processOrder() {
             },
             error: function (request, status, error) {
                 $("#success_msg").empty();
+                $("#payment div[data-role=footer]").removeClass("remove-item");
                 $("#success_msg").append("Process not successfull try again later......");
             }
         });
     } else {
+        $("#payment div[data-role=footer] a").removeAttr("disabled");
         $("#success_msg").append("<b>Please select the payment mode</b>");
     }
 }
@@ -1102,6 +1124,7 @@ function referFriend() {
 
 function startTimer() {
     $("#resend").empty();
+    $("#verify_spinner").empty();
     var resend = '<a href="#" class="ui-btn ui-btn-corner-all" onclick="resend();"> Resend Code</a>';
     var sec = 90;
     var timer = setInterval(function () {
@@ -1126,6 +1149,9 @@ function showFeedbackForm() {
 }
 
 function resend() {
+    $("#verify_spinner").empty();
+    $("#verify_spinner").append(loading);
+    $("#verify .ui-content a").addClass("remove-item");
     var mobile = getVal(config.user_mobile);
     var email = getVal(config.user_email);
     var id = getVal(config.user_id);
@@ -1135,7 +1161,6 @@ function resend() {
         id: id,
         device_token: getVal(config.device_token)
     };
-    startTimer();
     $.ajax({
         type: "POST",
         url: config.api_url + "module=user&action=resend",
@@ -1143,11 +1168,20 @@ function resend() {
         cache: false,
         success: function (html) {
             if (html.error == false) {
+                $("#verify .ui-content a").removeClass("remove-item");
+                $("#verify_spinner").empty();
+                startTimer();
                 $("#verify_err_text").html("<b>" + html.message + "</b>");
+                $("#verify_err .ui-content a").removeAttr("onclick");
+                $("#verify_err .ui-content a").attr("data-rel", "back");
                 $("#verify_err").popup("open");
             }
         },
         error: function (request, status, error) {
+            $("#verify_spinner").empty();
+            $("#verify .ui-content a").removeClass("remove-item");
+            $("#verify_err .ui-content a").removeAttr("onclick");
+            $("#verify_err .ui-content a").attr("data-rel", "back");
             $("#verify_err_text").html("<b>Process fail please try again......</b>");
             $("#verify_err").popup("open");
         }
