@@ -12,7 +12,8 @@
     <preference name="phonegap-version" value="3.6.3" />
     <preference name="orientation" value="default" />
     <preference name="SplashScreen" value="screen" />
-    <preference name="SplashScreenDelay" value="6000" />
+    <preference name="AutoHideSplashScreen" value="false" />
+    <preference name="SplashScreenDelay" value="10000" />
     <preference name="target-device" value="universal" />
     <preference name="fullscreen" value="false" />
     <preference name="webviewbounce" value="true" />

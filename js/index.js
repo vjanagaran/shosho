@@ -244,6 +244,7 @@ function loadLocalData() {
                     cache: false,
                     success: function (rs) {
                         if (rs.error == false) {
+                            navigator.splashscreen.hide();
                             setVal(config.product_list, JSON.stringify(rs.data));
                             if ($("#externalpopup").parent().hasClass('ui-popup-hidden')) {
                                 $(":mobile-pagecontainer").pagecontainer("change", "#intro");
