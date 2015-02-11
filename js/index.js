@@ -13,6 +13,7 @@ function onDeviceReady() {
     if (is_mobile) {
         push.initPushwoosh();
     }
+    loadLocalData();
 }
 
 var after_reg = "";
@@ -43,7 +44,7 @@ var router = new $.mobile.Router([{
         {
             loadingPage: function (type, match, ui) {
                 log("Loading Page", 3);
-                loadLocalData();
+                //loadLocalData();
             },
             introPage: function (type, match, ui) {
                 log("Intro Page", 3);
@@ -230,6 +231,7 @@ function loadLocalData() {
     // $("#load_data").append("Loading app configuration");
     $.ajax({
         type: "GET",
+        async: false,
         url: config.api_url + "module=config&action=list",
         cache: false,
         success: function (rs) {
@@ -239,6 +241,7 @@ function loadLocalData() {
                 // $("#load_data").append("Loading shoping menus");
                 $.ajax({
                     type: "GET",
+                    async: false,
                     dataType: 'json',
                     url: config.api_url + "module=menu&action=all",
                     cache: false,
@@ -246,12 +249,12 @@ function loadLocalData() {
                         if (rs.error == false) {
                             navigator.splashscreen.hide();
                             setVal(config.product_list, JSON.stringify(rs.data));
-                            if ($("#externalpopup").parent().hasClass('ui-popup-hidden')) {
-                                $(":mobile-pagecontainer").pagecontainer("change", "#intro");
-                            } else {
-                                $("#externalpopup .ui-content a").removeAttr("data-rel");
-                                $("#externalpopup .ui-content a").attr("href", "#intro");
-                            }
+                            //if ($("#externalpopup").parent().hasClass('ui-popup-hidden')) {
+                            //$(":mobile-pagecontainer").pagecontainer("change", "#intro");
+                            //} else {
+                            //    $("#externalpopup .ui-content a").removeAttr("data-rel");
+                            //    $("#externalpopup .ui-content a").attr("href", "#intro");
+                            //}
                         }
                     }
                 });
