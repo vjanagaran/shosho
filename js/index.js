@@ -42,18 +42,18 @@ var router = new $.mobile.Router([{
     }],
         {
             loadingPage: function (type, match, ui) {
-                log("Loading Page", 3)
+                log("Loading Page", 3);
                 loadLocalData();
             },
             introPage: function (type, match, ui) {
-                log("Intro Page", 3)
+                log("Intro Page", 3);
                 getIntroText();
             },
             homePage: function (type, match, ui) {
                 log("Home Page", 3);
             },
             catalogPage: function (type, match, ui) {
-                log("Catalog Page", 3)
+                log("Catalog Page", 3);
                 loadCatalog();
             },
             catalogitemsPage: function (type, match, ui) {
