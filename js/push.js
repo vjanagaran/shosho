@@ -23,8 +23,6 @@ function registerPushwooshAndroid() {
                 if (typeof (userData) != "undefined") {
                     console.warn('user data: ' + JSON.stringify(userData));
                 }
-                $("#externalpopup .ui-content a").removeAttr("href");
-                $("#externalpopup .ui-content a").attr("data-rel", "back");
                 $("#externalpopup_text").html(title);
                 $("#externalpopup").popup("open");
                 //and show alert
@@ -82,8 +80,6 @@ function registerPushwooshIOS() {
             function (event)
             {
                 var notification = event.notification;
-                $("#externalpopup .ui-content a").removeAttr("href");
-                $("#externalpopup .ui-content a").attr("data-rel", "back");
                 $("#externalpopup_text").html(notification.aps.alert);
                 $("#externalpopup").popup("open");
                 //alert(notification.aps.alert);
