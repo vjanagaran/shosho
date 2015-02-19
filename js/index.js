@@ -217,14 +217,12 @@ function log(msg, level) {
 /********  General Functions **/
 
 var loading = '<div class="align-center"><br/><br/><img src="img/loading.gif" width="60" /></div>';
-
 jQuery.fn.center = function () {
     this.css("position", "fixed");
     this.css("top", ($(window).height() / 2) - (this.outerHeight() / 2));
     this.css("left", ($(window).width() / 2) - (this.outerWidth() / 2));
     return this;
 };
-
 function loadLocalData() {
     $.ajax({
         type: "GET",
@@ -578,8 +576,10 @@ function showMyCart() {
         });
         g_total = total;
         $.each(cart_tax, function (index, val) {
-            tax_row = tax_row + '<tr><td class="align-left" colspan="2">TAX ' + index + '%</td><td class="align-right">' + val.toFixed(2) + '</td><td>&nbsp;</td></tr>';
-            g_total = g_total + val;
+            if (index != 0) {
+                tax_row = tax_row + '<tr><td class="align-left" colspan="2">TAX ' + index + '%</td><td class="align-right">' + val.toFixed(2) + '</td><td>&nbsp;</td></tr>';
+                g_total = g_total + val;
+            }
         });
         out = out + '<tr><td>&nbsp;</td></tr>';
         out = out + '<tr><td colspan="2" class="align-left">Total</td><td class="align-right">' + total.toFixed(2) + '</td><td>&nbsp;</td></tr>';
