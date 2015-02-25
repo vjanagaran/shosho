@@ -716,7 +716,7 @@ function processOrder() {
                     $("#order_success").popup("open");
                 } else {
                     $("#success_msg").empty();
-                    $("#payment div[data-role=footer] a").removeClass("remove-item");
+                    $("#payment div[data-role=footer]").removeClass("remove-item");
                     $("#order_success_text").html("<b>" + html.message + "</b>");
                     $("#order_success .ui-content a").removeAttr("onclick");
                     $("#order_success .ui-content a").attr("data-rel", "back");
