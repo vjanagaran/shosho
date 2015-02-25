@@ -730,7 +730,7 @@ function processOrder() {
             }
         });
     } else {
-        $("#payment div[data-role=footer] a").removeAttr("disabled");
+        $("#payment div[data-role=footer]").removeAttr("disabled");
         $("#success_msg").append("<b>Please select the payment mode</b>");
     }
 }
