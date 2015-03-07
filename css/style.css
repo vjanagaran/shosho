@@ -81,12 +81,6 @@ div[data-role="page"]{
     background: transparent;
 }
 
-/*div[data-role="header"] .ui-title{
-    text-align: left;
-    margin: 0 13%;
-    padding: 0.57em 0;
-}*/
-
 .ui-block-a a.ui-btn, .ui-block-b a.ui-btn, .ui-block-c a.ui-btn, .ui-block-d a.ui-btn{
     border: 0!important;
 }
@@ -389,5 +383,19 @@ body, input, select, textarea, button, .ui-btn {
 
     div[data-role="header"] > a{
         padding: 5px;
+    }
+}
+
+@media screen and (min-width: 320px) and (orientation:portrait) {
+    @-ms-viewport { 
+        width: 320px!important; 
+        height:device-heigth!important;
+    }
+}
+
+@media screen and (min-height: 320px) and (orientation:landscape) {
+    @-ms-viewport { 
+        width:auto!important; 
+        height:320px!important; 
     }
 }
