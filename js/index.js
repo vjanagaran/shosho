@@ -1037,6 +1037,7 @@ function rateUs() {
 }
 
 function receiveForm() {
+    $("#feedback_spinner").empty();
     var message = $("#contact_message").val();
     var data = {};
     var name = getVal(config.user_name);
@@ -1063,12 +1064,16 @@ function receiveForm() {
                 };
             }
         }
+        $("#feedback_spinner").append(loading);
+        $("#feedback .ui-content a").addClass("remove-item");
         $.ajax({
             type: "POST",
             url: config.api_url + "module=user&action=feedback",
             data: data,
             cache: false,
             success: function (data) {
+                $("#feedback_spinner").empty();
+                $("#feedback .ui-content a").removeClass("remove-item");
                 if (data.error == false) {
                     $("#feedback_err_text").html("<b>" + data.message + "</b>");
                     $("#feedback_err").popup("open");
@@ -1079,7 +1084,6 @@ function receiveForm() {
             }
         });
     }
-    return false;
 }
 
 function redirectToOrders() {
@@ -1088,6 +1092,7 @@ function redirectToOrders() {
 }
 
 function referFriend() {
+    $("#refer_spinner").empty();
     var email = $("#friend_email").val();
     var msg = $("#friend_message").val();
     var data = {
@@ -1098,12 +1103,16 @@ function referFriend() {
         $("#refer_err_text").html("<b>Please enter valid email</b>");
         $("#refer_err").popup("open");
     } else {
+        $("#refer_spinner").append(loading);
+        $("#refer .ui-content a").addClass("remove-item");
         $.ajax({
             type: "POST",
             url: config.api_url + "module=user&action=invitefriend",
             data: data,
             cache: false,
             success: function (data) {
+                $("#refer_spinner").empty();
+                $("#refer .ui-content a").removeClass("remove-item");
                 if (data.error == false) {
                     $("#refer_err_text").html("<b>" + data.message + "</b>");
                     $("#refer_err").popup("open");
