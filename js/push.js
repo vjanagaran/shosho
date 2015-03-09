@@ -12,7 +12,6 @@ push.initPushwoosh = function () {
         registerPushwooshIOS();
     }
     if (device.platform == "WinCE" || device.platform == "Win32NT") {
-        alert("Device is Windows");
         registerPushwooshWindows();
     }
 }
@@ -135,8 +134,8 @@ function registerPushwooshWindows() {
     //set push notifications handler
     document.addEventListener('push-notification', function (event) {
         //get the notification payload
-        var notification = event.notification;
-        $("#externalpopup_text").html(JSON.stringify(notification));
+        var notification = event.notification.content;
+        $("#externalpopup_text").html(notification);
         $("#externalpopup").popup("open");
         //display alert to the user for example
         //alert(JSON.stringify(notification));
@@ -163,7 +162,8 @@ function onPushwooshWindowsInitialized() {
     //retrieve the tags for the device
     push.pushNotification.setTags({tagName: "tagValue", intTagName: 10},
     function (status) {
-        alert('setTags success: ' + JSON.stringify(status));
+        console.warn('tags for the device: ' + JSON.stringify(status));
+        //alert('setTags success: ' + JSON.stringify(status));
     },
             function (status) {
                 console.warn('setTags failed');
