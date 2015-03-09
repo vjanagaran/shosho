@@ -168,8 +168,12 @@ body, input, select, textarea, button, .ui-btn {
     border: 2px solid #9E9E9E;
 }
 
-#contact .mapimg{
+#contact .mapimg {
     width: 100%;
+    max-width: 300px;
+    background: #ffffff;
+    padding: 2px;
+    border: 2px solid #9E9E9E;
 }
 
 #catalog .category{
