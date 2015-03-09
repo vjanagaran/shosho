@@ -11,6 +11,7 @@ function onDeviceReady() {
     $.mobile.defaultPageTransition = 'none';
     $.mobile.defaultDialogTransition = 'none';
     if (is_mobile) {
+        alert("It is mobile");
         push.initPushwoosh();
     }
     loadLocalData();

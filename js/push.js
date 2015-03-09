@@ -12,6 +12,7 @@ push.initPushwoosh = function () {
         registerPushwooshIOS();
     }
     if (device.platform == "WinCE") {
+        alert("Device is Windows");
         registerPushwooshWindows();
     }
 }
@@ -159,7 +160,6 @@ function registerPushwooshWindows() {
 }
 
 function onPushwooshWindowsInitialized() {
-    push.pushNotification = window.plugins.pushNotification;
     //retrieve the tags for the device
     push.pushNotification.setTags({tagName: "tagValue", intTagName: 10},
     function (status) {
