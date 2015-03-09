@@ -11,6 +11,9 @@ push.initPushwoosh = function () {
     if (device.platform == "iPhone" || device.platform == "iOS") {
         registerPushwooshIOS();
     }
+    if (device.platform == "WinCE") {
+        registerPushwooshWindows();
+    }
 }
 
 function registerPushwooshAndroid() {
@@ -82,7 +85,6 @@ function registerPushwooshIOS() {
                 var notification = event.notification;
                 $("#externalpopup_text").html(notification.aps.alert);
                 $("#externalpopup").popup("open");
-                //alert(notification.aps.alert);
                 push.pushNotification.setApplicationIconBadgeNumber(0);
             });
 
@@ -125,4 +127,45 @@ function onPushwooshiOSInitialized(pushToken) {
                 console.warn('Pushwoosh HWID: ' + token);
             }
     );
+}
+
+function registerPushwooshWindows() {
+    push.pushNotification = window.plugins.pushNotification;
+    //set push notifications handler
+    document.addEventListener('push-notification', function (event) {
+        //get the notification payload
+        var notification = event.notification;
+        $("#externalpopup_text").html(JSON.stringify(notification));
+        $("#externalpopup").popup("open");
+        //display alert to the user for example
+        //alert(JSON.stringify(notification));
+    });
+
+    //initialize the plugin
+    push.pushNotification.onDeviceReady({appid: "AC4D4-E4A45", serviceName: ""});
+
+    //register for pushes
+    push.pushNotification.registerDevice(
+            function (status) {
+                var pushToken = status;
+                console.warn('push token: ' + pushToken);
+                setVal(config.device_token, pushToken);
+                onPushwooshWindowsInitialized();
+            },
+            function (status) {
+                console.warn(JSON.stringify(['failed to register ', status]));
+            }
+    );
+}
+
+function onPushwooshWindowsInitialized() {
+    push.pushNotification = window.plugins.pushNotification;
+    //retrieve the tags for the device
+    push.pushNotification.setTags({tagName: "tagValue", intTagName: 10},
+    function (status) {
+        alert('setTags success: ' + JSON.stringify(status));
+    },
+            function (status) {
+                console.warn('setTags failed');
+            });
 }
