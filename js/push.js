@@ -11,7 +11,7 @@ push.initPushwoosh = function () {
     if (device.platform == "iPhone" || device.platform == "iOS") {
         registerPushwooshIOS();
     }
-    if (device.platform == "WinCE") {
+    if (device.platform == "WinCE" || device.platform == "Win32NT") {
         alert("Device is Windows");
         registerPushwooshWindows();
     }
