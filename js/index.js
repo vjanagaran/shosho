@@ -647,7 +647,6 @@ function updateCart(id) {
     $.each(cart.items, function (index, row) {
         if (row.id == id) {
             name = row.name;
-            qty = row.qty;
         }
     });
     $("#cart_confirm_title").html("Update Item");
