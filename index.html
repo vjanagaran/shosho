@@ -80,7 +80,7 @@
         </div> <!-- home -->
 
         <div data-role="page" id="me" data-title="Sho Sho Restaurant">
-            <div data-role="header" data-position="fixed">
+            <div data-role="header" data-position="fixed" data-tap-toggle="false">
                 <h1 class="ui-title" role="heading">&nbsp;</h1>
                 <a class="ui-btn-left" href="#mypannel"><i class="fa fa-list"></i> <span>User Profile</span></a>
                 <div class="ui-btn-right">
@@ -541,6 +541,11 @@
                     <div id="contact_details"></div>
                 </div>
             </div>
+            <script>
+                $("#contact").on("pageshow", function () {
+                    alert($("#contact .ui-content img").attr('src'));
+                });
+            </script>
         </div> <!-- contact -->
 
         <div data-role="page" id="faq" data-title="Sho Sho Restaurant">
