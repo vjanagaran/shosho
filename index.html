@@ -33,6 +33,23 @@
                     }
                 });
             });
+
+            var lastScrollPosition;
+
+            $(document).scroll(function () {
+                var scrollPosition = $(this).scrollTop();
+                if (scrollPosition > lastScrollPosition) {
+                    // If the header is currently showing
+                    if (!$('[data-role=header].ui-fixed-hidden').length) {
+                        $('[data-role=header]').toolbar('hide');
+                    }
+                } else {
+                    if ($('[data-role=header].ui-fixed-hidden').length) {
+                        $('[data-role=header]').toolbar('show');
+                    }
+                }
+                lastScrollPosition = scrollPosition;
+            });
         </script>
     </head>
     <body>
