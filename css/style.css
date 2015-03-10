@@ -380,3 +380,12 @@ body, input, select, textarea, button, .ui-btn {
         padding: 5px;
     }
 }
+
+@media screen and (orientation: portrait) {
+    @-ms-viewport {
+        width: 320px;
+        user-zoom: fixed;
+        max-zoom: 1;
+        min-zoom: 1;
+    }
+}
