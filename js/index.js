@@ -18,6 +18,18 @@ function onDeviceReady() {
     //$(".ui-footer-fixed").fixedToolbar("updatePosition");
 }
 
+function windowsHeaderFooter() {
+//NB the code below references jQuery, not included in this HTML for simplicity
+    var headerSpace = parseInt($('div[data-role=header]').css("height")) + parseInt($('div[data-role=header]').css("marginTop")) + parseInt($('div[data-role=header]').css("marginBottom")) + parseInt($('div[data-role=header]').css("paddingTop")) + parseInt($('div[data-role=header]').css("paddingBottom"));
+
+    var contentSpace = parseInt($('div[role=main]').css("marginTop")) + parseInt($('div[role=main]').css("marginBottom")) + parseInt($('div[role=main]').css("paddingTop")) + parseInt($('div[role=main]').css("paddingBottom"));
+
+    var footerSpace = parseInt($('div[data-role=footer]').css("height")) + parseInt($('div[data-role=footer]').css("marginTop")) + parseInt($('div[data-role=footer]').css("marginBottom")) + parseInt($('div[data-role=footer]').css("paddingTop")) + parseInt($('div[data-role=footer]').css("paddingBottom"));
+
+    var contentHeight = window.innerHeight - headerSpace - contentSpace - footerSpace;
+    $('#content').css("height", contentHeight + "px");
+}
+
 var after_reg = "";
 var redirect_me = false;
 var router = new $.mobile.Router([{
