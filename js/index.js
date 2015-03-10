@@ -15,6 +15,7 @@ function onDeviceReady() {
         push.initPushwoosh();
     }
     loadLocalData();
+    $(".ui-footer-fixed").fixedToolbar("updatePosition");
 }
 
 var after_reg = "";
