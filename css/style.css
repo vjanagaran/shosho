@@ -389,3 +389,12 @@ body, input, select, textarea, button, .ui-btn {
         min-zoom: 1;
     }
 }
+
+@media screen and (orientation: landscape) {
+    @-ms-viewport {
+        width: 480px;
+        user-zoom: fixed;
+        max-zoom: 1;
+        min-zoom: 1;
+    }
+}
