@@ -13,7 +13,6 @@ push.initPushwoosh = function () {
     }
     if (device.platform == "WinCE" || device.platform == "Win32NT") {
         registerPushwooshWindows();
-        windowsHeaderFooter();
     }
 }
 
