@@ -10,12 +10,12 @@ if (is_mobile) {
 function onDeviceReady() {
     $.mobile.defaultPageTransition = 'none';
     $.mobile.defaultDialogTransition = 'none';
-    $.mobile.ignoreContentEnabled = true;
+    //$.mobile.ignoreContentEnabled = true;
     if (is_mobile) {
         push.initPushwoosh();
     }
     loadLocalData();
-    $(".ui-footer-fixed").fixedToolbar("updatePosition");
+    //$(".ui-footer-fixed").fixedToolbar("updatePosition");
 }
 
 var after_reg = "";
