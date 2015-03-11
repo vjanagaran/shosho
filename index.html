@@ -23,8 +23,8 @@
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
         <script id="panel-init">
             $(function () {
-                $("body>[data-role='panel']").panel();
-                $("[data-role=panel]").panel().enhanceWithin();
+                //$("body>[data-role='panel']").panel();
+                $("#mypannel").enhanceWithin().panel();
                 $("#externalpopup").enhanceWithin().popup();
             });
 
