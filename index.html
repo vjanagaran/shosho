@@ -22,14 +22,14 @@
         <script id="panel-init">
             $(function () {
                 $("#mypannel").panel();
-                $("#mypannel").enhanceWithin().panel();
+                $("#mypannel").panel().enhanceWithin();
                 $("#externalpopup").enhanceWithin().popup();
             });
 
             $(document).on("pageinit", function () {
-                $("[data-role=panel] a").on("click", function () {
+                $("#mypannel a").on("click", function () {
                     if ($(this).attr("href") == "#" + $.mobile.activePage[0].id) {
-                        $("[data-role=panel]").panel("close");
+                        $("#mypannel").panel("close");
                     }
                 });
             });
@@ -108,7 +108,7 @@
             </div>
         </div> <!-- me -->
 
-        <div data-role="page" id="catalog" data-title="Sho Sho Restaurant">
+        <div data-role="page" id="catalog" data-title="Sho Sho Restaurant" data-ajax="false">
             <div data-role="header" data-position="fixed" data-tap-toggle="false">
                 <h1 class="ui-title" role="heading">&nbsp;</h1>
                 <a class="ui-btn-left ui-btn ui-shadow ui-corner-all" href="#mypannel" ><i class="fa fa-list"></i> <span>Catalog</span></a>
