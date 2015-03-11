@@ -7,7 +7,6 @@
         <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
         <link rel="stylesheet" type="text/css" href="css/theme.min.css" />
         <link rel="stylesheet" type="text/css" href="css/jquery.mobile.structure-1.4.5.min.css" />
-        <!-- <link rel="stylesheet" type="text/css" href="css/jquery.mobile.fixedToolbar.polyfill.css" /> -->
         <link rel="stylesheet" type="text/css" href="css/style.css" />
 
         <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
@@ -17,24 +16,23 @@
         <script type="text/javascript" charset="utf-8" src="js/libs/jquery.mobile.router.min.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/libs/jquery.mobile-1.4.3.min.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/libs/jquery-dateFormat.min.js"></script>
-        <!-- <script type="text/javascript" charset="utf-8" src="js/libs/jquery.mobile.fixedToolbar.polyfill.js"></script> -->
         <script type="text/javascript" charset="utf-8" src="js/push.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/index.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
         <script id="panel-init">
             $(function () {
-                //$("body>[data-role='panel']").panel();
+                $("#mypannel").panel();
                 $("#mypannel").enhanceWithin().panel();
                 $("#externalpopup").enhanceWithin().popup();
             });
 
-            /*$(document).on("pageinit", function () {
-             $("[data-role=panel] a").on("click", function () {
-             if ($(this).attr("href") == "#" + $.mobile.activePage[0].id) {
-             $("[data-role=panel]").panel("close");
-             }
-             });
-             });*/
+            $(document).on("pageinit", function () {
+                $("[data-role=panel] a").on("click", function () {
+                    if ($(this).attr("href") == "#" + $.mobile.activePage[0].id) {
+                        $("[data-role=panel]").panel("close");
+                    }
+                });
+            });
         </script>
     </head>
     <body>
@@ -583,7 +581,7 @@
             </div>
         </div> <!-- External popup -->
 
-        <div data-role="panel" id="mypannel" data-position="left" data-theme="c" data-position-fixed="true" data-display="overlay">
+        <div data-role="panel" id="mypannel" data-position="left" data-theme="c" data-animate="false" data-position-fixed="true" data-display="overlay">
             <br/><br/> 
             <ul class="ui-content" data-role="listview" data-theme="a">
                 <li><a href="#home"><i class="fa fa-home"></i> Home</a></li>
