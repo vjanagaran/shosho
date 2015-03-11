@@ -21,8 +21,8 @@
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
         <script id="panel-init">
             $(function () {
-                $("#mypannel").panel();
-                $("#mypannel").panel().enhanceWithin();
+               // $("#mypannel").panel();
+               // $("#mypannel").panel().enhanceWithin();
                 $("#externalpopup").enhanceWithin().popup();
             });
 
@@ -108,7 +108,7 @@
             </div>
         </div> <!-- me -->
 
-        <div data-role="page" id="catalog" data-title="Sho Sho Restaurant" data-ajax="false">
+        <div data-role="page" id="catalog" data-title="Sho Sho Restaurant">
             <div data-role="header" data-position="fixed" data-tap-toggle="false">
                 <h1 class="ui-title" role="heading">&nbsp;</h1>
                 <a class="ui-btn-left ui-btn ui-shadow ui-corner-all" href="#mypannel" ><i class="fa fa-list"></i> <span>Catalog</span></a>
@@ -382,6 +382,18 @@
                     <li><a href="#refer">Refer Friend</a></li>
                 </ul>
             </div>
+
+            <div data-role="panel" id="mypannel" data-swipe-close="false" data-position="left" data-theme="c" data-position-fixed="true" data-display="overlay">
+                <br/><br/> 
+                <ul class="ui-content" data-role="listview" data-theme="a">
+                    <li><a href="#home"><i class="fa fa-home"></i> Home</a></li>
+                    <li><a href="#catalog"><i class="fa fa-cutlery"></i> Menu</a></li>
+                    <li><a href="#orders"><i class="fa fa-paper-plane"></i> Orders</a></li>
+                    <li><a href="#me"><i class="fa fa-user"></i> Me</a></li>
+                    <li><a href="#more"><i class="fa fa-bars"></i> More</a></li>
+                </ul>
+                <div class="jayam">Powered by  <a onclick="openJayam();" href="#">Jayam Ltd</a></div>
+            </div>
         </div> <!-- more -->
 
         <div data-role="page" id="registration" data-title="Sho Sho Restaurant">
@@ -581,7 +593,7 @@
             </div>
         </div> <!-- External popup -->
 
-        <div data-role="panel" id="mypannel" data-swipe-close="false" data-position="left" data-theme="c" data-position-fixed="true" data-ajax="false" data-display="push">
+        <!-- <div data-role="panel" id="mypannel" data-swipe-close="false" data-position="left" data-theme="c" data-position-fixed="true" data-display="overlay">
             <br/><br/> 
             <ul class="ui-content" data-role="listview" data-theme="a">
                 <li><a href="#home"><i class="fa fa-home"></i> Home</a></li>
@@ -591,6 +603,6 @@
                 <li><a href="#more"><i class="fa fa-bars"></i> More</a></li>
             </ul>
             <div class="jayam">Powered by  <a onclick="openJayam();" href="#">Jayam Ltd</a></div>
-        </div>
+        </div> -->
     </body>
 </html>

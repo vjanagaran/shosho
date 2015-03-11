@@ -225,6 +225,7 @@ jQuery.fn.center = function () {
     this.css("left", ($(window).width() / 2) - (this.outerWidth() / 2));
     return this;
 };
+
 function loadLocalData() {
     $.ajax({
         type: "GET",
