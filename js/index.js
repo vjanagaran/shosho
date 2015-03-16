@@ -218,13 +218,27 @@ function log(msg, level) {
 
 /********  General Functions **/
 
+var panel_open = false;
 var loading = '<div class="align-center"><br/><br/><img src="img/loading.gif" width="60" /></div>';
+
 jQuery.fn.center = function () {
     this.css("position", "fixed");
     this.css("top", ($(window).height() / 2) - (this.outerHeight() / 2));
     this.css("left", ($(window).width() / 2) - (this.outerWidth() / 2));
     return this;
 };
+
+function openPanel() {
+    if (panel_open != true) {
+        $("#mypannel").panel();
+        $("#mypannel").panel("open");
+        panel_open = true;
+    } else {
+        $("#mypannel").panel();
+        $("#mypannel").panel("close");
+        panel_open = false;
+    }
+}
 
 function loadLocalData() {
     $.ajax({
