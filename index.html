@@ -9,6 +9,17 @@
         <link rel="stylesheet" type="text/css" href="css/jquery.mobile.structure-1.4.5.min.css" />
         <link rel="stylesheet" type="text/css" href="css/style.css" />
 
+        <script>
+            (function () {
+                if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
+                    var msViewportStyle = document.createElement("style");
+                    msViewportStyle.appendChild(
+                            document.createTextNode("@-ms-viewport{width:auto!important}")
+                            );
+                    document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
+                }
+            })();
+        </script>
         <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/libs/jquery-2.0.3.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/config.js"></script>
@@ -34,16 +45,6 @@
                     panel_open = false;
                 });
             });
-
-            (function () {
-                if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
-                    var msViewportStyle = document.createElement("style");
-                    msViewportStyle.appendChild(
-                            document.createTextNode("@-ms-viewport{width:auto!important}")
-                            );
-                    document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
-                }
-            })();
         </script>
     </head>
     <body>
