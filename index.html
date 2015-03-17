@@ -2,7 +2,7 @@
 <html>
     <head>
         <title>Sho Sho Feast Yourself</title>
-        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="css/jquery.mobile.icons.min.css" />
         <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
         <link rel="stylesheet" type="text/css" href="css/theme.min.css" />
@@ -194,6 +194,13 @@
             </div>
             <div role="main" class="ui-content">
                 <div id="my_cart_items"></div>
+                <div data-role="footer" data-position="fixed" data-tap-toggle="false">
+                    <div class="ui-grid-solo">
+                        <div class="ui-block-a">
+                            <a href="#" onclick="processStep1();" class="ui-btn ui-btn-corner-all">Step 2: Delivery Type</a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div data-role="popup" id="cart_manipulation" data-overlay-theme="a" data-theme="a" data-dismissible="false" style="max-width:400px;">
                 <div data-role="header" data-theme="a">
@@ -204,13 +211,6 @@
                     <div class="request_btns">
                         <a href="#" class="ui-btn-2" id="cart_request_process" onclick="">Confirm</a>
                         <a href="#" class="ui-btn-2" data-rel="back">Cancel</a>
-                    </div>
-                </div>
-            </div>
-            <div data-role="footer" data-position="fixed" data-tap-toggle="false">
-                <div class="ui-grid-solo">
-                    <div class="ui-block-a">
-                        <a href="#" onclick="processStep1();" class="ui-btn ui-btn-corner-all">Step 2: Delivery Type</a>
                     </div>
                 </div>
             </div>
