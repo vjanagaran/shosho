@@ -332,10 +332,10 @@ body, input, select, textarea, button, .ui-btn {
     margin: 2px!important;
 }
 
-/*.ui-page {
+.ui-page {
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
-}*/
+}
 
 @media screen and (min-width: 800px) {
     .video {
@@ -385,20 +385,6 @@ body, input, select, textarea, button, .ui-btn {
     }
 }
 
-@media screen and (orientation: portrait) {
-    @-ms-viewport {
-        width: 320px;
-        user-zoom: fixed;
-        max-zoom: 1;
-        min-zoom: 1;
-    }
-}
-
-@media screen and (orientation: landscape) {
-    @-ms-viewport {
-        width: 480px;
-        user-zoom: fixed;
-        max-zoom: 1;
-        min-zoom: 1;
-    }
+@-ms-viewport{
+    width: device-width;
 }
