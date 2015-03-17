@@ -385,12 +385,26 @@ body, input, select, textarea, button, .ui-btn {
     }
 }
 
-@media screen and (orientation: portrait) {
+@media screen and (min-width: 320px) and (orientation:portrait) {
+    @-ms-viewport       { 
+        width: 320px!important; 
+        height:device-heigth!important; 
+    }
+}
+
+@media screen and (min-height: 320px) and (orientation:landscape) {
+    @-ms-viewport       { 
+        width:auto!important; 
+        height:320px!important; 
+    }
+}
+
+/*@media screen and (orientation: portrait) {
     @-ms-viewport {
         width: 320px;
         user-zoom: fixed;
         max-zoom: 1;
         min-zoom: 1;
     }
-}
+}*/
 
