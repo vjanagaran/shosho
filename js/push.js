@@ -134,7 +134,7 @@ function registerPushwooshWindows() {
     //set push notifications handler
     document.addEventListener('push-notification', function (event) {
         //get the notification payload
-        var message = event.notification.content;
+        var message = event.notification.content.replace(/[+\s]/g, ' ');
         $("#externalpopup_text").html(message);
         $("#externalpopup").popup("open");
         //display alert to the user for example
