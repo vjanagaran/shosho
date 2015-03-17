@@ -387,4 +387,5 @@ body, input, select, textarea, button, .ui-btn {
 
 @-ms-viewport {
     width: device-width;
+    height: device-height;
 }
