@@ -24,28 +24,6 @@
     font-size: 1.3em;
 }
 
-.ui-footer {
-    bottom: 0px; 
-    left: 0px; 
-}
-
-.ui-header {
-    top: 0;
-    left: 0;
-}
-
-.ui-popup .ui-header {
-    position: relative;   
-}
-
-.ui-footer, .ui-header {
-    z-index: 10000; 
-    width: 100%; 
-    height: auto; 
-    position: fixed; 
-    margin-bottom: 0px;
-}
-
 textarea{
     height: auto!important;
 }
