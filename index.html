@@ -11,14 +11,14 @@
 
         <script>
             (function () {
-                if ("-ms-user-select" in document.documentElement.style && navigator.userAgent.match(/IEMobile\/10\.0/)) {
+                if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
                     var msViewportStyle = document.createElement("style");
                     msViewportStyle.appendChild(
                             document.createTextNode("@-ms-viewport{width:auto!important}")
                             );
                     document.getElementsByTagName("head")[0].appendChild(msViewportStyle);
                 }
-            })();
+            });
         </script>
         <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
         <script type="text/javascript" charset="utf-8" src="js/libs/jquery-2.0.3.js"></script>

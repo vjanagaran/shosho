@@ -385,6 +385,6 @@ body, input, select, textarea, button, .ui-btn {
     }
 }
 
-@-ms-viewport{
+@-ms-viewport {
     width: device-width;
 }
