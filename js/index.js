@@ -916,7 +916,7 @@ function processStep2() {
 }
 
 function setDetails() {
-    $("#takeaway").attr("checked", true)
+    $("#takeaway").attr("checked", true);
     var che = $("input[type='radio']:checked");
     var obj = che.val();
     if (obj == 0) {
